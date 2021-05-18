@@ -6,8 +6,7 @@
 <!-- badges: start -->
 
 ![R-CMD-check](https://github.com/ljcolling/bayesplay/workflows/R-CMD-check/badge.svg)
-[![Codecov test
-coverage](https://codecov.io/gh/ljcolling/bayesplay/branch/master/graph/badge.svg)](https://codecov.io/gh/ljcolling/bayesplay?branch=master)
+[![codecov](https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
 
 <!-- badges: end -->
 
