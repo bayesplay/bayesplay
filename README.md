@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-![R-CMD-check](https://github.com/ljcolling/bayesplay/workflows/R-CMD-check/badge.svg)
+![R-CMD-check](https://github.com/bayesplay/bayesplay/workflows/R-CMD-check/badge.svg)
 [![codecov](https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
 
 <!-- badges: end -->
@@ -21,7 +21,7 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
-    devtools::install_github("ljcolling/bayesplay")
+    devtools::install_github("bayesplay/bayesplay")
 
 ## Basic usage
 
@@ -70,9 +70,9 @@ priors
 ## Worked examples
 
 For worked examples of the basic usage see [basic
-usage](https://git.colling.net.nz/bayesplay/articles/basic.html). Or for
+usage](https://bayesplay.github.io/bayesplay/articles/basic.html). Or for
 basic plot functionality see [basic
-plotting](https://git.colling.net.nz/bayesplay/articles/plots.html)
+plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
 ### Changelog
 
