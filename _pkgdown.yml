@@ -1,0 +1,16 @@
+home:
+  title: An R package for teaching Bayes factors
+  links:
+  - text: Browse source code at
+    href: https://github.com/ljcolling/bayesplay
+reference:
+- title: All functions
+- contents:
+  - starts_with("likelihood")
+  - starts_with("prior")
+  - starts_with("plot")
+  - starts_with("integral")
+  - starts_with("extract_")
+  - starts_with("sd_ratio")
+  - starts_with("plot")
+  - starts_with("visual_compare")

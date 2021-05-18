@@ -1,0 +1,233 @@
+---
+title: "Basic usage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+references:
+- id: dienesmclatchie2018
+  title: Four reasons to prefer Bayesian analyses over significance testing
+  author:
+  - family: Dienes
+    given: Zoltan
+  - family: Mclatchie
+    given: Neil
+  container-title: Psychonomic Bulletin & Review
+  volume: 25
+  URL: https://link.springer.com/article/10.3758/s13423-017-1266-z
+  DOI: 10.3758/s13423-017-1266-z
+  page: 207–218
+  type: article-journal
+  issued:
+    year: 2018
+- id: brandt2014
+  title: Does recalling moral behavior change the perception of brightness? 
+  author:
+  - family: Brandt
+    given: Mark J
+  - family: IJzerman
+    given: Hans
+  - family: Blaken
+    given: Irene
+  container-title: Social Psychology
+  volume: 45
+  URL: https://econtent.hogrefe.com/doi/10.1027/1864-9335/a000191
+  DOI: 10.1027/1864-9335/a000191
+  page: 246–252
+  type: article-journal
+  issued:
+    year: 2014
+- id: dienes2014
+  title: Using Bayes to get the most out of non-significant results
+  author:
+  - family: Dienes
+    given: Zoltan
+  container-title: Frontiers in Psychology
+  volume: 5
+  number: 781
+  URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00781/full
+  DOI: 10.3389/fpsyg.2014.00781/full
+  type: article-journal
+  issued:
+    year: 2014
+- id: rouderbf
+  title: Bayesian t tests for accepting and rejecting the null hypothesis
+  author:
+  - family: Rouder
+    given: Jeffery N
+  - family: Speckman
+    given: Paul L
+  - family: Sun
+    given: Dongchu
+  - family: Morey
+    given: Richard D  
+  container-title: Psychonomic Bulletin \& Review
+  volume: 20
+  number: 2
+  URL: http://dx.doi.org/10.3758/PBR.16.2.225 
+  DOI: 10.3758/PBR.16.2.225 
+  page: 225-237
+  type: article-journal
+  issued:
+    year: 2009
+csl: apa.csl  
+  
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+To calculate a Bayes factor you specify three things:
+
+1. A **likelihood** that provides a description of the data
+
+2. A **prior** that specifies the predictions of the first model to be compared
+
+3. And a **prior** that specifies the predictions of the second model to be compared.
+
+By convention, the two models to be compared are usually called the **null** and the **alternative** models. 
+
+The Bayes factor is defined as the ratio of two (weighted) average likelihoods where the prior provides the weights.
+Mathematically, the weighted average likelihood is given by the following integral 
+
+$$\mathcal{M}_H = \int_{\theta\in\Theta_H}\mathcal{l}_H(\theta|\mathbf{y})p(\theta)d\theta$$
+
+Where $\mathcal{l}_H(\theta|\mathbf{y})$ represents the likelihood function, $p(\theta)$ represents the prior on the
+parameter, with the integral defined over the parameter space of the hypothesis ($\Theta_H$).
+
+To demonstrate how to calculate Bayes factors using `bayesplay`, we can reproduce examples from @dienesmclatchie2018, @dienes2014, and from @rouderbf.
+
+
+```{r setup}
+library(bayesplay)
+```
+
+## Examples
+
+### Example 1
+
+The first example from @dienesmclatchie2018 that we'll reproduce describes a study from @brandt2014. In the study by
+@brandt2014, they obtained a mean difference for 5.5 Watts (*t* statistic = 0.17, SE = `r round(5.5 / 0.17,2)`).
+
+We can describe this observation using a normal likelihood using the `likelihood()` function. We first specify the
+`family`, and then the `mean` and `se` parameters.
+
+```{r}
+data_mod <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
+```
+
+Following this, @dienesmclatchie2018 describe the two models they intend to compare. First, the **null model** is
+described as a point prior centred at 0. We can specify this with the `prior()` function, setting `family` to
+`point` and setting `point` as 0 (the default value). 
+
+```{r}
+h0_mod <- prior(family = "point", point = 0)
+```
+
+Next,  @dienesmclatchie2018 describe the alternative model. For this they use a *half-normal* distribution with a mean
+of 0 and a standard deviation of 13.3. This can again be specified using the `prior()` function setting `family`
+to `normal` and setting the `mean` and `sd` parameters as required. Additionally, because they specify a **half**-normal
+distribution,  an additional `range` value is needed to restrict the parameter range to 0 (the mean) to positive
+infinity. 
+
+```{r}
+h1_mod <- prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
+```
+
+With the three parts specified we can compute the Bayes factor. Following the equation above, the first step is to
+calculate $\mathcal{M}_H$ for each model. To do this, we multiply the likelihood by the prior and integrate.
+
+```{r}
+m1 <- integral(data_mod * h1_mod)
+m0 <- integral(data_mod * h0_mod)
+```
+
+With $\mathcal{M}_{H_1}$ and $\mathcal{M}_{H_0}$ calculated, we now simply divide the two values to obtain the Bayes factor. 
+
+```{r}
+bf <- m1 / m0
+bf
+```
+
+This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by @dienesmclatchie2018.
+
+### Example 2 
+
+The second example, from @dienes2014, we'll reproduce relates to an experiment where a mean difference of 5% was observed with a standard error of 10%. We can describe this observation using a normal likelihood. 
+
+```{r}
+data_mod <- likelihood(family = "normal", mean = 5, sd = 10)
+```
+
+Next, we specify a prior which described the alternative hypothesis. In this case, @dienes2014 uses a uniform prior that ranges from 0 to 20. 
+
+```{r}
+h1_mod <- prior(family = "uniform", min = 0, max = 20)
+```
+
+Following this, we specify a prior that describes the null hypothesis. Here, @dienes2014 again uses a point null centered at 0. 
+
+```{r}
+h0_mod <- prior(family = "point", point = 0)
+```
+
+This only thing left is to calculate the Bayes factor.
+
+```{r}
+bf <- integral(data_mod * h1_mod) / integral(data_mod * h0_mod)
+bf
+```
+
+This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by @dienes2014.
+
+### Example 3
+
+In Example three we'll reproduce an example from @rouderbf. @rouderbf specify their models in terms of effect size units (*d*) rather than raw units as in the example above. In this example by @rouderbf, they report a finding of a *t* value of 2.24, with *df* of 79. To compute the Bayes factor, we first convert this *t* value to a standardized effect size *d*. This *t* value equates to a *d* of `r round(2.24 / sqrt(80),5)`. To model the data we use the `noncentral_d` likelihood function, which is a rescaled noncentral *t* distribution, with is parametrised in terms of *d* and *df*. We specify a null model using a point prior at 0, and we specify the alternative model using a Cauchy distribution centred at 0 (location parameter) with a scale parameter of 1. 
+
+```{r}
+d = 2.03 / sqrt(80) # convert t to d
+data_model <- likelihood(family = "noncentral_d", d, 79)
+h0_mod <- prior(family = "point", point = 0)
+h1_mod <- prior(family = "cauchy",  scale = 1)
+
+bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
+bf
+```
+
+Performing the calculation as a above yields Bayes factor of ~`r round(bf,2)`, the same value reported by @rouderbf.
+
+To demonstrate the sensitivity of Bayes factor to prior specification, @rouderbf recompute the Bayes factor for this example using a unit-information (a standard normal) prior for the alternative model. 
+
+```{r}
+d = 2.03 / sqrt(80) # convert t to d
+data_model <- likelihood(family = "noncentral_d", d, 79)
+h0_mod <- prior(family = "point", point = 0)
+h1_mod <- prior(family = "normal", mean = 0, sd = 1)
+
+bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
+bf
+
+```
+
+Similarly recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the same value reported @rouderbf.
+
+Although the Bayes factor outlined above is parametrised in terms of the effect size *d*, it's also possible to performed the calculation directly on the *t* statistic. To do this, however, we can't use the same Cauchy prior as above. Instead, the Cauchy prior needs to be rescaled according to the same size. This is because *t* values scale with sample size in a way that *d* values do not. That is, for a given *d* the corresponding *t* value will be different depending on the sample size. We can employ this alternative parametrisation in the `Bayesplay` package by using the `noncentral_t` likelihood distribution. The scale value for the Cauchy prior is now just multiplied by $\sqrt{n}$
+
+```{r}
+data_model <- likelihood(family = "noncentral_t", 2.03, 79)
+h0_mod <- prior(family = "point", point = 0)
+h1_mod <- prior(family = "cauchy", location = 0, scale = 1 * sqrt(80))
+
+bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
+bf
+```
+
+Recomputing our Bayes factor now yields a value of ~`r round(bf,2)`, the same value reported @rouderbf, and the same value reported above. 
+
+## References
