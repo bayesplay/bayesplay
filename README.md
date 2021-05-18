@@ -23,8 +23,6 @@ You can install the development version from
 
     # install.packages("devtools")
     devtools::install_github("ljcolling/bayesplay")
-    # or install the development branch with
-    # devtools::install_github("ljcolling/bayesplay@devel")
 
 ## Basic usage
 
@@ -50,13 +48,25 @@ priors
 
 4.  Cauchy distributions (`cauchy`)
 
+5.  Beta distribution (`beta`)
+
 ### Likelihood
 
 1.  Normal distribution (`normal`)
 
-2.  *t* distribution, including scaled and shifted *t* distribution
-    (`student_t`) and *d* scaled (`noncentral_d`) and *t* scaled
-    (`noncentral_t`) noncentral *t* distributions
+2.  Scaled and shifted *t* distribution (`student_t`)
+
+3.  Binomial distribution (`binomial`)
+
+4.  Various noncentral *t* distributions, including:
+
+    -   Noncentral *t* distribution (`noncentral_t`)
+
+    -   Noncentral *t* distribution scaled for a paired samples/one
+        sample Cohen’s *d* (`noncentral_d`)
+
+    -   Noncentral *t* distribution scaled for an independent samples
+        Cohen’s *d* (`noncentral_d2`)
 
 ## Worked examples
 
@@ -64,3 +74,11 @@ For worked examples of the basic usage see [basic
 usage](https://git.colling.net.nz/bayesplay/articles/basic.html). Or for
 basic plot functionality see [basic
 plotting](https://git.colling.net.nz/bayesplay/articles/plots.html)
+
+## Changelog
+
+> Breaking changes for &lt; v1.0
+>
+> `distribution` parameter for specifying likelihoods and priors has
+> been renamed `family` `noncentral_d` and `noncentral_d2` are now
+> parametrised in terms of sample size rather than df
