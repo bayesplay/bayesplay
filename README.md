@@ -74,10 +74,12 @@ usage](https://git.colling.net.nz/bayesplay/articles/basic.html). Or for
 basic plot functionality see [basic
 plotting](https://git.colling.net.nz/bayesplay/articles/plots.html)
 
-## Changelog
+### Changelog
 
 > Breaking changes for &lt; v1.0
 >
 > `distribution` parameter for specifying likelihoods and priors has
-> been renamed `family` `noncentral_d` and `noncentral_d2` are now
+> been renamed `family`
+> 
+>   `noncentral_d` and `noncentral_d2` are now
 > parametrised in terms of sample size rather than df
