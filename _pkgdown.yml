@@ -1,8 +1,8 @@
 home:
-  title: An R package for teaching Bayes factors
+  title: An R package for learning Bayes factors
   links:
   - text: Browse source code at
-    href: https://github.com/ljcolling/bayesplay
+    href: https://github.com/bayesplay/bayesplay
 reference:
 - title: All functions
 - contents:

@@ -21,7 +21,7 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
-    devtools::install_github("bayesplay/bayesplay")
+    devtools::install_github("ljcolling/bayesplay")
 
 ## Basic usage
 
@@ -70,16 +70,16 @@ priors
 ## Worked examples
 
 For worked examples of the basic usage see [basic
-usage](https://bayesplay.github.io/bayesplay/articles/basic.html). Or for
-basic plot functionality see [basic
+usage](https://bayesplay.github.io/bayesplay/articles/basic.html). Or
+for basic plot functionality see [basic
 plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
-### Changelog
+## Changelog
 
 > Breaking changes for &lt; v1.0
 >
 > `distribution` parameter for specifying likelihoods and priors has
 > been renamed `family`
-> 
->   `noncentral_d` and `noncentral_d2` are now
-> parametrised in terms of sample size rather than df
+>
+> `noncentral_d` and `noncentral_d2` are now parametrised in terms of
+> sample size rather than df

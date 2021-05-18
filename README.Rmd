@@ -17,10 +17,8 @@ knitr::opts_chunk$set(
 
  <!-- badges: start -->
  
-
-![R-CMD-check](https://github.com/ljcolling/bayesplay/workflows/R-CMD-check/badge.svg)
-[![Codecov test
-coverage](https://codecov.io/gh/ljcolling/bayesplay/branch/master/graph/badge.svg)](https://codecov.io/gh/ljcolling/bayesplay?branch=master)
+![R-CMD-check](https://github.com/bayesplay/bayesplay/workflows/R-CMD-check/badge.svg)
+[![codecov](https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
 
 <!-- badges: end -->
 
@@ -77,12 +75,12 @@ Currently the following distributions are supported for likelihoods and priors
     
 ## Worked examples
 
-For worked examples of the basic usage see [basic usage](https://git.colling.net.nz/bayesplay/articles/basic.html). 
-Or for basic plot functionality see [basic plotting](https://git.colling.net.nz/bayesplay/articles/plots.html)
+For worked examples of the basic usage see [basic usage](https://bayesplay.github.io/bayesplay/articles/basic.html). Or for basic plot functionality see [basic plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
 ## Changelog
 
 > Breaking changes for < v1.0
 >
 > `distribution` parameter for specifying likelihoods and priors has been renamed `family`
+>
 > `noncentral_d` and `noncentral_d2` are now parametrised in terms of sample size rather than df
