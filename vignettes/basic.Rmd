@@ -191,7 +191,7 @@ This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by @diene
 In Example three we'll reproduce an example from @rouderbf. @rouderbf specify their models in terms of effect size units (*d*) rather than raw units as in the example above. In this example by @rouderbf, they report a finding of a *t* value of 2.24, with *df* of 79. To compute the Bayes factor, we first convert this *t* value to a standardized effect size *d*. This *t* value equates to a *d* of `r round(2.24 / sqrt(80),5)`. To model the data we use the `noncentral_d` likelihood function, which is a rescaled noncentral *t* distribution, with is parametrised in terms of *d* and *df*. We specify a null model using a point prior at 0, and we specify the alternative model using a Cauchy distribution centred at 0 (location parameter) with a scale parameter of 1. 
 
 ```{r}
-d = 2.03 / sqrt(80) # convert t to d
+d <- 2.03 / sqrt(80) # convert t to d
 data_model <- likelihood(family = "noncentral_d", d, 79)
 h0_mod <- prior(family = "point", point = 0)
 h1_mod <- prior(family = "cauchy",  scale = 1)
@@ -205,7 +205,7 @@ Performing the calculation as a above yields Bayes factor of ~`r round(bf,2)`, t
 To demonstrate the sensitivity of Bayes factor to prior specification, @rouderbf recompute the Bayes factor for this example using a unit-information (a standard normal) prior for the alternative model. 
 
 ```{r}
-d = 2.03 / sqrt(80) # convert t to d
+d <- 2.03 / sqrt(80) # convert t to d
 data_model <- likelihood(family = "noncentral_d", d, 79)
 h0_mod <- prior(family = "point", point = 0)
 h1_mod <- prior(family = "normal", mean = 0, sd = 1)
