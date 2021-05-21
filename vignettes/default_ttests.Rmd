@@ -1,8 +1,8 @@
 ---
-title: "Default *t*-tests"
+title: "Default t-tests"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Default *t*-tests}
+  %\VignetteIndexEntry{Default t-tests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,12 +18,11 @@ knitr::opts_chunk$set(
 library(bayesplay)
 ```
 
-## Replicating *default* *t*-tests
 
 In this vignette we'll cover how to replicate the results of the *default* *t*-tests developed @ref1 and @ref2. We'll cover both one-sample/paired *t*-tests and independent samples *t*-tests, and we'll cover how specify the models both in terms of the *t* statistic and in terms of Cohen's *d*.
 
 
-### One-sample/paired *t*-tests
+## One-sample/paired *t*-tests
 
 One-sample *t*-tests are already covered in the [basic usage vignette], so the example presented here is simply a repeat of that example. However, we'll change the order of presentation around a bit so that the relationship between the one-sample and independent samples models are a little clearer. 
 
@@ -95,7 +94,7 @@ summary(bf_onesample_2)
 
 As expected, the two results are identical. 
 
-### Independent samples *t*-tests
+## Independent samples *t*-tests
 
 @rouder2009 also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the `bayesplay` package with the results from the `BayesFactor` package.
 
