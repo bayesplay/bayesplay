@@ -48,41 +48,85 @@ prior_data_names <- c("family", "parameters", "prior_function")
 #' ## Available distribution families
 #' The following distributions families can be used for the prior
 #' * \code{normal} a normal distribution
+#' * \code{student_t} a scaled and shifted t-distribution
+#' * \code{cauchy} a Cauchy distribution
 #' * \code{uniform} a uniform distribution
 #' * \code{point} a point
+#' * \code{beta} a beta distribution
 #' The parameters that need to be specified will be dependent on the
 #' family
-#' ## normal distribution
+#' 
+#' ## Normal distribution
 #' When \code{family} is set to \code{normal} then the following
-#' parameters must be set
+#' parameters may be be set
 #' * \code{mean} mean of the normal prior
 #' * \code{sd} standard deviation of the normal prior
-#' * \code{range} (optional) a vector specifying a paramter range
-#' ## uniform distribution
+#' * \code{range} (optional) a vector specifying the parameter range
+#' 
+#' ## Student t distribution
+#' When \code{family} is set to \code{student_t} then the following
+#' parameters may be set
+#' * \code{mean} mean of the scaled and shifted t prior
+#' * \code{sd} standard deviation of the scaled and shifted t prior
+#' * \code{df} degrees of freedom of the scaled and shifted t prior
+#' * \code{range} (optional) a vector specifying the parameter range 
+#'  
+#'  ## Cauchy distribution
+#' When \code{family} is set to \code{cauchy} then the following
+#' parameters may be set
+#' * \code{location} the centre of the Cauchy distribution (default: 0) 
+#' * \code{scale} the scale of the Cauchy distribution
+#' * \code{range} (optional) a vector specifying the parameter range 
+#'  
+#' ## Uniform distribution
 #' When \code{family} is set to \code{uniform} then the following
 #' parameters must be set
 #' * \code{min} the lower bound
 #' * \code{max} the upper bound
-#' ## point
+#' 
+#' ## Point
 #' When \code{family} is set to \code{point} then the following
 #' parameters may be set
 #' * \code{point} the location of the point prior (default: 0)
+#' 
+#' ## Beta
+#' When \code{family} is set to \code{beta} then the following 
+#' parameters may be set
+#' * \code{alpha} the first shape parameter
+#' * \code{beta} the second shape parameter
+#' 
 #' @md
 #' @return an object of class \code{prior}
 #' @export
 #'
 #' @examples
+#' 
+#' # specify a normal prior
+#' prior(family = "normal", mean = 0, sd = 13.3)
+#' 
 #' # specify a half-normal (range 0 to Infinity) prior
 #' prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
 #'
-#' # specify a normal prior
-#' prior(family = "normal", mean = 0, sd = 13.3)
-#'
+#' # specify a student t prior
+#' prior(family = "student_t", mean = 0, sd = 13.3, df = 79)
+#' 
+#' # specify a truncated t prior
+#' prior(family = "student_t", mean = 0, sd = 13.3, df = 79, range = c(-40, 40))
+#' 
+#' # specify a cauchy prior
+#' prior(family = "cauchy", location = 0, scale = .707)
+#' 
+#' # specify a half cauchy prior
+#' prior(family = "cauchy", location = 0, scale = 1, range = c(-Inf, 0))
+#' 
 #' # specify a uniform prior
 #' prior(family = "uniform", min = 0, max = 20)
 #'
 #' # specify a point prior
 #' prior(family = "point", point = 0)
+#' 
+#' #specify a beta prior
+#' prior(family = "beta", alpha = 2.5, beta = 3.8)
 prior <- function(family, ...) {
   if (!methods::existsMethod(signature = family, f = "make_prior")) {
     stop(family, " is not a valid distribution family")

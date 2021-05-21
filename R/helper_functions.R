@@ -132,7 +132,8 @@ bf <- setClass("bf", contains = "numeric")
 #'
 #' # define a prior
 #' prior_model <- prior(family = "normal", mean = 5.5, sd = 13.3)
-#'
+#' 
+#' # multiply the likelihood by the prior
 #' model <- data_model * prior_model
 #'
 #' # take the integral
@@ -187,7 +188,7 @@ bfsay <- function(bf) {
   cat(ev_level)
 }
 
-#' Summarise Bayes factor
+#' Summarise a Bayes factor
 #' @description Provide a verbal summary of a Bayes factor and the level of evidence
 #' @param object a \code{bf} object
 #' @export
@@ -234,7 +235,7 @@ integer_breaks <- function(n = 5, ...) {
 #' at a specified point
 #'
 #' @param x a \code{posterior} object
-#' @param point a point at which to evaluate the Savage-Dickey ratio
+#' @param point the point at which to evaluate the Savage-Dickey ratio
 #'
 #' @return A numeric of the Savage-Dickey density ratio
 #' @export
@@ -246,7 +247,7 @@ integer_breaks <- function(n = 5, ...) {
 #' # define a prior
 #' prior_model <- prior(family = "normal", mean = 5.5, sd = 13.3)
 #'
-#' model <- data_model * prior_model
+#' model <- extract_posterior(data_model * prior_model)
 #'
 #' # compute the Savage-Dickey density ratio at 0
 #' sd_ratio(model, 0)
