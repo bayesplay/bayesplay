@@ -24,7 +24,7 @@ in_range <- function(x, range) {
 
 #' @export
 `*.bayesplay` <- function(e1, e2) {
-  if (class(e1) == "likelihood") {
+  if ("likelihood" %in% class(e1) ) {
     likelihood <- e1
     prior <- e2
   } else {
@@ -132,7 +132,7 @@ bf <- setClass("bf", contains = "numeric")
 #'
 #' # define a prior
 #' prior_model <- prior(family = "normal", mean = 5.5, sd = 13.3)
-#' 
+#'
 #' # multiply the likelihood by the prior
 #' model <- data_model * prior_model
 #'

@@ -27,6 +27,7 @@ The following distribution families can be used for the likelihood
 \item \code{noncentral_t} a noncentral t (for t statistic)
 \item \code{noncentral_d} a noncentral t (for one sample d)
 \item \code{noncentral_d2} a noncentral t (for independent samples d)
+\item \code{binomial} a binomial distribution
 The parameters that need to be specified will be dependent on the
 family
 }
@@ -86,6 +87,16 @@ parameters may be set
 \eqn{s_{\mathrm{pooled}}}{s_pooled} is set as below:
 \deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))} #nolint
 }
+
+\subsection{binomial distribution}{
+
+When the \code{family} is set to \code{binomial} then the following
+parameters may be set
+\itemize{
+\item \code{successes} the number of successes
+\item \code{trials} the number of trials
+}
+}
 }
 \examples{
 # specify a normal likelihood
@@ -102,4 +113,7 @@ likelihood(family = "noncentral_d", d = 10, n = 10)
 
 # specify non-central t likelihood (independent samples d scaled)
 likelihood(family = "noncentral_d2", d = 10, n1 = 10, n2 = 12)
+
+# specify a binomial likelihood
+likelihood(family = "binomial", successes = 2, trials = 10 )
 }

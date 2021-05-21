@@ -18,14 +18,13 @@ test_that("class methods", {
     )
   )
 
-  # check show methods
   # normal distribution
   lik <- likelihood("normal", 0, 1)
   pri <- prior("normal", 0, 1)
-  pred1 <- lik * pri
-  pred2 <- pri * lik
+  prod1 <- lik * pri
+  prod2 <- pri * lik
 
-  expect_equal(pred1, pred2)
+  expect_equal(prod1, prod2)
 
   pr1 <- prior("cauchy", 0, 1, c(-Inf, Inf))
   pr2 <- make_prior(new("cauchy"), 0, 1, c(-Inf, Inf))
