@@ -325,8 +325,8 @@ plot_pp <- function(x, n) {
 #' data_model <- likelihood(family = "noncentral_d", .8, 79)
 #' h0_mod <- prior(family = "point", point = 0)
 #' h1_mod <- prior(family = "normal", mean = 0, sd = 1)
-#' m0 <- data_model * h0_mod
-#' m1 <- data_model * h1_mod
+#' m0 <- extract_predictions(data_model * h0_mod)
+#' m1 <- extract_predictions(data_model * h1_mod)
 #'
 #' # visually compare the model
 #' visual_compare(m0, m1)

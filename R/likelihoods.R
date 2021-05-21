@@ -128,6 +128,7 @@ get_plot_range <- function(family) {
 #' * \code{noncentral_t} a noncentral t (for t statistic)
 #' * \code{noncentral_d} a noncentral t (for one sample d)
 #' * \code{noncentral_d2} a noncentral t (for independent samples d)
+#' * \code{binomial} a binomial distribution
 #' The parameters that need to be specified will be dependent on the
 #' family
 #' ## normal distribution
@@ -166,6 +167,13 @@ get_plot_range <- function(family) {
 #' \deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))} #nolint
 #'
 #'
+#' ## binomial distribution
+#' When the \code{family} is set to \code{binomial} then the following
+#' parameters may be set
+#' * \code{successes} the number of successes
+#' * \code{trials} the number of trials
+#'
+#'
 #' @md
 #' @return an object of class \code{likelihood}
 #' @export
@@ -185,6 +193,9 @@ get_plot_range <- function(family) {
 #'
 #' # specify non-central t likelihood (independent samples d scaled)
 #' likelihood(family = "noncentral_d2", d = 10, n1 = 10, n2 = 12)
+#' 
+#' # specify a binomial likelihood
+#' likelihood(family = "binomial", successes = 2, trials = 10 )
 likelihood <- function(family, ...) {
   if (!methods::existsMethod(signature = family, f = "make_likelihood")) {
     stop(family, " is not a valid distribution family")
@@ -440,6 +451,9 @@ make_likelihood.noncentral_t <- function(family, t, df) { # nolint
 
 #' @method likelihood binomial
 #' @usage likelihood(family = "binomial", successes, trials)
+#' @param successes number of successes
+#' @param trials number of trials
+#' 
 #' @noRd
 make_likelihood.binomial <- function(family, successes, trials) { # nolint
 
@@ -492,6 +506,9 @@ make_likelihood.binomial <- function(family, successes, trials) { # nolint
 
 #' @method likelihood noncentral_d2
 #' @usage likelihood(family = "noncentral_d2", d, n1, n2)
+#' @param d Cohen's d for a independent samples design
+#' @param n1 sample size of group 1
+#' @param n2 sample size of group 2
 #' @noRd
 make_likelihood.noncentral_d2 <- function(family, d, n1, n2) { # nolint
 

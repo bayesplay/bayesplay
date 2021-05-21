@@ -1,5 +1,5 @@
 #' Extract the posterior
-#' @description extract the \code{posterior} object from a \code{product} object
+#' @description Extract the \code{posterior} object from a \code{product} object
 #' @param x a \code{product} object
 #' @return a \code{posterior} object
 #' @export
