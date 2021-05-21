@@ -60,6 +60,9 @@
       <a href="../articles/basic.html">Basic usage</a>
     </li>
     <li>
+      <a href="../articles/default_ttests.html">Default *t*-tests</a>
+    </li>
+    <li>
       <a href="../articles/plots.html">Basic plotting</a>
     </li>
   </ul>
@@ -152,7 +155,7 @@
 <a href="#example-3" class="anchor"></a>Example 3</h3>
 <p>In Example three we’ll reproduce an example from <span class="citation">Rouder et al. (2009)</span>. <span class="citation">Rouder et al. (2009)</span> specify their models in terms of effect size units (<em>d</em>) rather than raw units as in the example above. In this example by <span class="citation">Rouder et al. (2009)</span>, they report a finding of a <em>t</em> value of 2.24, with <em>df</em> of 79. To compute the Bayes factor, we first convert this <em>t</em> value to a standardized effect size <em>d</em>. This <em>t</em> value equates to a <em>d</em> of 0.25044. To model the data we use the <code>noncentral_d</code> likelihood function, which is a rescaled noncentral <em>t</em> distribution, with is parametrised in terms of <em>d</em> and <em>df</em>. We specify a null model using a point prior at 0, and we specify the alternative model using a Cauchy distribution centred at 0 (location parameter) with a scale parameter of 1.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">=</span> <span class="fl">2.03</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">80</span><span class="op">)</span> <span class="co"># convert t to d</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">2.03</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">80</span><span class="op">)</span> <span class="co"># convert t to d</span>
 <span class="va">data_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"noncentral_d"</span>, <span class="va">d</span>, <span class="fl">79</span><span class="op">)</span>
 <span class="va">h0_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"point"</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">h1_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"cauchy"</span>,  scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
@@ -163,7 +166,7 @@
 <p>Performing the calculation as a above yields Bayes factor of ~1.59, the same value reported by <span class="citation">Rouder et al. (2009)</span>.</p>
 <p>To demonstrate the sensitivity of Bayes factor to prior specification, <span class="citation">Rouder et al. (2009)</span> recompute the Bayes factor for this example using a unit-information (a standard normal) prior for the alternative model.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">=</span> <span class="fl">2.03</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">80</span><span class="op">)</span> <span class="co"># convert t to d</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">2.03</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">80</span><span class="op">)</span> <span class="co"># convert t to d</span>
 <span class="va">data_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"noncentral_d"</span>, <span class="va">d</span>, <span class="fl">79</span><span class="op">)</span>
 <span class="va">h0_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"point"</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">h1_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>

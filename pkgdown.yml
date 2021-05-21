@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   advanced: advanced.html
   basic: basic.html
+  default_ttests: default_ttests.html
   plots: plots.html
-last_built: 2021-05-18T15:05Z
+last_built: 2021-05-21T07:05Z
 
