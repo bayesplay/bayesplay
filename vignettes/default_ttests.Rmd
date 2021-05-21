@@ -103,14 +103,24 @@ For this example, we'll start by generating some data from an independent sample
 
 ```{r}
 set.seed(2125519)
-group1 <- rnorm(n = 15, mean = 25, sd = 15)
-group2 <- rnorm(n = 16, mean = 35, sd = 16)
+group1 <- 25 + scale(rnorm(n = 15)) * 15
+group2 <- 35 + scale(rnorm(n = 16)) * 16
 ```
 
 First, let us see the results from the `BayesFactor` package. 
 
-```{r}
+```r
 BayesFactor::ttestBF(x = group1, y = group2, paired = FALSE, rscale = 1)
+```
+```
+Bayes factor analysis
+--------------
+[1] Alt., r=1 : 0.9709424 ±0%
+
+Against denominator:
+  Null, mu1-mu2 = 0 
+---
+Bayes factor type: BFindepSample, JZS
 ```
 
 As with the one-sample case, we can run the analysis in the `bayesplay` package using either the *t* statistic or the *Cohen's d*. We'll start by running the analysis using the *t* statistic. The easiest way to do this, is to simply use the `t.test()` function in R. 
@@ -138,7 +148,7 @@ With the *t*, and *df* value in hand, we can specify our likelihood using the sa
 data_model3 <- likelihood("noncentral_t", t = t, df = df)
 ```
 
-As with the one-sample case, a *Cauchy* prior is used for the alternative hypothesis. Again, this will need to be appropriately scaled. In one sample case we scaled it by $\sqrt{n}$. In the two-sample case, however, we'll scale it by $\sqrt{\frac{n_1 * n_2}}{n_1 + n_2}$
+As with the one-sample case, a *Cauchy* prior is used for the alternative hypothesis. Again, this will need to be appropriately scaled. In one sample case we scaled it by $\sqrt{n}$. In the two-sample case, however, we'll scale it by $\sqrt{\frac{n_1 \times n_2}{n_1 + n_2}}$
 
 
 ```{r}
