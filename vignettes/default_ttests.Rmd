@@ -5,6 +5,29 @@ vignette: >
   %\VignetteIndexEntry{Default t-tests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+references:
+- id: rouderbf
+  title: Bayesian t tests for accepting and rejecting the null hypothesis
+  author:
+  - family: Rouder
+    given: Jeffery N
+  - family: Speckman
+    given: Paul L
+  - family: Sun
+    given: Dongchu
+  - family: Morey
+    given: Richard D  
+  container-title: Psychonomic Bulletin \& Review
+  volume: 20
+  number: 2
+  URL: http://dx.doi.org/10.3758/PBR.16.2.225 
+  DOI: 10.3758/PBR.16.2.225 
+  page: 225-237
+  type: article-journal
+  issued:
+    year: 2009
+csl: apa.csl  
+  
 ---
 
 ```{r, include = FALSE}
@@ -26,7 +49,7 @@ In this vignette we'll cover how to replicate the results of the *default* *t*-t
 
 One-sample *t*-tests are already covered in the [basic usage vignette], so the example presented here is simply a repeat of that example. However, we'll change the order of presentation around a bit so that the relationship between the one-sample and independent samples models are a little clearer. 
 
-We'll start with an example from @rouder2009, in which they analyse the results if a one sample *t*-test. @rouder2009 report a *t* statistic of 2.03, from a sample size of 80. The sampling distribution of the *t* statistic, when the null hypothesis is false is the [noncentral *t*-distribution](https://en.wikipedia.org/wiki/Noncentral_t-distribution) distribution. Therefore, we can use this fact to construct a *likelhood function* for our *t* value from the noncentral *t*-distribution. For this, we'll need two parameters—the *t* value itself, and the *degrees of freedom*. In the one-sample case, the *degrees of freedom* will just be N - 1.
+We'll start with an example from @rouderbf, in which they analyse the results if a one sample *t*-test. @rouderbf report a *t* statistic of 2.03, from a sample size of 80. The sampling distribution of the *t* statistic, when the null hypothesis is false is the [noncentral *t*-distribution](https://en.wikipedia.org/wiki/Noncentral_t-distribution) distribution. Therefore, we can use this fact to construct a *likelhood function* for our *t* value from the noncentral *t*-distribution. For this, we'll need two parameters—the *t* value itself, and the *degrees of freedom*. In the one-sample case, the *degrees of freedom* will just be N - 1.
 
 ```{r}
 t <- 2.03
@@ -37,7 +60,7 @@ plot(data_model)
 
 From plotting our *likelihood* function we can see that values of *t* at our observation (*t* = 2.03) and most consistent without our observation while more extreme values of *t* (e.g., *t* = -2, or *t* = 6) are less consistent without our observed data. This is of course, as we would expect. (To learn more about the *likelihood* function, see [The likelihood function](#)).
 
-Now that we've defined our likelihood, the next thing to think about is the *prior*. @rouder2009 provide a more detailed justification for their prior, so we won't go into that here; however, their prior is based on the *Cauchy* distribution. A Cauchy distribution is like a very fat tailed *t* distribution (in fact, it **is** a very fat tailed *t* distribution). We can see an example of a *standard Cauchy* distribution below. 
+Now that we've defined our likelihood, the next thing to think about is the *prior*. @rouderbf provide a more detailed justification for their prior, so we won't go into that here; however, their prior is based on the *Cauchy* distribution. A Cauchy distribution is like a very fat tailed *t* distribution (in fact, it **is** a very fat tailed *t* distribution). We can see an example of a *standard Cauchy* distribution below. 
 
 ```{r}
 plot(prior("cauchy", location = 0, scale = 1))
@@ -96,7 +119,7 @@ As expected, the two results are identical.
 
 ## Independent samples *t*-tests
 
-@rouder2009 also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the `bayesplay` package with the results from the `BayesFactor` package.
+@rouderbf also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the `bayesplay` package with the results from the [`BayesFactor`](https://cran.r-project.org/web/packages/BayesFactor/index.html) package.
 
 For this example, we'll start by generating some data from an independent samples design. 
 
