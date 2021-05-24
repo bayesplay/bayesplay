@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bayesplay</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -159,25 +159,51 @@
 
 <p>The following distributions families can be used for the prior</p><ul>
 <li><p><code>normal</code> a normal distribution</p></li>
+<li><p><code>student_t</code> a scaled and shifted t-distribution</p></li>
+<li><p><code>cauchy</code> a Cauchy distribution</p></li>
 <li><p><code>uniform</code> a uniform distribution</p></li>
-<li><p><code>point</code> a point
+<li><p><code>point</code> a point</p></li>
+<li><p><code>beta</code> a beta distribution
 The parameters that need to be specified will be dependent on the
 family</p></li>
 </ul>
 
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>normal distribution</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Normal distribution</h3>
 
 
 <p>When <code>family</code> is set to <code>normal</code> then the following
-parameters must be set</p><ul>
+parameters may be be set</p><ul>
 <li><p><code>mean</code> mean of the normal prior</p></li>
 <li><p><code>sd</code> standard deviation of the normal prior</p></li>
-<li><p><code>range</code> (optional) a vector specifying a paramter range</p></li>
+<li><p><code>range</code> (optional) a vector specifying the parameter range</p></li>
 </ul>
 
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>uniform distribution</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Student t distribution</h3>
+
+
+<p>When <code>family</code> is set to <code>student_t</code> then the following
+parameters may be set</p><ul>
+<li><p><code>mean</code> mean of the scaled and shifted t prior</p></li>
+<li><p><code>sd</code> standard deviation of the scaled and shifted t prior</p></li>
+<li><p><code>df</code> degrees of freedom of the scaled and shifted t prior</p></li>
+<li><p><code>range</code> (optional) a vector specifying the parameter range</p></li>
+</ul>
+
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Cauchy distribution</h3>
+
+
+<p>When <code>family</code> is set to <code>cauchy</code> then the following
+parameters may be set</p><ul>
+<li><p><code>location</code> the centre of the Cauchy distribution (default: 0)</p></li>
+<li><p><code>scale</code> the scale of the Cauchy distribution</p></li>
+<li><p><code>range</code> (optional) a vector specifying the parameter range</p></li>
+</ul>
+
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Uniform distribution</h3>
 
 
 <p>When <code>family</code> is set to <code>uniform</code> then the following
@@ -187,7 +213,7 @@ parameters must be set</p><ul>
 </ul>
 
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>point</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Point</h3>
 
 
 <p>When <code>family</code> is set to <code>point</code> then the following
@@ -196,17 +222,19 @@ parameters may be set</p><ul>
 </ul>
 
 
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Beta</h3>
+
+
+<p>When <code>family</code> is set to <code>beta</code> then the following
+parameters may be set</p><ul>
+<li><p><code>alpha</code> the first shape parameter</p></li>
+<li><p><code>beta</code> the second shape parameter</p></li>
+</ul>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># specify a half-normal (range 0 to Infinity) prior</span>
-<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span>, range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='cn'>Inf</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Prior
-#&gt;   Family
-#&gt;     normal
-#&gt;   Parameters
-#&gt;     mean: 0
-#&gt;     sd: 13.3
-#&gt;  </div><div class='input'>
+    <pre class="examples"><div class='input'>
 <span class='co'># specify a normal prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Prior
@@ -215,6 +243,53 @@ parameters may be set</p><ul>
 #&gt;   Parameters
 #&gt;     mean: 0
 #&gt;     sd: 13.3
+#&gt;  </div><div class='input'>
+<span class='co'># specify a half-normal (range 0 to Infinity) prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span>, range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='cn'>Inf</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     normal
+#&gt;   Parameters
+#&gt;     mean: 0
+#&gt;     sd: 13.3
+#&gt;  </div><div class='input'>
+<span class='co'># specify a student t prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"student_t"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span>, df <span class='op'>=</span> <span class='fl'>79</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     student_t
+#&gt;   Parameters
+#&gt;     mean: 0
+#&gt;     sd: 13.3
+#&gt;     df: 79
+#&gt;  </div><div class='input'>
+<span class='co'># specify a truncated t prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"student_t"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span>, df <span class='op'>=</span> <span class='fl'>79</span>, range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>40</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     student_t
+#&gt;   Parameters
+#&gt;     mean: 0
+#&gt;     sd: 13.3
+#&gt;     df: 79
+#&gt;  </div><div class='input'>
+<span class='co'># specify a cauchy prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"cauchy"</span>, location <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>.707</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     cauchy
+#&gt;   Parameters
+#&gt;     location: 0
+#&gt;     scale: 0.707
+#&gt;  </div><div class='input'>
+<span class='co'># specify a half cauchy prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"cauchy"</span>, location <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>1</span>, range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     cauchy
+#&gt;   Parameters
+#&gt;     location: 0
+#&gt;     scale: 1
 #&gt;  </div><div class='input'>
 <span class='co'># specify a uniform prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"uniform"</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
@@ -234,6 +309,15 @@ parameters may be set</p><ul>
 #&gt;   Parameters
 #&gt;     point: 0
 #&gt;     Range:  to 
+#&gt;  </div><div class='input'>
+<span class='co'>#specify a beta prior</span>
+<span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"beta"</span>, alpha <span class='op'>=</span> <span class='fl'>2.5</span>, beta <span class='op'>=</span> <span class='fl'>3.8</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Prior
+#&gt;   Family
+#&gt;     beta
+#&gt;   Parameters
+#&gt;     alpha: 2.5
+#&gt;     beta: 3.8
 #&gt;  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

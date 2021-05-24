@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bayesplay</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -93,19 +93,19 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">bayesplay</span><span class="op">)</span></code></pre></div>
-<p>In this vignette we’ll cover how to replicate the results of the <em>default</em> <em>t</em>-tests developed <span class="citation">(<span class="citeproc-not-found" data-reference-id="ref1"><strong>???</strong></span>)</span> and <span class="citation">(<span class="citeproc-not-found" data-reference-id="ref2"><strong>???</strong></span>)</span>. We’ll cover both one-sample/paired <em>t</em>-tests and independent samples <em>t</em>-tests, and we’ll cover how specify the models both in terms of the <em>t</em> statistic and in terms of Cohen’s <em>d</em>.</p>
+<p>In this vignette we’ll cover how to replicate the results of the <em>default</em> <em>t</em>-tests developed <span class="citation">Rouder, Speckman, Sun, &amp; Morey (2009)</span>. We’ll cover both one-sample/paired <em>t</em>-tests and independent samples <em>t</em>-tests, and we’ll cover how specify the models both in terms of the <em>t</em> statistic and in terms of Cohen’s <em>d</em>.</p>
 <div id="one-samplepaired-t-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#one-samplepaired-t-tests" class="anchor"></a>One-sample/paired <em>t</em>-tests</h2>
-<p>One-sample <em>t</em>-tests are already covered in the [basic usage vignette], so the example presented here is simply a repeat of that example. However, we’ll change the order of presentation around a bit so that the relationship between the one-sample and independent samples models are a little clearer.</p>
-<p>We’ll start with an example from <span class="citation">Rouder, Speckman, Sun, &amp; Morey (2009)</span>, in which they analyse the results if a one sample <em>t</em>-test. <span class="citation">Rouder et al. (2009)</span> report a <em>t</em> statistic of 2.03, from a sample size of 80. The sampling distribution of the <em>t</em> statistic, when the null hypothesis is false is the <a href="https://en.wikipedia.org/wiki/Noncentral_t-distribution">noncentral <em>t</em>-distribution</a> distribution. Therefore, we can use this fact to construct a <em>likelhood function</em> for our <em>t</em> value from the noncentral <em>t</em>-distribution. For this, we’ll need two parameters—the <em>t</em> value itself, and the <em>degrees of freedom</em>. In the one-sample case, the <em>degrees of freedom</em> will just be N - 1.</p>
+<p>One-sample <em>t</em>-tests are already covered in the <a href="https://bayesplay.github.io/bayesplay/articles/basic.html">basic usage vignette</a>, so the example presented here is simply a repeat of that example. However, we’ll change the order of presentation around a bit so that the relationship between the one-sample and independent samples models are a little clearer.</p>
+<p>We’ll start with an example from <span class="citation">Rouder et al. (2009)</span>, in which they analyse the results if a one sample <em>t</em>-test. <span class="citation">Rouder et al. (2009)</span> report a <em>t</em> statistic of 2.03, from a sample size of 80. The sampling distribution of the <em>t</em> statistic, when the null hypothesis is false is the <a href="https://en.wikipedia.org/wiki/Noncentral_t-distribution">noncentral <em>t</em>-distribution</a> distribution. Therefore, we can use this fact to construct a <em>likelihood function</em> for our <em>t</em> value from the noncentral <em>t</em>-distribution. For this, we’ll need two parameters—the <em>t</em> value itself, and the <em>degrees of freedom</em>. In the one-sample case, the <em>degrees of freedom</em> will just be N - 1.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">2.03</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">80</span>
 <span class="va">data_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span><span class="st">"noncentral_t"</span>, t <span class="op">=</span> <span class="va">t</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">data_model</span><span class="op">)</span></code></pre></div>
 <p><img src="default_ttests_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<p>From plotting our <em>likelihood</em> function we can see that values of <em>t</em> at our observation (<em>t</em> = 2.03) and most consistent without our observation while more extreme values of <em>t</em> (e.g., <em>t</em> = -2, or <em>t</em> = 6) are less consistent without our observed data. This is of course, as we would expect. (To learn more about the <em>likelihood</em> function, see <a href="#">The likelihood function</a>).</p>
+<p>From plotting our <em>likelihood</em> function we can see that values of <em>t</em> at our observation (<em>t</em> = 2.03) and most consistent without our observation while more extreme values of <em>t</em> (e.g., <em>t</em> = -2, or <em>t</em> = 6) are less consistent without our observed data. This is of course, as we would expect.</p>
 <p>Now that we’ve defined our likelihood, the next thing to think about is the <em>prior</em>. <span class="citation">Rouder et al. (2009)</span> provide a more detailed justification for their prior, so we won’t go into that here; however, their prior is based on the <em>Cauchy</em> distribution. A Cauchy distribution is like a very fat tailed <em>t</em> distribution (in fact, it <strong>is</strong> a very fat tailed <em>t</em> distribution). We can see an example of a <em>standard Cauchy</em> distribution below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"cauchy"</span>, location <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -156,7 +156,7 @@
 <div id="independent-samples-t-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#independent-samples-t-tests" class="anchor"></a>Independent samples <em>t</em>-tests</h2>
-<p><span class="citation">Rouder et al. (2009)</span> also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the <code>bayesplay</code> package with the results from the <a href="https://cran.r-project.org/web/packages/BayesFactor/index.html"><code>BayesFactor</code></a> package.</p>
+<p><span class="citation">Rouder et al. (2009)</span> also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the <code>bayesplay</code> package with the results from the <a href="https://CRAN.R-Project.org/package=BayesFactor"><code>BayesFactor</code></a> package.</p>
 <p>For this example, we’ll start by generating some data from an independent samples design.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2125519</span><span class="op">)</span>

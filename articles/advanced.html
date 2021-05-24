@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bayesplay</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
 <p>Bayes theorem defines a posterior distribution according to the follows:</p>
 <p><span class="math display">\[P(\theta|X) = \frac{P(X|\theta)\cdot{}P(\theta)}{P(X)},\]</span> where <span class="math inline">\(P(X|\theta)\)</span> is the likelihood (the conditional probability of the data given the parameter value) and <span class="math inline">\(P(\theta)\)</span> and <span class="math inline">\(P(X)\)</span> are the (unconditional) <em>prior</em> probability of the parameter and marginal likelihood, respectively.</p>
 <p>Often in presentations of Bayes theorem, the marginal likelihood, <span class="math inline">\(P(X)\)</span>, is omitted and Bayes theorem is given as follows:</p>
-<p><span class="math display">\[P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).\]</span> One reason for this may be that the concept of the marginal likelihood is a tricky concept to grasp (for a better understanding of the marginal likelihood, see <a href="#">marginal likelhood</a>). However, the <em>law of total probability</em> give the marginal likelihood as follows:</p>
+<p><span class="math display">\[P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).\]</span> One reason for this may be that the concept of the marginal likelihood is a tricky concept to grasp. However, the <em>law of total probability</em> give the marginal likelihood as follows:</p>
 <p><span class="math display">\[P(X)= \int{}P(X|\theta)\cdot{}P(\theta)d\theta,\]</span> where <span class="math inline">\(P(X|\theta)\)</span>, and <span class="math inline">\(P(X)\)</span> are again the likelihood and the prior, respectively. This should be familiar from the computation of the Bayes factor. Simply put, the marginal likelihood is the <em>weighted average</em> of the likelihood function where the prior provides the weights.</p>
 <p>Given this, all that is needed to compute a posterior is a prior and a likelihood. Let us walk through a few examples using a few different likelihoods and priors.</p>
 <div id="binomial-likelihood-and-beta-prior" class="section level3">
@@ -192,8 +192,8 @@
 </div>
 <div id="noncentral-d-likelihood-and-cauchy-prior" class="section level3">
 <h3 class="hasAnchor">
-<a href="#noncentral-d-likelihood-and-cauchy-prior" class="anchor"></a>Noncentral ‘d’ likelihood and cauchy prior</h3>
-<p>And finally, we can repeat the process using a noncentral ‘d’ (noncentral <em>t</em> distribution scaled in terms of effect size) and a cauchy prior.</p>
+<a href="#noncentral-d-likelihood-and-cauchy-prior" class="anchor"></a>Noncentral ‘d’ likelihood and Cauchy prior</h3>
+<p>And finally, we can repeat the process using a noncentral ‘d’ (noncentral <em>t</em> distribution scaled in terms of effect size) and a Cauchy prior.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">posterior3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_posterior.html">extract_posterior</a></span><span class="op">(</span><span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span><span class="st">"noncentral_d"</span>, <span class="fl">.8</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"cauchy"</span>, <span class="fl">0</span>, <span class="fl">.707</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"noncentral 'd' likelihood and cauchy prior"</span><span class="op">)</span></code></pre></div>
@@ -311,7 +311,7 @@
 <p>We’re not restricted to examining <em>binomial</em> likelihoods. We can examine any of the likelihoods and priors available in the <code>bayesplay</code> package. For example, we can examine the predictions for a <em>noncentral ‘d’</em> likelihood and <em>cauchy</em> and <em>point</em> priors. To do this, we set the value of our observation, <code>d</code> to an arbitrary value—for example, 0, and set <code>n</code> to the planned sample size our our experiment.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span><span class="st">"noncentral_d"</span>, d <span class="op">=</span> <span class="fl">0</span>, n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
-<p>Now we can specify a <em>point</em> prior, and a <em>cauchy</em> prior and multiply them by the likelihood.</p>
+<p>Now we can specify a <em>point</em> prior, and a <em>Cauchy</em> prior and multiply them by the likelihood.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d_model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"cauchy"</span>, <span class="fl">0</span>, <span class="fl">.707</span><span class="op">)</span><span class="op">)</span>
 <span class="va">d_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
