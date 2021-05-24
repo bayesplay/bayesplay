@@ -1,3 +1,7 @@
+## Resubmission
+
+Fix license to match CRAN template
+
 ## Test environments
 
 * local OS X install, R 4.0.2
