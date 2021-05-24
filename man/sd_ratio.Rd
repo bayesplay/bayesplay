@@ -9,7 +9,7 @@ sd_ratio(x, point)
 \arguments{
 \item{x}{a \code{posterior} object}
 
-\item{point}{a point at which to evaluate the Savage-Dickey ratio}
+\item{point}{the point at which to evaluate the Savage-Dickey ratio}
 }
 \value{
 A numeric of the Savage-Dickey density ratio
@@ -25,7 +25,7 @@ data_model <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
 # define a prior
 prior_model <- prior(family = "normal", mean = 5.5, sd = 13.3)
 
-model <- data_model * prior_model
+model <- extract_posterior(data_model * prior_model)
 
 # compute the Savage-Dickey density ratio at 0
 sd_ratio(model, 0)

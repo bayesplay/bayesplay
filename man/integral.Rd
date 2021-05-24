@@ -23,6 +23,7 @@ data_model <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
 # define a prior
 prior_model <- prior(family = "normal", mean = 5.5, sd = 13.3)
 
+# multiply the likelihood by the prior
 model <- data_model * prior_model
 
 # take the integral

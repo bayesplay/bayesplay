@@ -47,7 +47,7 @@ references:
   volume: 5
   number: 781
   URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00781/full
-  DOI: 10.3389/fpsyg.2014.00781/full
+  DOI: 10.3389/fpsyg.2014.00781
   type: article-journal
   issued:
     year: 2014
@@ -83,7 +83,7 @@ knitr::opts_chunk$set(
 ```
 
 
-To calculate a Bayes factor you specify three things:
+To calculate a Bayes factor you need to specify three things:
 
 1. A **likelihood** that provides a description of the data
 
@@ -171,7 +171,7 @@ Next, we specify a prior which described the alternative hypothesis. In this cas
 h1_mod <- prior(family = "uniform", min = 0, max = 20)
 ```
 
-Following this, we specify a prior that describes the null hypothesis. Here, @dienes2014 again uses a point null centered at 0. 
+Following this, we specify a prior that describes the null hypothesis. Here, @dienes2014 again uses a point null centred at 0. 
 
 ```{r}
 h0_mod <- prior(family = "point", point = 0)

@@ -13,5 +13,5 @@ extract_posterior(x)
 a \code{posterior} object
 }
 \description{
-extract the \code{posterior} object from a \code{product} object
+Extract the \code{posterior} object from a \code{product} object
 }

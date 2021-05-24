@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{summary,bf-method}
 \alias{summary,bf-method}
-\title{Summarise Bayes factor}
+\title{Summarise a Bayes factor}
 \usage{
 \S4method{summary}{bf}(object)
 }

@@ -11,3 +11,4 @@
 ^Meta$
 .nvimrc
 monitor.rb
+cran-comments.md

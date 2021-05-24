@@ -23,25 +23,51 @@ Define priors using different different distribution families
 The following distributions families can be used for the prior
 \itemize{
 \item \code{normal} a normal distribution
+\item \code{student_t} a scaled and shifted t-distribution
+\item \code{cauchy} a Cauchy distribution
 \item \code{uniform} a uniform distribution
 \item \code{point} a point
+\item \code{beta} a beta distribution
 The parameters that need to be specified will be dependent on the
 family
 }
 }
 
-\subsection{normal distribution}{
+\subsection{Normal distribution}{
 
 When \code{family} is set to \code{normal} then the following
-parameters must be set
+parameters may be be set
 \itemize{
 \item \code{mean} mean of the normal prior
 \item \code{sd} standard deviation of the normal prior
-\item \code{range} (optional) a vector specifying a paramter range
+\item \code{range} (optional) a vector specifying the parameter range
 }
 }
 
-\subsection{uniform distribution}{
+\subsection{Student t distribution}{
+
+When \code{family} is set to \code{student_t} then the following
+parameters may be set
+\itemize{
+\item \code{mean} mean of the scaled and shifted t prior
+\item \code{sd} standard deviation of the scaled and shifted t prior
+\item \code{df} degrees of freedom of the scaled and shifted t prior
+\item \code{range} (optional) a vector specifying the parameter range
+}
+}
+
+\subsection{Cauchy distribution}{
+
+When \code{family} is set to \code{cauchy} then the following
+parameters may be set
+\itemize{
+\item \code{location} the centre of the Cauchy distribution (default: 0)
+\item \code{scale} the scale of the Cauchy distribution
+\item \code{range} (optional) a vector specifying the parameter range
+}
+}
+
+\subsection{Uniform distribution}{
 
 When \code{family} is set to \code{uniform} then the following
 parameters must be set
@@ -51,7 +77,7 @@ parameters must be set
 }
 }
 
-\subsection{point}{
+\subsection{Point}{
 
 When \code{family} is set to \code{point} then the following
 parameters may be set
@@ -59,17 +85,43 @@ parameters may be set
 \item \code{point} the location of the point prior (default: 0)
 }
 }
+
+\subsection{Beta}{
+
+When \code{family} is set to \code{beta} then the following
+parameters may be set
+\itemize{
+\item \code{alpha} the first shape parameter
+\item \code{beta} the second shape parameter
+}
+}
 }
 \examples{
-# specify a half-normal (range 0 to Infinity) prior
-prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
 
 # specify a normal prior
 prior(family = "normal", mean = 0, sd = 13.3)
+
+# specify a half-normal (range 0 to Infinity) prior
+prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
+
+# specify a student t prior
+prior(family = "student_t", mean = 0, sd = 13.3, df = 79)
+
+# specify a truncated t prior
+prior(family = "student_t", mean = 0, sd = 13.3, df = 79, range = c(-40, 40))
+
+# specify a cauchy prior
+prior(family = "cauchy", location = 0, scale = .707)
+
+# specify a half cauchy prior
+prior(family = "cauchy", location = 0, scale = 1, range = c(-Inf, 0))
 
 # specify a uniform prior
 prior(family = "uniform", min = 0, max = 20)
 
 # specify a point prior
 prior(family = "point", point = 0)
+
+#specify a beta prior
+prior(family = "beta", alpha = 2.5, beta = 3.8)
 }
