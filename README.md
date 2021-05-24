@@ -76,7 +76,7 @@ plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
 ## Changelog
 
-> Breaking changes for &lt; v1.0
+> Breaking changes for &lt; v0.9.0
 >
 > `distribution` parameter for specifying likelihoods and priors has
 > been renamed `family`
