@@ -25,7 +25,7 @@ The `bayesplay` package includes functionality for basic plotting of prior and l
 
 ### Plotting likelihoods
 
-To plot a likelihood, you first need to define a likelihood using the standard syntax (see [basic usage](https://git.colling.net.nz/bayesplay/articles/basic.html)).
+To plot a likelihood, you first need to define a likelihood using the standard syntax (see [basic usage](https://bayesplay.github.io/bayesplay/articles/basic.html)).
 
 In the example below, we define normal likelihood with a mean of 5.5 and a standard error of 32.35.
 

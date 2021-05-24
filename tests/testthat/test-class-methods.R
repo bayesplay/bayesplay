@@ -24,7 +24,7 @@ test_that("class methods", {
   prod1 <- lik * pri
   prod2 <- pri * lik
 
-  expect_equal(prod1, prod2)
+  expect_equal(prod1$integral, prod2$integral)
 
   pr1 <- prior("cauchy", 0, 1, c(-Inf, Inf))
   pr2 <- make_prior(new("cauchy"), 0, 1, c(-Inf, Inf))

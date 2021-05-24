@@ -42,7 +42,7 @@ where $P(X|\theta)$ is the likelihood (the conditional probability of the data g
 Often in presentations of Bayes theorem, the marginal likelihood, $P(X)$, is omitted and Bayes theorem is given as follows:
 
 $$P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).$$
-One reason for this may be that the concept of the marginal likelihood is a tricky concept to grasp (for a better understanding of the marginal likelihood, see [marginal likelhood](#)). However, the *law of total probability* give the marginal likelihood as follows:
+One reason for this may be that the concept of the marginal likelihood is a tricky concept to grasp. However, the *law of total probability* give the marginal likelihood as follows:
 
 $$P(X)= \int{}P(X|\theta)\cdot{}P(\theta)d\theta,$$
 where $P(X|\theta)$, and $P(X)$ are again the likelihood and the prior, respectively. This should be familiar from the computation of the Bayes factor. Simply put, the marginal likelihood is the *weighted average* of the likelihood function where the prior provides the weights. 
@@ -119,9 +119,9 @@ posterior2 <- extract_posterior(likelihood("normal", 10, 14) * prior("uniform", 
 plot(posterior2) + labs(title = "posterior distribution", subtitle = "normal likelihood and uniform prior")
 ```
 
-### Noncentral 'd' likelihood and cauchy prior
+### Noncentral 'd' likelihood and Cauchy prior
 
-And finally, we can repeat the process using a noncentral 'd' (noncentral *t* distribution scaled in terms of effect size) and a cauchy prior.
+And finally, we can repeat the process using a noncentral 'd' (noncentral *t* distribution scaled in terms of effect size) and a Cauchy prior.
 
 ```{r}
 posterior3 <- extract_posterior(likelihood("noncentral_d", .8, 25) * prior("cauchy", 0, .707))
@@ -263,7 +263,7 @@ We're not restricted to examining *binomial* likelihoods. We can examine any of 
 data_model2 <- likelihood("noncentral_d", d = 0, n = 20)
 ```
 
-Now we can specify a *point* prior, and a *cauchy* prior and multiply them by the likelihood.
+Now we can specify a *point* prior, and a *Cauchy* prior and multiply them by the likelihood.
 
 ```{r}
 d_model1 <- extract_predictions(data_model2 * prior("cauchy", 0, .707))

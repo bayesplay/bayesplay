@@ -32,8 +32,6 @@ test_that("basic BF calculations", {
     label = "normal prior"
   )
 
-
-
   data_model <- likelihood(family = "normal", mean = 0.63, sd = 0.43)
   h1_model <- prior(
     family = "normal", mean = 0, sd = 2.69,
@@ -106,7 +104,8 @@ test_that("basic BF calculations", {
   bf <- sd_ratio(data_model * prior_model, 0)
   testthat::expect_equal(bf_bayesfactor,
     unclass(bf),
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1,
+    label = "one-sample default t-test (on cohen's d)"
   )
 
 
@@ -131,7 +130,8 @@ test_that("basic BF calculations", {
 
   testthat::expect_equal(bf_bayesfactor,
     unclass(bf),
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1,
+    label = "one-sample default t-test (on t-stat)"
   )
 
 
@@ -141,7 +141,8 @@ test_that("basic BF calculations", {
 
   testthat::expect_equal(bf_bayesfactor,
     unclass(bf),
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1,
+    label = "independent samples default t (on cohen's d)"
   )
 
   t <- 2.03
