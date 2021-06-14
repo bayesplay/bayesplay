@@ -5,6 +5,10 @@ This is a resubmission. The following issues have be addressed
 names-bayesplay-method.Rd, plot.Rd, summary-bf-method.Rd
 * Removed printing to console except through summary and show methods
 
+## Resubmission
+
+Fix license to match CRAN template
+
 ## Test environments
 
 * local OS X install, R 4.0.2
