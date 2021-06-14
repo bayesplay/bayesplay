@@ -9,6 +9,9 @@
 \arguments{
 \item{object}{a \code{bf} object}
 }
+\value{
+No return, called for side effects
+}
 \description{
 Provide a verbal summary of a Bayes factor and the level of evidence
 }

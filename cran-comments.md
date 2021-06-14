@@ -1,3 +1,10 @@
+## Resubmission 
+
+This is a resubmission. The following issues have be addressed
+* Added missing \value Rd-tags to cash-bayesplay-method.Rd, 
+names-bayesplay-method.Rd, plot.Rd, summary-bf-method.Rd
+* Removed printing to console except through summary and show methods
+
 ## Test environments
 
 * local OS X install, R 4.0.2
@@ -13,3 +20,4 @@
 ## R CMD check results
 
 There were no ERRORs, WARNINGs, or NOTEs
+

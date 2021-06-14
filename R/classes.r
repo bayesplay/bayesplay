@@ -99,6 +99,7 @@ show <- function(x) {
 #' Get fields from data slot
 #' @param x a \code{bayesplay} object
 #' @param name field name
+#' @return content of the named field from the data slot
 setMethod(
   "$",
   "bayesplay",
@@ -110,6 +111,7 @@ setMethod(
 
 #' Get names from data slot
 #' @param x a \code{bayesplay} object
+#' @return the field names from the data slot
 setMethod("names",
   signature = "bayesplay",
   function(x) {

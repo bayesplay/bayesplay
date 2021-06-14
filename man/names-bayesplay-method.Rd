@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{a \code{bayesplay} object}
 }
+\value{
+the field names from the data slot
+}
 \description{
 Get names from data slot
 }

@@ -24,7 +24,7 @@ in_range <- function(x, range) {
 
 #' @export
 `*.bayesplay` <- function(e1, e2) {
-  if ("likelihood" %in% class(e1) ) {
+  if ("likelihood" %in% class(e1)) {
     likelihood <- e1
     prior <- e2
   } else {
@@ -183,15 +183,18 @@ bfsay <- function(bf) {
 
   ev_level <- get_ev_level(bf)
 
-  cat("Using the levels from  Wagenmakers et al (2017)\n")
-  cat("A BF of ", round(bf_base, 4), " indicates:\n")
-  cat(ev_level)
+  ev_level_msg <- c(
+  paste0("Using the levels from Wagenmakers et al (2017)\n"),
+  paste0("A BF of ", round(bf_base, 4), " indicates:\n"),
+  paste0(ev_level))
+
 }
 
 #' Summarise a Bayes factor
 #' @description Provide a verbal summary of a Bayes factor and the level of evidence
 #' @param object a \code{bf} object
 #' @export
+#' @return No return, called for side effects
 setMethod(
   "summary",
   "bf",
