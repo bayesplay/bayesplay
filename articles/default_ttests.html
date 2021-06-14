@@ -129,9 +129,9 @@
 <code class="sourceCode R"><span class="va">bf_onesample_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model</span> <span class="op">*</span> <span class="va">alt_prior</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model</span> <span class="op">*</span> <span class="va">null_prior</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf_onesample_1</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  0.6421  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 0.6421 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>In the preceding example, we’ve taken account of the fact that the <em>same underlying effect size</em> will produce different values of <em>t</em> depending on the sample, and we’ve scaled our <em>prior</em> accordingly. However, we could also apply the scaling at the other end by re-scaling our <em>likelihood</em>. The <code>bayesplay</code> package contains two additional noncentral <em>t</em> likelihoods that have been rescaled. The first of the these is the <code>noncentral_d</code> likelihood. This is a likelihood based on the sample distribution of the <em>one-sample/paired samples Cohen’s d</em>. This is calculated simply as <span class="math inline">\(d = \frac{\mu_{\mathrm{diff}}}{\sigma_{\mathrm{diff}}}\)</span>. Alternatively, we can conver the observed <em>t</em> value by dividing it by <span class="math inline">\(\sqrt{n}\)</span>. The <code>noncentral_d</code> likelihood just takes this effect size and the sample size are parameters.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">t</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>
@@ -148,9 +148,9 @@
 <code class="sourceCode R"><span class="va">bf_onesample_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="va">alt_prior2</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="va">null_prior</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf_onesample_2</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  0.6421  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 0.6421 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>As expected, the two results are identical.</p>
 </div>
 <div id="independent-samples-t-tests" class="section level2">
@@ -215,9 +215,9 @@ Bayes factor type: BFindepSample, JZS</code></pre>
 <code class="sourceCode R"><span class="va">bf_independent_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model3</span> <span class="op">*</span> <span class="va">alt_prior3</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model3</span> <span class="op">*</span> <span class="va">null_prior</span><span class="op">)</span> 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf_independent_1</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  0.9709  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 0.9709 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>Appropriately scaling our <em>Cauchy</em> prior can be tricky, so an alternative is instead, as before, to scale our likelihood. The <code>bayesplay</code> package contains a likelihood that is appropriate for independent samples <em>Cohen’s d</em>, the <code>noncentral_d2</code> likelihood. To use this, we’ll need the <em>Cohen’s d</em> value, and the two sample sizes.</p>
 <p>For independent samples designs the <em>Cohen’s d</em> is calculated as follows:</p>
 <p><span class="math display">\[d = \frac{m_1 - m2}{s_\mathrm{pooled}},\]</span></p>
@@ -262,9 +262,9 @@ Bayes factor type: BFindepSample, JZS</code></pre>
 <code class="sourceCode R"><span class="va">bf_independent_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model4</span> <span class="op">*</span> <span class="va">alt_prior4</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model4</span> <span class="op">*</span> <span class="va">null_prior</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf_independent_2</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  0.9709  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 0.9709 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>Again, we obtain the same result as the <code>BayesFactor</code> package.</p>
 <div id="refs" class="references">
 <div id="ref-rouderbf">

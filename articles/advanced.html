@@ -226,18 +226,18 @@
 <span class="va">bf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model</span> <span class="op">*</span> <span class="va">prior_alt</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="../reference/integral.html">integral</a></span><span class="op">(</span><span class="va">data_model</span> <span class="op">*</span> <span class="va">prior_null</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  2.944  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 2.944 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>This Bayes factor uses the same likelihood that we used to compute <code>posterior1</code>, and the alternative prior is the same prior we used to compute <code>posterior1</code>. The null prior in this case is a <em>nested</em> inside the alternative prior. That is, it is a restriction of the alternative prior.</p>
 <p>As an alternative, we could compute this Bayes factor using the Savage-Dickey density ratio by comparing the density of the prior at <span class="math inline">\(\theta\)</span> = 0.5 to the density of the posterior at same value. We can do this with the <code>bayesplay</code> package by using the <code><a href="../reference/sd_ratio.html">sd_ratio()</a></code> function and specifying <code>point = 0.5</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bf1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sd_ratio.html">sd_ratio</a></span><span class="op">(</span><span class="va">posterior1</span>, point <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf1</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  2.944  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 2.944 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <p>As can be seen, the two Bayes factors are identical.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">bf</span>, <span class="va">bf1</span><span class="op">)</span>
@@ -247,16 +247,16 @@
 <code class="sourceCode R"><span class="va">bf2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sd_ratio.html">sd_ratio</a></span><span class="op">(</span><span class="va">posterior2</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf2</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  0.6954  indicates:</span>
-<span class="co">#&gt; Anecdotal evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 0.6954 indicates:</span>
+<span class="co">#&gt;  Anecdotal evidence</span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bf3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sd_ratio.html">sd_ratio</a></span><span class="op">(</span><span class="va">posterior3</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">bf3</span><span class="op">)</span>
 <span class="co">#&gt; Bayes factor</span>
-<span class="co">#&gt; Using the levels from  Wagenmakers et al (2017)</span>
-<span class="co">#&gt; A BF of  61.0607  indicates:</span>
-<span class="co">#&gt; Very strong evidence</span></code></pre></div>
+<span class="co">#&gt; Using the levels from Wagenmakers et al (2017)</span>
+<span class="co">#&gt;  A BF of 61.0607 indicates:</span>
+<span class="co">#&gt;  Very strong evidence</span></code></pre></div>
 </div>
 <div id="marginal-predictions" class="section level2">
 <h2 class="hasAnchor">
