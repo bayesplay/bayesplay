@@ -28,6 +28,9 @@ plot(x, ...)
 
 \item{add_prior}{set to TRUE to add prior to the posterior plot}
 }
+\value{
+a \code{ggplo2} object
+}
 \description{
 Plots an object created by bayesplay
 }

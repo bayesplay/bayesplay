@@ -11,6 +11,9 @@
 
 \item{name}{field name}
 }
+\value{
+content of the named field from the data slot
+}
 \description{
 Get fields from data slot
 }

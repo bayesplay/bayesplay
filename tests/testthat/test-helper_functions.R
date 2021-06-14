@@ -19,18 +19,18 @@ test_that("helper functions", {
   expect_equal(get_ev_level(100), "Very strong evidence")
   expect_equal(get_ev_level(100.1), "Extreme evidence")
 
-  expect_output(bfsay(1), "Using the levels from  Wagenmakers et al \\(2017\\)\\nA BF of  1  indicates:\\nNo evidence")
+  expect_equal(bfsay(1), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 1 indicates:\n","No evidence"))
 
-  expect_output(bfsay(.5), "Using the levels from  Wagenmakers et al \\(2017\\)\\nA BF of  0.5  indicates:\\nAnecdotal evidence")
+  expect_equal(bfsay(.5), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 0.5 indicates:\n","Anecdotal evidence"))
 
 
-  expect_output(bfsay(1 / 100), "Using the levels from  Wagenmakers et al \\(2017\\)\\nA BF of  0\\.01  indicates:\\nVery strong evidence")
+  expect_equal(bfsay(1 / 100), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 0.01 indicates:\n","Very strong evidence"))
 
   m1 <- integral(likelihood("noncentral_t", 2.8, 19) * prior("cauchy", 0, 1))
   m0 <- integral(likelihood("noncentral_t", 2.8, 19) * prior("point", 0))
   b <- m1 / m0
 
-  expect_output(summary(b), paste0("Bayes factor\\n", bfsay(b)))
+  expect_output(summary(b), paste0("Bayes factor\\n", cat(bfsay(b))))
 
   expect_output(show(b), "4\\.108891 ")
   expect_output(show(m1), "0\\.05112506 ")
