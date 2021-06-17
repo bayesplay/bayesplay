@@ -17,8 +17,12 @@ tools.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+bayesplay is now on CRAN. You can install it with:
+
+    install.packages("bayesplay")
+
+Or if you want to live on the edge, you can install the development
+version from [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
     devtools::install_github("bayesplay/bayesplay")
