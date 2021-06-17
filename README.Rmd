@@ -26,7 +26,14 @@ The goal of bayesplay is to provide an interface for calculating Bayes factors f
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+bayesplay is now on CRAN. You can install it with:
+
+```r
+install.packages("bayesplay")
+```
+
+Or if you want to live on the edge, you can install the development version 
+from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
