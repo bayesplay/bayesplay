@@ -252,6 +252,7 @@ parameters may be set</p><ul>
 #&gt;   Parameters
 #&gt;     mean: 0
 #&gt;     sd: 13.3
+#&gt;     range: 0 to Inf
 #&gt;  </div><div class='input'>
 <span class='co'># specify a student t prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"student_t"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span>, df <span class='op'>=</span> <span class='fl'>79</span><span class='op'>)</span>
@@ -272,6 +273,7 @@ parameters may be set</p><ul>
 #&gt;     mean: 0
 #&gt;     sd: 13.3
 #&gt;     df: 79
+#&gt;     range: -40 to 40
 #&gt;  </div><div class='input'>
 <span class='co'># specify a cauchy prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"cauchy"</span>, location <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>.707</span><span class='op'>)</span>
@@ -290,6 +292,7 @@ parameters may be set</p><ul>
 #&gt;   Parameters
 #&gt;     location: 0
 #&gt;     scale: 1
+#&gt;     range: -Inf to 0
 #&gt;  </div><div class='input'>
 <span class='co'># specify a uniform prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"uniform"</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
@@ -299,7 +302,6 @@ parameters may be set</p><ul>
 #&gt;   Parameters
 #&gt;     min: 0
 #&gt;     max: 20
-#&gt;     Range:  to 
 #&gt;  </div><div class='input'>
 <span class='co'># specify a point prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"point"</span>, point <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
@@ -308,7 +310,6 @@ parameters may be set</p><ul>
 #&gt;     point
 #&gt;   Parameters
 #&gt;     point: 0
-#&gt;     Range:  to 
 #&gt;  </div><div class='input'>
 <span class='co'>#specify a beta prior</span>
 <span class='fu'>prior</span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"beta"</span>, alpha <span class='op'>=</span> <span class='fl'>2.5</span>, beta <span class='op'>=</span> <span class='fl'>3.8</span><span class='op'>)</span>
