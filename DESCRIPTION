@@ -1,9 +1,7 @@
 Package: bayesplay
 Type: Package
 Title: The Bayes Factor Playground 
-Version: 0.9.0
-Author: Lincoln J Colling
-Maintainer: Lincoln J Colling <lincoln@colling.net.nz>
+Version: 0.9.1
 Description: A lightweight modelling syntax for defining likelihoods and priors
     and for computing Bayes factors for simple one parameter models. It includes
     functionality for computing and plotting priors, likelihoods, and model
@@ -24,3 +22,9 @@ RoxygenNote: 7.1.1
 Imports: 
     methods,
     gginnards
+Authors@R: 
+    person(given = c("Lincoln", "J"), 
+            family = "Colling",
+            comment = c(ORCID = "0000-0002-3572-7758"),
+            email = "lincoln@colling.net.nz",
+            role = c("aut","cre"))
