@@ -246,3 +246,5 @@ summary(bf_independent_2)
 ```
 
 Again, we obtain the same result as the `BayesFactor` package. 
+
+## References
