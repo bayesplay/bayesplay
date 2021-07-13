@@ -91,7 +91,8 @@ handle_binomial_marginal <- function(x, n, model_name) {
   observation_df <- data.frame(
     observation = observation,
     auc = model_func(observation),
-    color = model_name
+    color = model_name,
+    linetype = model_name
   )
 
   observation_range <- seq(plot_range[1], plot_range[2], 1)
@@ -112,7 +113,7 @@ handle_binomial_marginal <- function(x, n, model_name) {
       ggplot2::aes(
         x = observation,
         y = auc,
-        colour = model_name
+        colour = model_name,
       ),
       size = 2, shape = 21, fill = "white"
     ) +
@@ -121,7 +122,7 @@ handle_binomial_marginal <- function(x, n, model_name) {
       ggplot2::aes(
         x = observation,
         y = auc,
-        colour = model_name
+        colour = model_name,
       ),
       size = 2, shape = 16
     ) +
@@ -130,7 +131,13 @@ handle_binomial_marginal <- function(x, n, model_name) {
       values = "black",
       name = NULL,
       labels = NULL,
-      guide = FALSE
+      guide = "none"
+    ) +
+    ggplot2::scale_linetype_manual(
+      values = 1,
+      name = NULL,
+      labels = NULL,
+      guide = "none"
     ) +
     ggplot2::scale_x_continuous(
       limits = plot_range,
@@ -171,15 +178,16 @@ handle_other_marginal <- function(x, n, model_name) {
   x <- observation
   y <- model_func(observation)
   color <- model_name
+  linetype <- model_name
   observation_df <- data.frame(
-    x = x, y = y, color = color
+    x = x, y = y, color = color, linetype = linetype
   )
 
 
   ggplot2::ggplot() +
     ggplot2::geom_function(
       fun = model_func,
-      ggplot2::aes(colour = model_name)
+      ggplot2::aes(colour = model_name, linetype = model_name)
     ) +
     ggplot2::geom_point(
       data = observation_df,
@@ -195,10 +203,16 @@ handle_other_marginal <- function(x, n, model_name) {
       values = "black",
       name = NULL,
       labels = NULL,
-      guide = FALSE,
+      guide = "none"
+    ) +
+    ggplot2::scale_linetype_manual(
+      values = 1,
+      name = NULL,
+      labels = NULL,
+      guide = "none"
     ) +
     ggplot2::scale_x_continuous(
-      limits = plot_range,
+      limits = plot_range
     ) +
     NULL
 }
@@ -302,11 +316,11 @@ plot_pp <- function(x, n) {
   ggplot2::ggplot() +
     ggplot2::geom_function(
       fun = Vectorize(x$posterior_function),
-      ggplot2::aes(color = "blue")
+      ggplot2::aes(color = "blue", linetype = "blue"),
     ) +
     ggplot2::geom_function(
       fun = Vectorize(x@prior_obj@func),
-      ggplot2::aes(color = "red")
+      ggplot2::aes(color = "red", linetype = "red"),
     ) +
     ggplot2::xlim(x@prior_obj@plot$range) +
     ggplot2::labs(x = posterior_labs$x, y = posterior_labs$y) +
@@ -315,6 +329,12 @@ plot_pp <- function(x, n) {
       labels = c("posterior", "prior"),
       name = NULL
     ) +
+    ggplot2::scale_linetype_manual(
+      values = c(1, 1),
+      labels = c("posterior", "prior"),
+      name = NULL
+    ) +
+    # ggplot2::labs(colours = c("posterior", "prior")) +
     ggplot2::expand_limits(y = 0) +
     # ggplot2::theme_minimal(base_size = 16) +
     NULL
@@ -352,10 +372,15 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
       gginnards::append_layers(
         model1_layer,
         model2_layer$layers
-      ) + ggplot2::scale_colour_manual(
-        values = c("red", "blue"),
-        name = "Model"
-      )
+      ) +
+        ggplot2::scale_colour_manual(
+          values = c("red", "blue"),
+          name = "Model"
+        ) +
+        ggplot2::scale_linetype_manual(
+          values = c(1, 1),
+          name = "Model"
+        )
     ))
   }
 

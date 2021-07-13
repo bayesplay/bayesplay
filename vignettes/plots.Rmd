@@ -111,10 +111,78 @@ or axis limits can be changed using, for example, `ggplot2::xlim()`. Note that b
 plot(uniform_prior) + xlim(-100,100)
 ```
 
-Or the plot can be themed using `ggplot2` themes such as `ggplot1::theme_linedraw()`
+Or the plot can be themed using `ggplot2` themes such as `ggplot2::theme_linedraw()`
 
 ```{r}
 plot(norm_mod) +
 	labs(title  = "normal likelihood") + 
 	theme_linedraw()
+```
+
+#### Styling advanced plots
+
+For the advanced plot types like the prior and posterior plots and the visual comparison (see [Advanced usage](https://bayesplay.github.io/bayesplay/articles/advanced.html)) it is also possible to change the colours and the linetypes. 
+
+For example, the default colours for these plots are blue and red solid lines.
+
+```{r}
+
+data_model <- likelihood("noncentral_d", d = 0, n = 20)
+
+d_model1 <- extract_predictions(data_model * prior("cauchy", 0, .707))
+d_model2 <- extract_predictions(data_model * prior("point", 0))
+visual_compare(d_model1, d_model2)
+```
+
+```{r}
+plot(extract_posterior(data_model * prior("cauchy", 0, .707)), add_prior = TRUE)
+```
+
+However, it is possible to change this with `ggplot2::scale_colour_manual()`
+
+```{r}
+visual_compare(d_model1, d_model2) +
+    scale_colour_manual(values = c("green", "blue"),
+                        labels = c("d_model1", "d_model2"), name = "Model")
+```
+
+```{r}
+plot(extract_posterior(data_model * prior("cauchy", 0, .707)), add_prior = TRUE) +
+    scale_colour_manual(values = c("green", "blue"),
+                        labels = c("posterior", "prior"), name = NULL)
+```
+
+It is also possible to change the linetype with `ggplo2::scale_linetype_manual()`,
+
+
+```{r}
+visual_compare(d_model1, d_model2) +
+    scale_linetype_manual(values = c(1, 2),
+                        labels = c("d_model1", "d_model2"), name = "Model")
+```
+
+```{r}
+plot(extract_posterior(data_model * prior("cauchy", 0, .707)), add_prior = TRUE) +
+    scale_linetype_manual(values = c(1, 2),
+                        labels = c("posterior", "prior"), name = NULL)
+```
+
+
+or to change both the colour and the linetype.
+
+
+```{r}
+visual_compare(d_model1, d_model2) +
+    scale_linetype_manual(values = c(1, 2),
+                        labels = c("d_model1", "d_model2"), name = NULL) +
+    scale_colour_manual(values = c("grey", "black"),
+                        labels = c("d_model1", "d_model2"), name = NULL)
+```
+
+```{r}
+plot(extract_posterior(data_model * prior("cauchy", 0, .707)), add_prior = TRUE) +
+    scale_linetype_manual(values = c(1, 2),
+                        labels = c("posterior", "prior"), name = NULL) + 
+    scale_colour_manual(values = c("black", "black"),
+                        labels = c("posterior", "prior"), name = NULL)
 ```
