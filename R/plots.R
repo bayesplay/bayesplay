@@ -281,6 +281,12 @@ plot_weighted_likelihood <- function(x, n) {
 
 
 plot_posterior <- function(x, n) {
+  if (x@prior_obj@dist_type == "point") {
+    return(
+      plot_point(x@prior_obj, n) +
+        ggplot2::labs(y = "Density")
+    )
+  }
   ggplot2::ggplot() +
     ggplot2::geom_function(
       fun = Vectorize(x$posterior_function),
@@ -376,12 +382,14 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
       return(ggplot2::ggplot(data = df) +
         ggplot2::geom_point(ggplot2::aes(x = x, y = y)) +
         ggplot2::geom_line(ggplot2::aes(x = x, y = y)) +
-    ggplot2::scale_x_continuous(
-        c(min(get_max_range(model1), get_max_range(model2)),
-        max(get_max_range(model1), get_max_range(model2))),
-      breaks = integer_breaks()
-    ) +
-      ggplot2::geom_hline(yintercept = 1, linetype = 2) +
+        ggplot2::scale_x_continuous(
+          c(
+            min(get_max_range(model1), get_max_range(model2)),
+            max(get_max_range(model1), get_max_range(model2))
+          ),
+          breaks = integer_breaks()
+        ) +
+        ggplot2::geom_hline(yintercept = 1, linetype = 2) +
         ggplot2::scale_y_log10() +
         ggplot2::labs(
           x = "Outcome",
@@ -389,24 +397,24 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
         ))
     }
     if (model1@likelihood_obj@data$family != "binomial") {
-    return(ggplot2::ggplot() +
-      ggplot2::geom_function(fun = ratio_function, n = 101) +
-      ggplot2::xlim(c(
-        min(
-          get_max_range(model1),
-          get_max_range(model2)
-        ),
-        max(
-          get_max_range(model1),
-          get_max_range(model2)
-        )
-      )) +
-      ggplot2::geom_hline(yintercept = 1, linetype = 2) +
-      ggplot2::scale_y_log10() +
-      ggplot2::labs(
-        x = "Outcome",
-        y = paste0("Log 10 BF ", model_name1, " / ", model_name2)
-      ))
+      return(ggplot2::ggplot() +
+        ggplot2::geom_function(fun = ratio_function, n = 101) +
+        ggplot2::xlim(c(
+          min(
+            get_max_range(model1),
+            get_max_range(model2)
+          ),
+          max(
+            get_max_range(model1),
+            get_max_range(model2)
+          )
+        )) +
+        ggplot2::geom_hline(yintercept = 1, linetype = 2) +
+        ggplot2::scale_y_log10() +
+        ggplot2::labs(
+          x = "Outcome",
+          y = paste0("Log 10 BF ", model_name1, " / ", model_name2)
+        ))
     }
   }
 }
