@@ -151,7 +151,7 @@ setClass(
     default_range = "numeric"
   ),
   prototype = list(
-    family = "normal",
+    family = "point",
     fun = function(x, point, ...) {
       ifelse(x == point, 1, 0)
     },
@@ -168,7 +168,7 @@ setClass(
     default_range = "numeric"
   ),
   prototype = list(
-    family = "normal",
+    family = "uniform",
     fun = function(x, min, max, ...) {
       dunif(x = x, min = min, max = max)
     },
@@ -208,7 +208,7 @@ setClass(
   Class = "beta",
   list(family = "character", fun = "function", default_range = "numeric"),
   prototype = list(
-    family = "cauchy",
+    family = "beta",
     fun = function(x, alpha, beta) {
       dbeta(x = x, shape1 = alpha, shape2 = beta)
     },

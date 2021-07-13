@@ -94,6 +94,12 @@ test_that("Prior plots", {
   vdiffr::expect_doppelganger("normal posterior", posterior1)
   vdiffr::expect_doppelganger("normal weighted likelihood", prod_plot)
 
+  # # point posterior plot
+  # data_mod <- likelihood(family = "normal", mean = 0, sd = 1)
+  # h0_mod <- prior(family = "point", point = 0)
+  # point_posterior <- plot(extract_posterior(data_mod * h0_mod))
+  # vdiffr::expect_doppelganger("point_posterior")
+
 
   # prediction plot
   continuous_prediction <- extract_predictions(

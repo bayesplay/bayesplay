@@ -1,4 +1,4 @@
-context("Prior familys")
+context("Prior families")
 test_that("specifying priors", {
   tol <- 0.0000005
   half_norm <- prior(
