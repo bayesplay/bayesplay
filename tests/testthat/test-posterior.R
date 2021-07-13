@@ -1,4 +1,4 @@
-context("Posterior familys")
+context("Posterior families")
 test_that("posterior", {
 
   # skip("skip")

@@ -122,6 +122,6 @@ prior(family = "uniform", min = 0, max = 20)
 # specify a point prior
 prior(family = "point", point = 0)
 
-#specify a beta prior
+# specify a beta prior
 prior(family = "beta", alpha = 2.5, beta = 3.8)
 }

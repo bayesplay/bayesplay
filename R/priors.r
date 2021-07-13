@@ -1,4 +1,3 @@
-
 make_prior_data <- function(family, params, func) {
   list(
     family = get_family(family),
@@ -134,7 +133,7 @@ prior_data_names <- c("family", "parameters", "prior_function")
 #' # specify a point prior
 #' prior(family = "point", point = 0)
 #'
-#' #specify a beta prior
+#' # specify a beta prior
 #' prior(family = "beta", alpha = 2.5, beta = 3.8)
 prior <- function(family, ...) {
   if (!methods::existsMethod(signature = family, f = "make_prior")) {
@@ -268,7 +267,11 @@ make_prior.normal <- function(family, mean, sd, range = NULL) { # nolint
       labs = list(x = "\u03F4", y = "P(\u03F4)")
     ),
     parameters = list(mean = mean, sd = sd),
-    function_text = paste0("prior(\"normal\", mean = ", mean, ", sd =", sd, ")")
+    function_text = paste0(
+      "prior(\"normal\", mean = ",
+      mean, ", sd = ",
+      sd, ")"
+    )
   )
 }
 
@@ -334,7 +337,7 @@ make_prior.uniform <- function(family, min, max) {
     parameters = list(mean = mean, sd = sd),
     function_text = paste0(
       "prior(\"uniform\", min = ",
-      min, ", max =", max, ")"
+      min, ", max = ", max, ")"
     )
   )
 }
@@ -355,7 +358,13 @@ make_prior.student_t <- function(family, mean, sd, df, range = NULL) {
     range <- get_default_range(family)
   }
 
-  func <- truncate_normalise(family = family, range = range, mean = mean, sd = sd, df = df)
+  func <- truncate_normalise(
+    family = family,
+    range = range,
+    mean = mean,
+    sd = sd,
+    df = df
+  )
 
 
 
@@ -378,8 +387,12 @@ make_prior.student_t <- function(family, mean, sd, df, range = NULL) {
       range = get_plot_range(family)(params),
       labs = list(x = "\u03F4", y = "P(\u03F4)")
     ),
-    parameters = list(mean = mean, sd = sd),
-    function_text = paste0("prior(\"normal\", mean = ", mean, ", sd =", sd, ")")
+    parameters = list(mean = mean, sd = sd, df = df),
+    function_text = paste0(
+      "prior(\"student_t\", mean = ", mean,
+      ", sd = ", sd,
+      ", df = ", df, ")"
+    )
   )
 }
 
@@ -416,7 +429,7 @@ make_prior.cauchy <- function(family, location = 0, scale, range = NULL) {
     parameters = list(location = location, scale = scale),
     function_text = paste0(
       "prior(\"cauchy\", location = ",
-      location, ", scale =",
+      location, ", scale = ",
       scale, ")"
     )
   )
@@ -457,7 +470,7 @@ make_prior.beta <- function(family, alpha, beta, range = NULL) {
     parameters = list(alpha = alpha, beta = beta),
     function_text = paste0(
       "prior(\"beta\", alpha = ",
-      alpha, ", beta =", beta, ")"
+      alpha, ", beta = ", beta, ")"
     )
   )
 }
