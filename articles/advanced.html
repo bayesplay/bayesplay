@@ -287,16 +287,12 @@
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># predictions of model 1</span>
 <span class="va">model1_predictions</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model1_predictions</span><span class="op">)</span>
-<span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span>
-<span class="co">#&gt; use `guide = "none"` instead.</span></code></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model1_predictions</span><span class="op">)</span></code></pre></div>
 <p><img src="advanced_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># predictions of model 2</span>
 <span class="va">model2_predictions</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model2_predictions</span><span class="op">)</span>
-<span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span>
-<span class="co">#&gt; use `guide = "none"` instead.</span></code></pre></div>
+<span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model2_predictions</span><span class="op">)</span></code></pre></div>
 <p><img src="advanced_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <p>What we see in each of these plots is marginal probability of <em>each observation</em> for our given data model and prior. That is, we see the <em>predictions</em> in terms of <em>observations</em> for each model.</p>
 </div>
@@ -320,14 +316,10 @@
 <code class="sourceCode R"><span class="va">d_model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"cauchy"</span>, <span class="fl">0</span>, <span class="fl">.707</span><span class="op">)</span><span class="op">)</span>
 <span class="va">d_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model1</span><span class="op">)</span>
-<span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span>
-<span class="co">#&gt; use `guide = "none"` instead.</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model1</span><span class="op">)</span></code></pre></div>
 <p><img src="advanced_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model2</span><span class="op">)</span>
-<span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span>
-<span class="co">#&gt; use `guide = "none"` instead.</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model2</span><span class="op">)</span></code></pre></div>
 <p><img src="advanced_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/visual_compare.html">visual_compare</a></span><span class="op">(</span><span class="va">d_model1</span>, <span class="va">d_model2</span><span class="op">)</span></code></pre></div>
