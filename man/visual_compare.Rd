@@ -21,9 +21,9 @@ Visually compare two models
 }
 \examples{
 # define two models
-data_model <- likelihood(family = "noncentral_d", .8, 79)
+data_model <- likelihood(family = "normal", .5, 1)
 h0_mod <- prior(family = "point", point = 0)
-h1_mod <- prior(family = "normal", mean = 0, sd = 1)
+h1_mod <- prior(family = "normal", mean = 0, sd = 10)
 m0 <- extract_predictions(data_model * h0_mod)
 m1 <- extract_predictions(data_model * h1_mod)
 
