@@ -85,7 +85,7 @@ parameters may be set
 }
 
 \eqn{s_{\mathrm{pooled}}}{s_pooled} is set as below:
-\deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))} #nolint
+\deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))}
 }
 
 \subsection{binomial distribution}{
@@ -115,5 +115,5 @@ likelihood(family = "noncentral_d", d = 10, n = 10)
 likelihood(family = "noncentral_d2", d = 10, n1 = 10, n2 = 12)
 
 # specify a binomial likelihood
-likelihood(family = "binomial", successes = 2, trials = 10 )
+likelihood(family = "binomial", successes = 2, trials = 10)
 }
