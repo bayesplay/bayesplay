@@ -1,0 +1,15 @@
+# YAML 1.2
+---
+abstract: "A lightweight modelling syntax for defining likelihoods and priors and for computing Bayes factors for simple one parameter models. It includes functionality for computing and plotting priors, likelihoods, and model predictions. Additional functionality is included for computing and plotting posteriors."
+authors: 
+  -
+    family-names: Colling
+    given-names: "Lincoln J"
+    orcid: "https://orcid.org/0000-0002-3572-7758"
+cff-version: "1.1.0"
+date-released: 2022-07-15
+license: MIT
+message: "If you use this software, please cite it using these metadata."
+title: "bayesplay: The Bayes Factor Playground "
+version: "v0.9.1"
+...
