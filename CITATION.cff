@@ -7,7 +7,7 @@ authors:
     given-names: "Lincoln J"
     orcid: "https://orcid.org/0000-0002-3572-7758"
 cff-version: "1.1.0"
-date-released: 2022-07-15
+date-released: 2021-07-15
 license: MIT
 message: "If you use this software, please cite it using these metadata."
 title: "bayesplay: The Bayes Factor Playground "
