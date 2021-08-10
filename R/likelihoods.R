@@ -535,7 +535,7 @@ make_likelihood.noncentral_d2 <- function(family, d, n1, n2) { # nolint
     data = data,
     func = func,
     marginal = paste0(
-      "likelihood(family = \"noncentral_d2\", d = observation,  n1 = ",
+      "likelihood(family = \"noncentral_d2\", d = x,  n1 = ",
       n1, ", n2 = ", n2, ")"
     ),
     observation = params$d,

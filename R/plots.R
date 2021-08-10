@@ -130,7 +130,7 @@ handle_binomial_marginal <- function(x, n, model_name) {
       values = "black",
       name = NULL,
       labels = NULL,
-      guide = FALSE
+      guide = "none"
     ) +
     ggplot2::scale_x_continuous(
       limits = plot_range,
@@ -195,7 +195,7 @@ handle_other_marginal <- function(x, n, model_name) {
       values = "black",
       name = NULL,
       labels = NULL,
-      guide = FALSE,
+      guide = "none"
     ) +
     ggplot2::scale_x_continuous(
       limits = plot_range,
