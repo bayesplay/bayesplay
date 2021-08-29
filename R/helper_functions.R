@@ -184,10 +184,10 @@ bfsay <- function(bf) {
   ev_level <- get_ev_level(bf)
 
   ev_level_msg <- c(
-  paste0("Using the levels from Wagenmakers et al (2017)\n"),
-  paste0("A BF of ", round(bf_base, 4), " indicates:\n"),
-  paste0(ev_level))
-
+    paste0("Using the levels from Wagenmakers et al (2017)\n"),
+    paste0("A BF of ", round(bf_base, 4), " indicates:\n"),
+    paste0(ev_level)
+  )
 }
 
 #' Summarise a Bayes factor

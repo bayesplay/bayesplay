@@ -19,12 +19,21 @@ test_that("helper functions", {
   expect_equal(get_ev_level(100), "Very strong evidence")
   expect_equal(get_ev_level(100.1), "Extreme evidence")
 
-  expect_equal(bfsay(1), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 1 indicates:\n","No evidence"))
+  expect_equal(bfsay(1), c(
+    "Using the levels from Wagenmakers et al (2017)\n",
+    "A BF of 1 indicates:\n", "No evidence"
+  ))
 
-  expect_equal(bfsay(.5), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 0.5 indicates:\n","Anecdotal evidence"))
+  expect_equal(bfsay(0.5), c(
+    "Using the levels from Wagenmakers et al (2017)\n",
+    "A BF of 0.5 indicates:\n", "Anecdotal evidence"
+  ))
 
 
-  expect_equal(bfsay(1 / 100), c("Using the levels from Wagenmakers et al (2017)\n","A BF of 0.01 indicates:\n","Very strong evidence"))
+  expect_equal(bfsay(1 / 100), c(
+    "Using the levels from Wagenmakers et al (2017)\n",
+    "A BF of 0.01 indicates:\n", "Very strong evidence"
+  ))
 
   m1 <- integral(likelihood("noncentral_t", 2.8, 19) * prior("cauchy", 0, 1))
   m0 <- integral(likelihood("noncentral_t", 2.8, 19) * prior("point", 0))
@@ -50,5 +59,4 @@ test_that("helper functions", {
   expect_output(show(post), post@desc)
   expect_output(show(pred), pred@desc)
 
-  # test specific messages
 })
