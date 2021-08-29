@@ -113,10 +113,14 @@ test_that("Prior plots", {
   )
   discrete_prediction_plot <- plot(discrete_prediction)
 
-  vdiffr::expect_doppelganger("continuous prediction",
-                              continuous_prediction_plot)
-  vdiffr::expect_doppelganger("discrete prediction",
-                              discrete_prediction_plot)
+  vdiffr::expect_doppelganger(
+    "continuous prediction",
+    continuous_prediction_plot
+  )
+  vdiffr::expect_doppelganger(
+    "discrete prediction",
+    discrete_prediction_plot
+  )
 
   # cauchy-normal-d2 prediction plot
   data_model <- likelihood(family = "noncentral_d2", d = 0.5, n1 = 10, n2 = 10)
@@ -134,8 +138,8 @@ test_that("Prior plots", {
   m0_predictions <- extract_predictions(m0)
   cauchy_normal_plot <- visual_compare(m1_predictions, m0_predictions)
 
-  vdiffr::expect_doppelganger("cauchy-normal-d2 prediction",
-                              cauchy_normal_plot)
-
-
+  vdiffr::expect_doppelganger(
+    "cauchy-normal-d2 prediction",
+    cauchy_normal_plot
+  )
 })

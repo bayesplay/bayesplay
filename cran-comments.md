@@ -1,3 +1,7 @@
+## Update
+
+Minor bug-fix to `make_likelihood.noncentral_d2()`
+
 ## Resubmission 
 
 This is a resubmission. The following issues have be addressed
