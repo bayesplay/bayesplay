@@ -11,5 +11,5 @@ date-released: 2021-07-15
 license: MIT
 message: "If you use this software, please cite it using these metadata."
 title: "bayesplay: The Bayes Factor Playground "
-version: "v0.9.1"
+version: "v0.9.2"
 ...
