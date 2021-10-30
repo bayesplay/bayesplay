@@ -112,66 +112,78 @@ library(bayesplay)
 
 ### Example 1
 
-The first example from @dienesmclatchie2018 that we'll reproduce describes a study from @brandt2014. In the study by
-@brandt2014, they obtained a mean difference for 5.5 Watts (*t* statistic = 0.17, SE = `r round(5.5 / 0.17,2)`).
+The first example from @dienesmclatchie2018 that we'll reproduce describes a
+study from @brandt2014. In the study by @brandt2014, they obtained a mean
+difference for 5.5 Watts (*t* statistic = 0.17, SE = `r round(5.5 / 0.17,2)`).
 
-We can describe this observation using a normal likelihood using the `likelihood()` function. We first specify the
-`family`, and then the `mean` and `se` parameters.
+We can describe this observation using a normal likelihood using the
+`likelihood()` function. We first specify the `family`, and then the `mean` and
+`se` parameters.
 
 ```{r}
 data_mod <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
 ```
 
-Following this, @dienesmclatchie2018 describe the two models they intend to compare. First, the **null model** is
-described as a point prior centred at 0. We can specify this with the `prior()` function, setting `family` to
-`point` and setting `point` as 0 (the default value). 
+Following this, @dienesmclatchie2018 describe the two models they intend to
+compare. First, the **null model** is described as a point prior centred at 0.
+We can specify this with the `prior()` function, setting `family` to `point`
+and setting `point` as 0 (the default value). 
 
 ```{r}
 h0_mod <- prior(family = "point", point = 0)
 ```
 
-Next,  @dienesmclatchie2018 describe the alternative model. For this they use a *half-normal* distribution with a mean
-of 0 and a standard deviation of 13.3. This can again be specified using the `prior()` function setting `family`
-to `normal` and setting the `mean` and `sd` parameters as required. Additionally, because they specify a **half**-normal
-distribution,  an additional `range` value is needed to restrict the parameter range to 0 (the mean) to positive
+Next,  @dienesmclatchie2018 describe the alternative model. For this they use a
+*half-normal* distribution with a mean of 0 and a standard deviation of 13.3.
+This can again be specified using the `prior()` function setting `family` to
+`normal` and setting the `mean` and `sd` parameters as required. Additionally,
+because they specify a **half**-normal distribution,  an additional `range`
+value is needed to restrict the parameter range to 0 (the mean) to positive
 infinity. 
 
 ```{r}
 h1_mod <- prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
 ```
 
-With the three parts specified we can compute the Bayes factor. Following the equation above, the first step is to
-calculate $\mathcal{M}_H$ for each model. To do this, we multiply the likelihood by the prior and integrate.
+With the three parts specified we can compute the Bayes factor. Following the
+equation above, the first step is to calculate $\mathcal{M}_H$ for each model.
+To do this, we multiply the likelihood by the prior and integrate.
 
 ```{r}
 m1 <- integral(data_mod * h1_mod)
 m0 <- integral(data_mod * h0_mod)
 ```
 
-With $\mathcal{M}_{H_1}$ and $\mathcal{M}_{H_0}$ calculated, we now simply divide the two values to obtain the Bayes factor. 
+With $\mathcal{M}_{H_1}$ and $\mathcal{M}_{H_0}$ calculated, we now simply
+divide the two values to obtain the Bayes factor. 
 
 ```{r}
 bf <- m1 / m0
 bf
 ```
 
-This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by @dienesmclatchie2018.
+This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by
+@dienesmclatchie2018.
 
 ### Example 2 
 
-The second example, from @dienes2014, we'll reproduce relates to an experiment where a mean difference of 5% was observed with a standard error of 10%. We can describe this observation using a normal likelihood. 
+The second example, from @dienes2014, we'll reproduce relates to an experiment
+where a mean difference of 5% was observed with a standard error of 10%. We can
+describe this observation using a normal likelihood. 
 
 ```{r}
 data_mod <- likelihood(family = "normal", mean = 5, sd = 10)
 ```
 
-Next, we specify a prior which described the alternative hypothesis. In this case, @dienes2014 uses a uniform prior that ranges from 0 to 20. 
+Next, we specify a prior which described the alternative hypothesis. In this
+case, @dienes2014 uses a uniform prior that ranges from 0 to 20. 
 
 ```{r}
 h1_mod <- prior(family = "uniform", min = 0, max = 20)
 ```
 
-Following this, we specify a prior that describes the null hypothesis. Here, @dienes2014 again uses a point null centred at 0. 
+Following this, we specify a prior that describes the null hypothesis. Here,
+@dienes2014 again uses a point null centred at 0. 
 
 ```{r}
 h0_mod <- prior(family = "point", point = 0)
@@ -188,7 +200,17 @@ This gives a Bayes factor of ~`r round(bf,2)`, the same value reported by @diene
 
 ### Example 3
 
-In Example three we'll reproduce an example from @rouderbf. @rouderbf specify their models in terms of effect size units (*d*) rather than raw units as in the example above. In this example by @rouderbf, they report a finding of a *t* value of 2.24, with *n* of 80. To compute the Bayes factor, we first convert this *t* value to a standardized effect size *d*. This *t* value equates to a *d* of `r round(2.24 / sqrt(80),5)`. To model the data we use the `noncentral_d` likelihood function, which is a rescaled noncentral *t* distribution, with is parametrised in terms of *d* and *n*. We specify a null model using a point prior at 0, and we specify the alternative model using a Cauchy distribution centred at 0 (location parameter) with a scale parameter of 1. 
+In Example three we'll reproduce an example from @rouderbf. @rouderbf specify
+their models in terms of effect size units (*d*) rather than raw units as in
+the example above. In this example by @rouderbf, they report a finding of a *t*
+value of 2.03, with *n* of 80. To compute the Bayes factor, we first convert
+this *t* value to a standardized effect size *d*. This *t* value equates to a
+*d* of `r round(2.03 / sqrt(80),5)`. To model the data we use the
+`noncentral_d` likelihood function, which is a rescaled noncentral *t*
+distribution, with is parametrised in terms of *d* and *n*. We specify a null
+model using a point prior at 0, and we specify the alternative model using a
+Cauchy distribution centred at 0 (location parameter) with a scale parameter of
+1. 
 
 ```{r}
 d <- 2.03 / sqrt(80) # convert t to d
@@ -200,9 +222,12 @@ bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
 ```
 
-Performing the calculation as a above yields Bayes factor of ~`r round(bf,2)`, the same value reported by @rouderbf.
+Performing the calculation as a above yields Bayes factor of ~`r round(bf,2)`,
+the same value reported by @rouderbf.
 
-To demonstrate the sensitivity of Bayes factor to prior specification, @rouderbf recompute the Bayes factor for this example using a unit-information (a standard normal) prior for the alternative model. 
+To demonstrate the sensitivity of Bayes factor to prior specification,
+@rouderbf recompute the Bayes factor for this example using a unit-information
+(a standard normal) prior for the alternative model. 
 
 ```{r}
 d <- 2.03 / sqrt(80) # convert t to d
@@ -215,9 +240,18 @@ bf
 
 ```
 
-Similarly recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the same value reported @rouderbf.
+Similarly recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the
+same value reported @rouderbf.
 
-Although the Bayes factor outlined above is parametrised in terms of the effect size *d*, it's also possible to performed the calculation directly on the *t* statistic. To do this, however, we can't use the same Cauchy prior as above. Instead, the Cauchy prior needs to be rescaled according to the same size. This is because *t* values scale with sample size in a way that *d* values do not. That is, for a given *d* the corresponding *t* value will be different depending on the sample size. We can employ this alternative parametrisation in the `Bayesplay` package by using the `noncentral_t` likelihood distribution. The scale value for the Cauchy prior is now just multiplied by $\sqrt{n}$
+Although the Bayes factor outlined above is parametrised in terms of the effect
+size *d*, it's also possible to performed the calculation directly on the *t*
+statistic. To do this, however, we can't use the same Cauchy prior as above.
+Instead, the Cauchy prior needs to be rescaled according to the same size. This
+is because *t* values scale with sample size in a way that *d* values do not.
+That is, for a given *d* the corresponding *t* value will be different
+depending on the sample size. We can employ this alternative parametrisation in
+the `Bayesplay` package by using the `noncentral_t` likelihood distribution.
+The scale value for the Cauchy prior is now just multiplied by $\sqrt{n}$
 
 ```{r}
 data_model <- likelihood(family = "noncentral_t", 2.03, 79)
@@ -228,6 +262,7 @@ bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
 ```
 
-Recomputing our Bayes factor now yields a value of ~`r round(bf,2)`, the same value reported @rouderbf, and the same value reported above. 
+Recomputing our Bayes factor now yields a value of ~`r round(bf,2)`, the same
+value reported @rouderbf, and the same value reported above. 
 
 ## References
