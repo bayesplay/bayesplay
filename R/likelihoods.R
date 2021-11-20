@@ -202,7 +202,6 @@ likelihood <- function(family, ...) {
   make_likelihood(family = new(family), ...)
 }
 
-likelihood_labs <- list(x = "theta", y = "Pr(Outcome)")
 
 
 
