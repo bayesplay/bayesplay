@@ -157,19 +157,22 @@
     <p>A <code>ggplot2</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define two models</span>
-<span class='va'>data_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='likelihood.html'>likelihood</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, <span class='fl'>.5</span>, <span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>h0_mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"point"</span>, point <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
-<span class='va'>h1_mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>m0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_predictions.html'>extract_predictions</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>h0_mod</span><span class='op'>)</span>
-<span class='va'>m1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_predictions.html'>extract_predictions</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>h1_mod</span><span class='op'>)</span>
-
-<span class='co'># visually compare the model</span>
-<span class='fu'>visual_compare</span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>m1</span><span class='op'>)</span>
-</div><div class='img'><img src='visual_compare-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># plot the ratio of the two model predictions</span>
-<span class='fu'>visual_compare</span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>m1</span>, ratio <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Computation failed in `stat_function()`:</span>
-#&gt; <span class='warning'>the integral is probably divergent</span></div><div class='img'><img src='visual_compare-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># define two models</span></span>
+<span class='r-in'><span class='va'>data_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='likelihood.html'>likelihood</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, <span class='fl'>.5</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>h0_mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"point"</span>, point <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>h1_mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>m0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_predictions.html'>extract_predictions</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>h0_mod</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>m1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_predictions.html'>extract_predictions</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>h1_mod</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># visually compare the model</span></span>
+<span class='r-in'><span class='fu'>visual_compare</span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>m1</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='visual_compare-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># plot the ratio of the two model predictions</span></span>
+<span class='r-in'><span class='fu'>visual_compare</span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>m1</span>, ratio <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Computation failed in `stat_function()`:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> the integral is probably divergent</span>
+<span class='r-plt img'><img src='visual_compare-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

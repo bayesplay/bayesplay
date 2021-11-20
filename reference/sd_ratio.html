@@ -155,17 +155,18 @@ at a specified point</p>
     <p>A numeric of the Savage-Dickey density ratio</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># define a likelihood</span>
-<span class='va'>data_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='likelihood.html'>likelihood</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>5.5</span>, sd <span class='op'>=</span> <span class='fl'>32.35</span><span class='op'>)</span>
-
-<span class='co'># define a prior</span>
-<span class='va'>prior_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>5.5</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span><span class='op'>)</span>
-
-<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_posterior.html'>extract_posterior</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>prior_model</span><span class='op'>)</span>
-
-<span class='co'># compute the Savage-Dickey density ratio at 0</span>
-<span class='fu'>sd_ratio</span><span class='op'>(</span><span class='va'>model</span>, <span class='fl'>0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 0.9383493 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># define a likelihood</span></span>
+<span class='r-in'><span class='va'>data_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='likelihood.html'>likelihood</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>5.5</span>, sd <span class='op'>=</span> <span class='fl'>32.35</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># define a prior</span></span>
+<span class='r-in'><span class='va'>prior_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='prior.html'>prior</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"normal"</span>, mean <span class='op'>=</span> <span class='fl'>5.5</span>, sd <span class='op'>=</span> <span class='fl'>13.3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='extract_posterior.html'>extract_posterior</a></span><span class='op'>(</span><span class='va'>data_model</span> <span class='op'>*</span> <span class='va'>prior_model</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># compute the Savage-Dickey density ratio at 0</span></span>
+<span class='r-in'><span class='fu'>sd_ratio</span><span class='op'>(</span><span class='va'>model</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.9383493 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
