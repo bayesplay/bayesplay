@@ -313,6 +313,55 @@ plot_posterior <- function(x, n) {
 }
 
 plot_pp <- function(x, n) {
+  if (x@prior_obj@dist_type == "point") {
+    theta <- unique(x@prior_obj@theta_range)
+    return(
+      ggplot2::ggplot() +
+        ggplot2::geom_point(ggplot2::aes(
+          x = theta,
+          y = x@prior_obj$prior_function(0),
+          color = "prior"
+        ),
+        size = 3, shape = 16
+        ) +
+        ggplot2::geom_linerange(ggplot2::aes(
+          x = unique(x@prior_obj@theta_range),
+          y = NULL,
+          ymax = x@prior_obj$prior_function(0),
+          ymin = 0,
+          color = "prior"
+        )) +
+        ggplot2::geom_point(ggplot2::aes(
+          x = theta,
+          y = x@prior_obj$prior_function(0),
+          color = "posterior"
+        ),
+        size = 3, shape = 16
+        ) +
+        ggplot2::geom_linerange(ggplot2::aes(
+          x = unique(x@prior_obj@theta_range),
+          y = NULL,
+          ymax = x$posterior_function(0),
+          ymin = 0,
+          color = "posterior"
+        )) +
+        ggplot2::xlim(x@prior_obj@plot$range) +
+        ggplot2::labs(x = posterior_labs$x, y = posterior_labs$y) +
+        ggplot2::scale_colour_manual(
+          values = c("blue", "red"),
+          labels = c("posterior", "prior"),
+          name = NULL
+        ) +
+        # ggplot2::scale_linetype_manual(
+        #   values = c(1, 1),
+        #   labels = c("posterior", "prior"),
+        #   name = NULL
+        # ) +
+        # ggplot2::expand_limits(y = 0) +
+        NULL
+    )
+  }
+
   ggplot2::ggplot() +
     ggplot2::geom_function(
       fun = Vectorize(x$posterior_function),
@@ -334,9 +383,7 @@ plot_pp <- function(x, n) {
       labels = c("posterior", "prior"),
       name = NULL
     ) +
-    # ggplot2::labs(colours = c("posterior", "prior")) +
     ggplot2::expand_limits(y = 0) +
-    # ggplot2::theme_minimal(base_size = 16) +
     NULL
 }
 
