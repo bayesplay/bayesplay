@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">bayesplay</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -84,36 +80,36 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="bayesplay-the-bayesian-playground" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#bayesplay-the-bayesian-playground" class="anchor"></a>bayesplay: The Bayesian playground</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="bayesplay-the-bayesian-playground">bayesplay: The Bayesian playground<a class="anchor" aria-label="anchor" href="#bayesplay-the-bayesian-playground"></a>
+</h1></div>
 <!-- badges: start -->
 
 <!-- badges: end -->
 <p>The goal of bayesplay is to provide an interface for calculating Bayes factors for simple models. It does this in a way that makes the calculations more <em>transparent</em> and it is therefore useful as a teaching tools.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>bayesplay is now on CRAN. You can install it with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">"bayesplay"</span>)</span></code></pre></div>
-<p>Or if you want to live on the edge, you can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>Or if you want to live on the edge, you can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages("devtools")</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"bayesplay/bayesplay"</span>)</span></code></pre></div>
 </div>
-<div id="basic-usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
+<div class="section level2">
+<h2 id="basic-usage">Basic usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
+</h2>
 <p>The <code>bayesplay</code> package comes with three basic functions for computing Bayes factors.</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><p>The <code><a href="reference/likelihood.html">likelihood()</a></code> function for specifying likelihoods</p></li>
 <li><p>The <code><a href="reference/prior.html">prior()</a></code> function for specifying priors</p></li>
 <li><p>And the <code><a href="reference/integral.html">integral()</a></code> function</p></li>
 </ol>
 <p>Currently the following distributions are supported for likelihoods and priors</p>
-<div id="priors" class="section level3">
-<h3 class="hasAnchor">
-<a href="#priors" class="anchor"></a>Priors</h3>
-<ol>
+<div class="section level3">
+<h3 id="priors">Priors<a class="anchor" aria-label="anchor" href="#priors"></a>
+</h3>
+<ol style="list-style-type: decimal">
 <li><p>Normal distribution (<code>normal</code>)</p></li>
 <li><p>Uniform distribution (<code>uniform</code>)</p></li>
 <li><p>Scaled and shifted <em>t</em> distribution (<code>student_t</code>)</p></li>
@@ -121,10 +117,10 @@
 <li><p>Beta distribution (<code>beta</code>)</p></li>
 </ol>
 </div>
-<div id="likelihood" class="section level3">
-<h3 class="hasAnchor">
-<a href="#likelihood" class="anchor"></a>Likelihood</h3>
-<ol>
+<div class="section level3">
+<h3 id="likelihood">Likelihood<a class="anchor" aria-label="anchor" href="#likelihood"></a>
+</h3>
+<ol style="list-style-type: decimal">
 <li><p>Normal distribution (<code>normal</code>)</p></li>
 <li><p>Scaled and shifted <em>t</em> distribution (<code>student_t</code>)</p></li>
 <li><p>Binomial distribution (<code>binomial</code>)</p></li>
@@ -139,14 +135,14 @@
 </ol>
 </div>
 </div>
-<div id="worked-examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#worked-examples" class="anchor"></a>Worked examples</h2>
-<p>For worked examples of the basic usage see <a href="https://bayesplay.github.io/bayesplay/articles/basic.html">basic usage</a>. Or for basic plot functionality see <a href="https://bayesplay.github.io/bayesplay/articles/plots.html">basic plotting</a></p>
+<div class="section level2">
+<h2 id="worked-examples">Worked examples<a class="anchor" aria-label="anchor" href="#worked-examples"></a>
+</h2>
+<p>For worked examples of the basic usage see <a href="https://bayesplay.github.io/bayesplay/articles/basic.html" class="external-link">basic usage</a>. Or for basic plot functionality see <a href="https://bayesplay.github.io/bayesplay/articles/plots.html" class="external-link">basic plotting</a></p>
 </div>
-<div id="changelog" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changelog" class="anchor"></a>Changelog</h2>
+<div class="section level2">
+<h2 id="changelog">Changelog<a class="anchor" aria-label="anchor" href="#changelog"></a>
+</h2>
 <blockquote>
 <p>Breaking changes for &lt; v0.9.0</p>
 <p><code>distribution</code> parameter for specifying likelihoods and priors has been renamed <code>family</code></p>
@@ -158,44 +154,55 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=bayesplay">https://​cloud.r-project.org/​package=bayesplay</a>
-</li>
-<li>Browse source code at at <br><a href="https://github.com/bayesplay/bayesplay">https://​github.com/​bayesplay/​bayesplay</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Lincoln J Colling <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3572-7758" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://cloud.r-project.org/package=bayesplay" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/bayesplay/bayesplay" class="external-link">Browse source code at</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://codecov.io/gh/bayesplay/bayesplay"><img src="https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd" alt="codecov"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing bayesplay</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Lincoln J Colling <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3572-7758" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://codecov.io/gh/bayesplay/bayesplay" class="external-link"><img src="https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd" alt="codecov"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Lincoln J Colling.</p>
+  <p></p>
+<p>Developed by Lincoln J Colling.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -203,6 +210,8 @@
 
   
 
+
+  
 
   </body>
 </html>

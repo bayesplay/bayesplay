@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   advanced: advanced.html
   basic: basic.html
   default_ttests: default_ttests.html
   plots: plots.html
-last_built: 2021-11-20T19:51Z
+last_built: 2021-12-24T18:24Z
 
