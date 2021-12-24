@@ -41,6 +41,11 @@ test_that("Prior plots", {
   vdiffr::expect_doppelganger("discrete visual compare", comparison_plot1)
 
 
+  comparison_plot1a <- visual_compare(m0, m1, ratio = TRUE)
+  vdiffr::expect_doppelganger("discrete visual compare", comparison_plot1)
+
+
+
   # visual comparison continuous
   prior_model <- prior(family = "normal", 0, 13.13)
   data_model <- likelihood(family = "normal", 5.5, 32.35)
@@ -98,8 +103,10 @@ test_that("Prior plots", {
   data_mod <- likelihood(family = "normal", mean = 0, sd = 1)
   h0_mod <- prior(family = "point", point = 0)
   point_posterior <- plot(extract_posterior(data_mod * h0_mod))
+  point_posteriora <- plot(extract_posterior(data_mod * h0_mod), add_prior = TRUE)
   vdiffr::expect_doppelganger("point_posterior", point_posterior)
 
+  vdiffr::expect_doppelganger("point_posterior_prior", point_posteriora)
 
   # prediction plot
   continuous_prediction <- extract_predictions(
@@ -143,3 +150,5 @@ test_that("Prior plots", {
     cauchy_normal_plot
   )
 })
+
+
