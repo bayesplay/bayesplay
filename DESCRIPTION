@@ -16,12 +16,17 @@ Suggests:
     rmarkdown,
     markdown,
     vdiffr,
-    ggplot2
+    ggplot2,
+    furrr,
+    future
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     methods,
-    gginnards
+    gginnards,
+    purrr,
+    tibble,
+    dplyr
 Authors@R: 
     person(given = c("Lincoln", "J"), 
             family = "Colling",
