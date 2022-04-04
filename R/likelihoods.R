@@ -26,6 +26,10 @@ make_likelihood_data <- function(family, params, func) {
 
 
 
+pt_scaled <- function(q, df, mean = 0, sd = 1, ncp = 0, lower.tail = TRUE) {
+  stats::pt((q - mean) / sd, df, ncp = ncp, log.p = FALSE)
+}
+
 dt_scaled <- function(x, df, mean = 0, sd = 1, ncp = 0) {
   stats::dt((x - mean) / sd, df, ncp = ncp, log = FALSE) / sd
 }

@@ -204,8 +204,33 @@ setMethod(
   }
 )
 
-truncate_normalise <- function(family, range, ...) {
-  unnormalised <- function(x) get_function(family)(x = x, ...) # nolint
+
+range_area_normal <- function(mean, sd, ll, ul) {
+  (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+}
+
+range_area_student <- function(mean, sd, df, ll, ul) {
+  (1 - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1 - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+}
+
+range_area_cauchy <- function(location, scale, ll, ul) {
+  (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
+    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
+}
+
+
+range_area_beta <- function(alpha, beta, ll, ul) {
+  (1 - pbeta(shape1 = alpha, shape2 = beta, ll, lower.tail = TRUE)) -
+    (1 - pbeta(shape1 = alpha, shape2 = beta, ul, lower.tail = TRUE))
+}
+
+truncate_normalise_normal <- function(family, range, mean, sd) { # nolint
+  unnormalised <- function(x) get_function(family)(x = x, mean, sd) # nolint
+
+  ll <- min(range)
+  ul <- max(range)
 
   truncated_function <- function(x) {
     ifelse(in_range(x, range),
@@ -214,15 +239,103 @@ truncate_normalise <- function(family, range, ...) {
     )
   }
 
-  constant <- 1 / integrate(
-    Vectorize(truncated_function),
-    range[1],
-    range[2]
-  )$value
+  k <- range_area_normal(mean, sd, ll, ul)
+  if(k != 0) {
+    constant <- 1 / k
+  } else {
+    warning("Could not normalise the truncated prior. Adjust the mean or the limits.")
+    constant <- 0
+  }
+    
 
   normalised <- function(x) truncated_function(x) * constant
   return(normalised)
 }
+
+truncate_normalise_student_t <- function(family, range, mean, sd, df) { # nolint
+  unnormalised <- function(x) get_function(family)(x = x, mean, sd, df) # nolint
+
+  ll <- min(range)
+  ul <- max(range)
+
+  truncated_function <- function(x) {
+    ifelse(in_range(x, range),
+      unnormalised(x),
+      0
+    )
+  }
+
+  k <- range_area_student(mean, sd, df, ll, ul)
+  if(k != 0) {
+    constant <- 1 / k
+  } else {
+    warning("Could not normalise the truncated prior. Adjust the mean or the limits.")
+    constant <- 0
+  }
+    
+
+  normalised <- function(x) truncated_function(x) * constant
+  return(normalised)
+}
+
+truncate_normalise_cauchy <- function(family, range, location, scale, ...) { #nolint
+  unnormalised <- function(x) get_function(family)(x = x, location, scale) # nolint
+  ll <- min(range)
+  ul <- max(range)
+
+  truncated_function <- function(x) {
+    ifelse(in_range(x, range),
+      unnormalised(x),
+      0
+    )
+  }
+
+  k <- range_area_cauchy(location, scale, ll, ul)
+  if(k != 0) {
+    constant <- 1 / k
+  } else {
+    warning("Could not normalise the truncated prior. Adjust the location or the limits.")
+    constant <- 0
+  }
+    
+
+  normalised <- function(x) truncated_function(x) * constant
+  return(normalised)
+}
+
+
+truncate_normalise_beta <- function(family = family, range = range, beta = beta, alpha = alpha) {
+  stop("Error")
+}
+
+
+truncate_normalise_beta <- function(family, range, alpha, beta, ...) { #nolint
+  unnormalised <- function(x) get_function(family)(x = x, alpha, beta) # nolint
+  ll <- min(range)
+  ul <- max(range)
+
+  truncated_function <- function(x) {
+    ifelse(in_range(x, range),
+      unnormalised(x),
+      0
+    )
+  }
+
+  k <- range_area_beta(alpha, beta, ll, ul)
+  if(k != 0) {
+    constant <- 1 / k
+  } else {
+    warning("Could not normalise the truncated prior. Adjust the limits.")
+    constant <- 0
+  }
+    
+
+  normalised <- function(x) truncated_function(x) * constant
+  return(normalised)
+}
+
+
+
 
 
 #' @method prior normal
@@ -244,7 +357,7 @@ make_prior.normal <- function(family, mean, sd, range = NULL) { # nolint
 
   params <- list(mean = mean, sd = sd, range = range)
 
-  func <- truncate_normalise(
+  func <- truncate_normalise_normal(
     family = family,
     range = range,
     mean = mean,
@@ -358,7 +471,7 @@ make_prior.student_t <- function(family, mean, sd, df, range = NULL) {
     range <- get_default_range(family)
   }
 
-  func <- truncate_normalise(
+  func <- truncate_normalise_student_t(
     family = family,
     range = range,
     mean = mean,
@@ -404,7 +517,11 @@ make_prior.cauchy <- function(family, location = 0, scale, range = NULL) {
     range <- get_default_range(family)
   }
 
-  func <- truncate_normalise(family = family, range = range, location = location, scale = scale)
+  func <- truncate_normalise_cauchy(
+    family = family, 
+    range = range, 
+    location = location, 
+    scale = scale)
 
 
   params <- list(location = location, scale = scale, range = range)
@@ -448,7 +565,7 @@ make_prior.beta <- function(family, alpha, beta, range = NULL) {
   }
 
 
-  func <- truncate_normalise(family = family, range = range, beta = beta, alpha = alpha)
+  func <- truncate_normalise_beta(family = family, range = range, beta = beta, alpha = alpha)
   params <- list(alpha = alpha, beta = beta, range = range)
 
   desc <- describe_prior(family, params)
