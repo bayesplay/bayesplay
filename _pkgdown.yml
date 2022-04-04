@@ -14,3 +14,8 @@ reference:
   - starts_with("sd_ratio")
   - starts_with("plot")
   - starts_with("visual_compare")
+  - "summary,bf-method"
+- title: internal 
+- contents:
+  - "names,bayesplay-method"
+  - "$,bayesplay-method"
