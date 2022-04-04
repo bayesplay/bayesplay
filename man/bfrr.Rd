@@ -10,8 +10,8 @@ bfrr(
   nullprior,
   parameters,
   precision,
-  cutoff,
-  multicore
+  cutoff = 3,
+  multicore = FALSE
 )
 }
 \arguments{

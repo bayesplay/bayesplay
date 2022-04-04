@@ -31,7 +31,8 @@ test_that("specifying priors", {
 
   testthat::expect_equal(half_t@func(0),
     dt(0, df = 10) * 2,
-    tolerance = tol, scale = 1,
+    tolerance = 0.0000005,
+    scale = 1,
     label = "half t (1)"
   )
 

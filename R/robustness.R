@@ -1,4 +1,3 @@
-
 #' Title
 #'
 #' @param data_model
@@ -14,8 +13,12 @@
 #'
 #' @examples
 bfrr <- function(data_model,
-               alternativeprior,
-               nullprior, parameters, precision, cutoff = 3, multicore = FALSE) {
+                 alternativeprior,
+                 nullprior,
+                 parameters,
+                 precision,
+                 cutoff = 3,
+                 multicore = FALSE) {
   if (multicore == TRUE) {
     future::plan("multicore")
     message("Running multicore")
@@ -46,7 +49,7 @@ bfrr <- function(data_model,
 
   if (multicore == FALSE) {
     prior_list <- purrr::map_df(values_list, function(x) {
-      x <- x |> dplyr::select(-index) #nolint
+      x <- x |> dplyr::select(-index) # nolint
       base_params <- alternativeprior$parameters
       base_defined <- names(alternativeprior$parameters)
       instance_defined <- names(x)
@@ -57,10 +60,9 @@ bfrr <- function(data_model,
 
       instance_prior <- do.call("prior", params)
 
-      tryCatch(
-          {bf <- bayesplay::integral(data_model * instance_prior) /
-        bayesplay::integral(data_model * nullprior)},
-      error = function(e) {print(instance_prior); stop()})
+      bf <- bayesplay::integral(data_model * instance_prior) /
+        bayesplay::integral(data_model * nullprior)
+
 
       purrr::map(
         c(list(bf = bf), params),
@@ -70,7 +72,7 @@ bfrr <- function(data_model,
     })
   } else {
     prior_list <- furrr::future_map_dfr(values_list, function(x) {
-      x <- x |> dplyr::select(-index) #nolint
+      x <- x |> dplyr::select(-index) # nolint
       base_params <- alternativeprior$parameters
       base_defined <- names(alternativeprior$parameters)
       instance_defined <- names(x)
@@ -101,4 +103,3 @@ bfrr <- function(data_model,
       )
     )
 }
-
