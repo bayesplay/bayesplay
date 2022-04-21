@@ -240,7 +240,7 @@ truncate_normalise_normal <- function(family, range, mean, sd) { # nolint
   }
 
   k <- range_area_normal(mean, sd, ll, ul)
-  if(k != 0) {
+  if (k != 0) {
     constant <- 1 / k
   } else {
     warning("Could not normalise the truncated prior. Adjust the mean or the limits.")

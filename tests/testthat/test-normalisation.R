@@ -21,16 +21,6 @@ test_that("Normalising warnings", {
     ), "mean"
   )
 
-
-
-  testthat::expect_warning(
-    prior(
-      family = "cauchy",
-      location = 0,
-      scale = 0.000000000000000000000000000000001,
-      range = c(100000000000000000000, Inf)
-    ), "location"
-  )
 })
 
 test_that("Results with normalising errors", {
