@@ -263,12 +263,13 @@ test_that("basic BF calculations", {
   t <- 4.46
   df <- 50
   n <- df + 1
-  rscale <- 1 
+  rscale <- 1
   d <- t / sqrt(n)
   data_model <- likelihood("noncentral_t", t, df)
   alt_prior <- prior("cauchy", 0, rscale * sqrt(n))
   b1 <- sd_ratio(data_model * alt_prior, 0)
-  b2 <- BayesFactor::ttest.tstat(t, n, simple = TRUE, rscale = rscale)
+  # BayesFactor::ttest.tstat(t, n, simple = TRUE, rscale = rscale)
+  b2 <- 410.7568
   testthat::expect_equal(unclass(b1),
     unclass(unname(b2)),
     label = "anomalous t test v1 (as t)",
@@ -283,24 +284,19 @@ test_that("basic BF calculations", {
   data_model <- likelihood("noncentral_d", d, n)
   alt_prior <- prior("cauchy", 0, .707)
   b1 <- sd_ratio(data_model * alt_prior, 0)
-  b2 <- BayesFactor::ttest.tstat(t, n, simple = TRUE, rscale = .707)
+  b2 <- 460.2497 # BayesFactor::ttest.tstat(t, n, simple = TRUE, rscale = .707)
   testthat::expect_equal(unclass(b1),
     unclass(unname(b2)),
-    label = "anomalous t test v2 (as d)",
+    label = "previously anomalous t test v2 (as d)",
     tolerance = tol, scale = 1
   )
-  # data_model <- likelihood(family = "noncentral_t", t = 4.45, df = 50)
-  # alt_prior <- prior(family = "cauchy", kkk)
 
   data_model <- likelihood("noncentral_t", t, df)
   alt_prior <- prior("cauchy", 0, 0.707 * sqrt(n))
   b1 <- sd_ratio(data_model * alt_prior, 0)
   testthat::expect_equal(unclass(b1),
     unclass(unname(b2)),
-    label = "anomalous t test v2 (as t)",
+    label = "previously anomalous t test v2 (as t)",
     tolerance = tol, scale = 1
   )
-
-
-
 })
