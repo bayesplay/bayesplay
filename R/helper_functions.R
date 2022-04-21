@@ -45,7 +45,8 @@ in_range <- function(x, range) {
     marginal_likelihood <- suppressWarnings(stats::integrate(
       Vectorize(product_function),
       theta_range[1],
-      theta_range[2]
+      theta_range[2],
+      abs.tol = 1e-09
     )$value)
   }
 

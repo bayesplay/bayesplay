@@ -217,7 +217,8 @@ truncate_normalise <- function(family, range, ...) {
   constant <- 1 / integrate(
     Vectorize(truncated_function),
     range[1],
-    range[2]
+    range[2], 
+    abs.tol = 1e-09
   )$value
 
   normalised <- function(x) truncated_function(x) * constant
