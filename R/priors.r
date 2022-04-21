@@ -240,7 +240,7 @@ truncate_normalise_normal <- function(family, range, mean, sd) { # nolint
   }
 
   k <- range_area_normal(mean, sd, ll, ul)
-  if(k != 0) {
+  if (k != 0) {
     constant <- 1 / k
   } else {
     warning("Could not normalise the truncated prior. Adjust the mean or the limits.")
@@ -290,14 +290,14 @@ truncate_normalise_cauchy <- function(family, range, location, scale, ...) { #no
     )
   }
 
-  k <- range_area_cauchy(location, scale, ll, ul)
-  if(k != 0) {
-    constant <- 1 / k
-  } else {
-    warning("Could not normalise the truncated prior. Adjust the location or the limits.")
-    constant <- 0
-  }
-    
+
+  constant <- 1 / integrate(
+    Vectorize(truncated_function),
+    range[1],
+    range[2], 
+    abs.tol = 1e-09
+  )$value
+
 
   normalised <- function(x) truncated_function(x) * constant
   return(normalised)
