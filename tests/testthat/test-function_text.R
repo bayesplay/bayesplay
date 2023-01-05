@@ -1,11 +1,11 @@
 context("Function text attribute")
 test_that("function_text slot for prior", {
-  p0_mod <- prior(family = "normal", mean = 0, sd = 1)
-  p1_mod <- prior(family = "student_t", mean = 0, sd = 1, df = 10)
-  p2_mod <- prior(family = "cauchy", location = 0, scale = 1)
-  p3_mod <- prior(family = "beta", alpha = 1, beta = 1)
-  p4_mod <- prior(family = "uniform", min = 0, max = 1)
-  p5_mod <- prior(family = "point", point = 0)
+  p0_mod <- prior(family = "normal", mean = 0L, sd = 1L)
+  p1_mod <- prior(family = "student_t", mean = 0L, sd = 1L, df = 10L)
+  p2_mod <- prior(family = "cauchy", location = 0L, scale = 1L)
+  p3_mod <- prior(family = "beta", alpha = 1L, beta = 1L)
+  p4_mod <- prior(family = "uniform", min = 0L, max = 1L)
+  p5_mod <- prior(family = "point", point = 0L)
 
 
   testthat::expect_identical(

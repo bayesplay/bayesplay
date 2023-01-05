@@ -1,35 +1,35 @@
 context("Normalising priors")
 test_that("Normalising warnings", {
-  require(bayesplay)
-  testthat::expect_warning(
+
+  expect_warning(
     prior(
       family = "normal",
-      mean = -2,
+      mean = -2L,
       sd = 0.05,
-      range = c(0, Inf)
+      range = c(0L, Inf)
     ), "mean"
   )
 
 
-  testthat::expect_warning(
+  expect_warning(
     prior(
       family = "student_t",
-      mean = -100,
+      mean = -100L,
       sd = 0.05,
-      df = 100,
-      range = c(1000, Inf)
+      df = 100L,
+      range = c(1000L, Inf)
     ), "mean"
   )
 
-})
-
-test_that("Results with normalising errors", {
+# })
+#
+# test_that("Results with normalising errors", {
   suppressWarnings({
     shifted_half_norm <- prior(
       family = "normal",
-      mean = -2,
+      mean = -2L,
       sd = 0.05,
-      range = c(0, Inf)
+      range = c(0L, Inf)
     )
   })
 
@@ -39,21 +39,22 @@ test_that("Results with normalising errors", {
     sd = 0.1225285
   )
 
-  null_prior <- prior("point", 0)
+  null_prior <- prior("point", 0L)
   bf <- integral(data_model * shifted_half_norm) /
     integral(data_model * null_prior)
-  testthat::expect_equal(unclass(bf), 0)
+  expect_equal(unclass(bf), 0L, tolerance = 0L)
 
 
   suppressWarnings({
     shifted_half_t <- prior(
       family = "student_t",
-      mean = -10,
+      mean = -10L,
       sd = 0.05,
-      df = 100,
-      range = c(1000, Inf)
+      df = 100L,
+      range = c(1000L, Inf)
     )
   })
+
   data_model <- likelihood(
     family = "normal",
     mean = -0.09129544,
@@ -61,18 +62,17 @@ test_that("Results with normalising errors", {
   )
 
 
-  null_prior <- prior("point", 0)
+  null_prior <- prior("point", 0L)
   bf <- integral(data_model * shifted_half_norm) /
     integral(data_model * null_prior)
-  testthat::expect_equal(unclass(bf), 0)
-})
-
-test_that("Normalisation method", {
-  require(bayesplay)
-  mean <- 1
-  sd <- 10
-  ll <- -2
-  ul <- 2
+  expect_equal(unclass(bf), 0L, tolerance = 0L)
+# })
+#
+# test_that("Normalisation method", {
+  mean <- 1L
+  sd <- 10L
+  ll <- -2L
+  ul <- 2L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
@@ -82,18 +82,18 @@ test_that("Normalisation method", {
     sd = sd
   )@func
   f <- \(x) dnorm(x = x, mean = mean, sd = sd)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
-    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_normal(mean, sd, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1L - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_normal(mean, sd, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
 
-  mean <- 0
-  sd <- 10
-  ll <- 0
+  mean <- 0L
+  sd <- 10L
+  ll <- 0L
   ul <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
@@ -103,20 +103,22 @@ test_that("Normalisation method", {
     mean = mean,
     sd = sd
   )@func
+
   f <- \(x) dnorm(x = x, mean = mean, sd = sd)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
-    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_normal(mean, sd, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1L - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-9)
+
+  k3 <- range_area_normal(mean, sd, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-9)
 
 
 
-  mean <- 1
-  sd <- 10
-  ll <- 2
-  ul <- 3
+  mean <- 1L
+  sd <- 10L
+  ll <- 2L
+  ul <- 3L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
@@ -126,18 +128,19 @@ test_that("Normalisation method", {
     sd = sd
   )@func
   f <- \(x) dnorm(x = x, mean = mean, sd = sd)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
-    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_normal(mean, sd, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1L - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+
+  k3 <- range_area_normal(mean, sd, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  mean <- 1
-  sd <- 10
-  ul <- -3
-  ll <- -2
+  mean <- 1L
+  sd <- 10L
+  ul <- -3L
+  ll <- -2L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
@@ -147,17 +150,18 @@ test_that("Normalisation method", {
     sd = sd
   )@func
   f <- \(x) dnorm(x = x, mean = mean, sd = sd)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
-    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_normal(mean, sd, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1L - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+
+  k3 <- range_area_normal(mean, sd, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  mean <- 1
-  sd <- 10
-  ul <- -3
+  mean <- 1L
+  sd <- 10L
+  ul <- -3L
   ll <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
@@ -168,182 +172,184 @@ test_that("Normalisation method", {
     sd = sd
   )@func
   f <- \(x) dnorm(x = x, mean = mean, sd = sd)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
-    (1 - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_normal(mean, sd, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pnorm(mean = mean, sd = sd, ll, lower.tail = TRUE)) -
+    (1L - pnorm(mean = mean, sd = sd, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_normal(mean, sd, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
   ## Student t
 
-  mean <- 1
-  sd <- 10
-  ll <- -2
-  ul <- 2
-  df <- 49
+  mean <- 1L
+  sd <- 10L
+  ll <- -2L
+  ul <- 2L
+  df <- 49L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
-  f <- \(x) bayesplay:::dt_scaled(x = x, mean = mean, sd = sd, df = df)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
-    (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_student(mean, sd, df, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  f <- \(x) dt_scaled(x = x, mean = mean, sd = sd, df = df)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1L - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+
+  k3 <- range_area_student(mean, sd, df, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
 
-  mean <- 0
-  sd <- 10
-  ll <- 0
+  mean <- 0L
+  sd <- 10L
+  ll <- 0L
   ul <- Inf
-  df <- 49
+  df <- 49L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
-  f <- \(x) bayesplay:::dt_scaled(x = x, mean = mean, sd = sd, df = df)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
-    (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_student(mean, sd, df, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  f <- \(x) dt_scaled(x = x, mean = mean, sd = sd, df = df)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1L - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-06)
+
+  k3 <- range_area_student(mean, sd, df, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-06)
 
 
 
-  mean <- 1
-  sd <- 10
-  ll <- 2
-  ul <- 3
-  df <- 49
+  mean <- 1L
+  sd <- 10L
+  ll <- 2L
+  ul <- 3L
+  df <- 49L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
-  f <- \(x) bayesplay:::dt_scaled(x = x, mean = mean, sd = sd, df = df)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
-    (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_student(mean, sd, df, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  f <- \(x) dt_scaled(x = x, mean = mean, sd = sd, df = df)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1L - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_student(mean, sd, df, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  mean <- 1
-  sd <- 10
-  ul <- -3
-  ll <- -2
-  df <- 49
+  mean <- 1L
+  sd <- 10L
+  ul <- -3L
+  ll <- -2L
+  df <- 49L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
-  f <- \(x) bayesplay:::dt_scaled(x = x, mean = mean, sd = sd, df = df)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
-    (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_student(mean, sd, df, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  f <- \(x) dt_scaled(x = x, mean = mean, sd = sd, df = df)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1L - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_student(mean, sd, df, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
 
-  mean <- 1
-  sd <- 10
-  ul <- -3
+  mean <- 1L
+  sd <- 10L
+  ul <- -3L
   ll <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
-  df <- 49
-  f <- \(x) bayesplay:::dt_scaled(x = x, mean = mean, sd = sd, df = df)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
-    (1 - bayesplay:::pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_student(mean, sd, df, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  df <- 49L
+  f <- \(x) dt_scaled(x = x, mean = mean, sd = sd, df = df)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pt_scaled(mean = mean, sd = sd, df = df, ll, lower.tail = TRUE)) -
+    (1L - pt_scaled(mean = mean, sd = sd, df = df, ul, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_student(mean, sd, df, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
   # Cauchy distribution
 
-  location <- 1
-  scale <- 10
-  ul <- -3
+  location <- 1L
+  scale <- 10L
+  ul <- -3L
   ll <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
-    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_cauchy(location, scale, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
+    (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_cauchy(location, scale, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  location <- 0
-  scale <- 10
-  ll <- 0
+  location <- 0L
+  scale <- 10L
+  ll <- 0L
   ul <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
-    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_cauchy(location, scale, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
+    (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_cauchy(location, scale, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  location <- 1
-  scale <- 10
-  ll <- 2
-  ul <- 3
+  location <- 1L
+  scale <- 10L
+  ll <- 2L
+  ul <- 3L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
-    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_cauchy(location, scale, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
+    (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_cauchy(location, scale, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
-  location <- 1
-  scale <- 10
-  ul <- -3
-  ll <- -2
+  location <- 1L
+  scale <- 10L
+  ul <- -3L
+  ll <- -2L
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
-    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_cauchy(location, scale, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pcauchy(ll, location,  scale, lower.tail = TRUE)) -
+    (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_cauchy(location, scale, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 
 
 
-  location <- 1
-  scale <- 10
-  ul <- -3
+  location <- 1L
+  scale <- 10L
+  ul <- -3L
   ll <- Inf
   tmp <- c(ul, ll)
   ll <- min(tmp)
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
-  k1 <- stats::integrate(Vectorize(f), ll, ul)$value
-  k2 <- (1 - pcauchy(location = location, scale = scale, ll, lower.tail = TRUE)) -
-    (1 - pcauchy(location = location, scale = scale, ul, lower.tail = TRUE))
-  testthat::expect_equal(k1, k2, tolerance = 0.001)
-  k3 <- bayesplay:::range_area_cauchy(location, scale, ll, ul)
-  testthat::expect_equal(k1, k3, tolerance = 0.001)
+  k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
+  k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
+    (1L - pcauchy(ul, location, scale,  lower.tail = TRUE))
+  expect_equal(k1, k2, tolerance = 1e-09)
+  k3 <- range_area_cauchy(location, scale, ll, ul)
+  expect_equal(k1, k3, tolerance = 1e-09)
 })

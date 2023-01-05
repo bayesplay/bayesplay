@@ -1,4 +1,2 @@
-library(testthat)
-library(bayesplay)
-
-test_check("bayesplay")
+requireNamespace("testthat", quietly = TRUE)
+requireNamespace("patrick", quietly = TRUE)

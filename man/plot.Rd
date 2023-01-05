@@ -9,8 +9,6 @@
 \alias{plot.prediction}
 \title{Plot a bayesplay object}
 \usage{
-plot(x, ...)
-
 \method{plot}{prior}(x, ...)
 
 \method{plot}{likelihood}(x, ...)

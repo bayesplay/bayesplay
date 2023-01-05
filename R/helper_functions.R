@@ -114,7 +114,7 @@ setOldClass("numeric")
 
 auc <- setClass("auc", contains = "numeric")
 bf <- setClass("bf", contains = "numeric")
-
+summary.bf <- setClass("summary.bf", contains = "vector")
 
 
 #' Compute integral
@@ -200,10 +200,20 @@ setMethod(
   "summary",
   "bf",
   function(object) {
-    cat("Bayes factor\n")
-    cat(bfsay(object), "\n")
+    out <- c("Bayes factor\n",
+    bfsay(object), "\n")
+    new("summary.bf", out)
   }
 )
+
+setMethod(
+  "show",
+  "summary.bf",
+  function(object) {
+    cat(object)
+  }
+)
+
 
 setMethod(
   "show",

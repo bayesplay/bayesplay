@@ -1,12 +1,18 @@
 test_that("class methods", {
-  lik <- likelihood("normal", 0, 1)
-  expect_equal(names(lik), c("family", "parameters", "likelihood_function"))
-  pri <- prior("normal", 0, 1)
-  expect_equal(names(pri), c("family", "parameters", "prior_function"))
+  expect_named(
+    bayesplay::likelihood("normal", 0L, 1L),
+    c("family", "parameters", "likelihood_function"),
+    label = "likelihood function"
+  )
 
-  pred <- lik * pri
-  expect_equal(
-    names(pred),
+  expect_named(
+    bayesplay::prior("normal", 0.0, 1.0),
+    c("family", "parameters", "prior_function"),
+    label = "prior function"
+  )
+
+  expect_named(
+    likelihood("normal", 0.0, 1.0) * prior("normal", 0.0, 1.0),
     c(
       "integral",
       "marginal_function",
@@ -18,15 +24,15 @@ test_that("class methods", {
     )
   )
 
-  # normal distribution
-  lik <- likelihood("normal", 0, 1)
-  pri <- prior("normal", 0, 1)
-  prod1 <- lik * pri
-  prod2 <- pri * lik
+  expect_equivalent(
+    likelihood("normal", 0.0, 1.0) * prior("normal", 0.0, 1.0),
+    prior("normal", 0.0, 1.0) * likelihood("normal", 0.0, 1.0),
+    "multiplication commutes"
+  )
 
-  expect_equal(prod1$integral, prod2$integral)
-
-  pr1 <- prior("cauchy", 0, 1, c(-Inf, Inf))
-  pr2 <- make_prior(new("cauchy"), 0, 1, c(-Inf, Inf))
-  expect_equal(pr1, pr2)
+  expect_equivalent(
+    prior("cauchy", 0.0, 1.0, c(-Inf, Inf)),
+    make_prior(new("cauchy"), 0.0, 1.0, c(-Inf, Inf)),
+    "contructor works"
+  )
 })

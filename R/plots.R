@@ -3,10 +3,9 @@
 #' @param x a \code{likelihood}, \code{prior}, \code{posterior}, \code{product} or \code{predictive} object #nolint
 #' @param ... arguments passed to methods
 #' @return a \code{ggplo2} object
-setGeneric("plot",
-  function(x, ...) standardGeneric("plot"),
-  signature = "x"
-)
+#' @name plot
+#' @export
+NULL
 
 setMethod("plot", "prior", function(x) {
   plot.prior(x)
