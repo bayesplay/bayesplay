@@ -18,14 +18,11 @@ likelihood <- setClass(
   Class = "likelihood",
   slots = list(
     data = "list",
-    # theta_range = "",
     func = "function",
     desc = "character",
     observation = "numeric",
-    # type = "character",
     dist_type = "character",
     plot = "list",
-    # parameters = "",
     marginal = "character"
   )
 )
@@ -104,10 +101,22 @@ setMethod(
   "$",
   "bayesplay",
   function(x, name) {
-    returnval <- x@data[[name]]
-    return(returnval)
+    x@data[[name]]
   }
 )
+
+#' Get fields from data slot
+#' @param x a \code{bayesplay} object
+#' @param name field name
+#' @return content of the named field from the data slot
+setMethod(
+  "[[",
+  "bayesplay",
+  function(x, i, j, ..., drop = TRUE) {
+    x@data[[i]]
+  }
+)
+
 
 #' Get names from data slot
 #' @param x a \code{bayesplay} object
@@ -153,7 +162,7 @@ setClass(
   prototype = list(
     family = "point",
     fun = function(x, point, ...) {
-      ifelse(x == point, 1, 0)
+      ifelse(x == point, 1L, 0L) # nolint
     },
     default_range = c(-Inf, Inf)
   )
@@ -197,7 +206,8 @@ setClass(
   list(family = "character", fun = "function", default_range = "numeric"),
   prototype = list(
     family = "cauchy",
-    fun = function(x, location = 0, scale) {
+    fun = function(x, location = 0L, scale) { # nolint
+      # nolint
       dcauchy(x = x, location = location, scale = scale)
     },
     default_range = c(-Inf, Inf)
@@ -212,7 +222,7 @@ setClass(
     fun = function(x, alpha, beta) {
       dbeta(x = x, shape1 = alpha, shape2 = beta)
     },
-    default_range = c(0, 1)
+    default_range = c(0L, 1L)
   )
 )
 
@@ -234,7 +244,7 @@ setClass(
   prototype = list(
     family = "noncentral_d",
     fun = function(x, d, n) {
-      suppressWarnings(dt(x = d * sqrt(n), df = n - 1, ncp = x * sqrt(n)))
+      suppressWarnings(dt(x = d * sqrt(n), df = n - 1L, ncp = x * sqrt(n)))
     }
   )
 )
@@ -246,8 +256,8 @@ setClass(
     family = "noncentral_d2",
     fun = function(x, d, n1, n2) {
       suppressWarnings(dt(
-        x = d / sqrt(1 / n1 + 1 / n2),
-        df = n1 + n2 - 2,
+        x = d / sqrt(1L / n1 + 1L / n2),
+        df = n1 + n2 - 2L,
         ncp = x * sqrt((n1 * n2) / (n1 + n2))
       ))
     }
