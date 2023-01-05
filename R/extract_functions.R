@@ -4,7 +4,7 @@
 #' @return a \code{posterior} object
 #' @export
 extract_posterior <- function(x) {
-  if (class(x) != "product") {
+  if (!inherits(x, "product")) {
     stop("Object not of class product", call. = FALSE)
   }
 
@@ -13,18 +13,18 @@ extract_posterior <- function(x) {
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
-        x = x@likelihood_obj@desc
+        x = x@likelihood_obj@desc, fixed = TRUE
       ),
       pattern = "\n  Parameters", replacement = ""
     ),
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
-        x = x@prior_obj@desc
+        x = x@prior_obj@desc, fixed = TRUE
       ), pattern = "\n  Parameters",
       replacement = ""
     ),
-    "\nNormalising constant: ", round(x$integral, 4)
+    "\nNormalising constant: ", round(x[["integral"]], 4L)
   )
   x@desc <- desc
 
@@ -47,7 +47,7 @@ extract_posterior <- function(x) {
 #' @return a \code{prediction} object
 #' @export
 extract_predictions <- function(x) {
-  if (class(x) != "product") {
+  if (!inherits(x, "product")) {
     stop("Object not of class product", call. = FALSE)
   }
 
@@ -56,14 +56,14 @@ extract_predictions <- function(x) {
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
-        x = x@likelihood_obj@desc
+        x = x@likelihood_obj@desc, fixed = TRUE
       ), pattern = "\n  Parameters",
       replacement = ""
     ),
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
-        x = x@prior_obj@desc
+        x = x@prior_obj@desc, fixed = TRUE
       ), pattern = "\n  Parameters",
       replacement = ""
     ),

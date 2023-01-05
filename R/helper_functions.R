@@ -1,5 +1,5 @@
 is_empty <- function(x) {
-  length(x) == 0
+  length(x) == 0L
 }
 
 `%||%` <- function(x, y) { # nolint
@@ -7,8 +7,8 @@ is_empty <- function(x) {
 }
 
 in_range <- function(x, range) {
-  min_value <- range[1]
-  max_value <- range[2]
+  min_value <- range[[1L]]
+  max_value <- range[[2L]]
 
   if (all(c(x >= min_value, x <= max_value))) {
     return(TRUE)
@@ -24,7 +24,7 @@ in_range <- function(x, range) {
 
 #' @export
 `*.bayesplay` <- function(e1, e2) {
-  if ("likelihood" %in% class(e1)) {
+  if (inherits(e1, "likelihood")) {
     likelihood <- e1
     prior <- e2
   } else {
@@ -41,19 +41,19 @@ in_range <- function(x, range) {
   product_function <- function(x) likelihood_func(x) * prior_func(x)
 
   # for priors that non-point points
-  if (theta_range[1] != theta_range[2]) {
+  if (theta_range[[1L]] != theta_range[[2L]]) {
     marginal_likelihood <- suppressWarnings(stats::integrate(
       Vectorize(product_function),
-      theta_range[1],
-      theta_range[2],
+      theta_range[[1L]],
+      theta_range[[2L]],
       abs.tol = 1e-09
-    )$value)
+    )[["value"]])
   }
 
 
   # for point priors
-  if (theta_range[1] == theta_range[2]) {
-    marginal_likelihood <- product_function(theta_range[1])
+  if (theta_range[[1L]] == theta_range[[2L]]) {
+    marginal_likelihood <- product_function(theta_range[[1L]])
   }
 
   make_predict <- function(data_model, prior_model) {
@@ -85,9 +85,9 @@ in_range <- function(x, range) {
 
   desc <- paste0(
     "Product\n",
-    "  Likelihood family: ", likelihood$family, "\n",
-    "  Prior family: ", prior$family, "\n",
-    "  Area under curve: ", round(data$integral, 4)
+    "  Likelihood family: ", likelihood[["family"]], "\n",
+    "  Prior family: ", prior[["family"]], "\n",
+    "  Area under curve: ", round(data[["integral"]], 4L)
   )
 
 
@@ -95,7 +95,7 @@ in_range <- function(x, range) {
     Class = "product",
     desc = desc,
     data = data,
-    K = 1,
+    K = 1L,
     lik = likelihood_func,
     prior = prior_func,
     theta_range = theta_range,
@@ -106,7 +106,7 @@ in_range <- function(x, range) {
 
 
 `/.product` <- function(e1, e2) {
-  bf <- e1@data$integral / e2@data$integral
+  bf <- e1@data[["integral"]] / e2@data[["integral"]]
   return(bf)
 }
 
@@ -140,10 +140,10 @@ bf <- setClass("bf", contains = "numeric")
 #' # take the integral
 #' integral(model)
 integral <- function(obj) {
-  if (class(obj) != "product") {
+  if (!inherits(obj, "product")) {
     stop("obj must be of class product", call. = FALSE)
   }
-  new("auc", obj$integral)
+  new("auc", obj[["integral"]])
 }
 
 #' @export
@@ -151,23 +151,23 @@ integral <- function(obj) {
   new("bf", unclass(e1) / unclass(e2))
 }
 
-get_ev_level <- function(bf) {
-  if (bf == 1) {
+get_ev_level <- function(bf) { #nolint
+  if (bf == 1L) {
     return("No evidence")
   }
-  if (bf > 1 & bf <= 3) {
+  if (bf > 1L && bf <= 3L) {
     return("Anecdotal evidence")
   }
-  if (bf > 3 & bf <= 10) {
+  if (bf > 3L && bf <= 10L) {
     return("Moderate evidence")
   }
-  if (bf > 10 & bf <= 30) {
+  if (bf > 10L && bf <= 30L) {
     return("Strong evidence")
   }
-  if (bf > 30 & bf <= 100) {
+  if (bf > 30L && bf <= 100L) {
     return("Very strong evidence")
   }
-  if (bf > 100) {
+  if (bf > 100L) {
     return("Extreme evidence")
   }
 }
@@ -175,18 +175,18 @@ get_ev_level <- function(bf) {
 
 bfsay <- function(bf) {
   bf <- unclass(bf)
-  if (bf < 1) {
+  if (bf < 1L) {
     bf_base <- bf
-    bf <- 1 / bf
+    bf <- 1L / bf
   } else {
     bf_base <- bf
   }
 
   ev_level <- get_ev_level(bf)
 
-  ev_level_msg <- c(
+  c(
     paste0("Using the levels from Wagenmakers et al (2017)\n"),
-    paste0("A BF of ", round(bf_base, 4), " indicates:\n"),
+    paste0("A BF of ", round(bf_base, 4L), " indicates:\n"),
     paste0(ev_level)
   )
 }
@@ -223,7 +223,7 @@ setMethod(
 
 
 
-integer_breaks <- function(n = 5, ...) {
+integer_breaks <- function(n = 5L, ...) {
   fxn <- function(x) {
     breaks <- floor(pretty(x, n, ...))
     names(breaks) <- attr(breaks, "labels")
@@ -257,6 +257,6 @@ integer_breaks <- function(n = 5, ...) {
 #' sd_ratio(model, 0)
 #' @export
 sd_ratio <- function(x, point) {
-  bf <- x@prior_obj@func(point) / x$posterior_function(point)
+  bf <- x@prior_obj@func(point) / x[["posterior_function"]](point)
   new("bf", bf)
 }
