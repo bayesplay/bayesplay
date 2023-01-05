@@ -1,6 +1,6 @@
 context("Normalising priors")
 test_that("Normalising warnings", {
-  require(bayesplay)
+
   testthat::expect_warning(
     prior(
       family = "normal",

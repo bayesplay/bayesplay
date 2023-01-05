@@ -1,12 +1,12 @@
 context("Error messages")
 test_that("error messages", {
   expect_error(
-    prior("uniform", 0),
+    prior("uniform", 0.0),
     "You must specify `min` and `max` for a uniform  prior"
   )
 
   expect_error(
-    prior("normal", 0),
+    prior("normal", 0.0),
     "You must specify `mean` and `sd` for a normal prior"
   )
 
@@ -27,8 +27,8 @@ test_that("error messages", {
     "You must specify `alpha` and `beta` for a beta  prior"
   )
 
-  l <- likelihood("normal", 0, 1)
-  p <- prior("normal", 0, .1)
+  l <- likelihood("normal", 0.0, 1.0)
+  p <- prior("normal", 0.0, 0.1)
 
   expect_error(
     extract_predictions(l),
@@ -56,7 +56,7 @@ test_that("error messages", {
   )
 
   expect_error(
-    prior("normal", 0, 0),
+    prior("normal", 0.0, 0.0),
     "`sd` must be greater than 0"
   )
 
@@ -66,52 +66,52 @@ test_that("error messages", {
   )
 
   expect_error(
-    likelihood("normal", mean = 10),
+    likelihood("normal", mean = 10.0),
     "You must specify a `mean` and `sd` for a normal likelihood"
   )
 
   expect_error(
-    likelihood("normal", sd = 10),
+    likelihood("normal", sd = 10.0),
     "You must specify a `mean` and `sd` for a normal likelihood"
   )
 
   expect_error(
-    likelihood("normal", mean = 10, sd = 0),
+    likelihood("normal", mean = 10.0, sd = 0.0),
     "`sd` must be greater than 0"
   )
 
   expect_error(
-    likelihood("student_t", 10),
+    likelihood("student_t", 10.0),
     "You must specify a `mean`, `sd`, and `df` for a student t likelihood"
   )
 
   expect_error(
-    likelihood("student_t", 0, 0, 0),
+    likelihood("student_t", 0.0, 0.0, 0.0),
     "`sd` must be greater than 0"
   )
 
   expect_error(
-    likelihood("student_t", 0, 1, 0),
+    likelihood("student_t", 0.0, 1.0, 0.0),
     "`df` must be greater than 0"
   )
 
   expect_error(
-    likelihood("noncentral_d", 10),
+    likelihood("noncentral_d", 10.0),
     "You must specify a `d` and `n` for a noncentral d likelihood"
   )
 
   expect_error(
-    likelihood("noncentral_d", 10, 0),
+    likelihood("noncentral_d", 10.0, 0.0),
     "`n` must be greater than zero"
   )
 
   expect_error(
-    likelihood("noncentral_t", 10, 0),
+    likelihood("noncentral_t", 10.0, 0.0),
     "`df` must be greater than 0"
   )
 
   expect_error(
-    likelihood("noncentral_t", 10),
+    likelihood("noncentral_t", 10.0),
     "You must specify a `t` and `df` for a noncentral t likelihood"
   )
 
@@ -121,34 +121,34 @@ test_that("error messages", {
   )
 
   expect_error(
-    likelihood("binomial", 10, 9),
+    likelihood("binomial", 10.0, 9.0),
     "`trials` must be greater than or equal to `successes`"
   )
 
   expect_error(
-    likelihood("binomial", 10, 0),
+    likelihood("binomial", 10.0, 0.0),
     "`trials` must be greater than or equal to 1"
   )
 
   expect_error(
-    likelihood("binomial", -1, 1),
+    likelihood("binomial", -1.0, 1.0),
     "`successes` must be greater than or equal to 0"
   )
 
 
   expect_error(
-    likelihood("noncentral_d2", 10),
+    likelihood("noncentral_d2", 10.0),
     "You must specify `d`, `n1`, and `n2` for a noncentral d2 likelihood"
   )
 
   expect_error(
-    likelihood("noncentral_d2", 10, 1, 0),
+    likelihood("noncentral_d2", 10.0, 1.0, 0.0),
     "`n1` and `n2` must be greater than or equal to 1"
   )
 
 
   expect_error(
-    integral(prior("normal", 0, 1)),
+    integral(prior("normal", 0.0, 1.0)),
     "obj must be of class product"
   )
 })
