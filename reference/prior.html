@@ -63,19 +63,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">prior</span><span class="op">(</span><span class="va">family</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prior</span><span class="op">(</span><span class="va">family</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>family</dt>
 <dd><p>the prior distribution (see details)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>see details</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an object of class <code>prior</code></p>
+    
+
+<p>an object of class <code>prior</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -155,9 +162,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a normal prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a normal prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     normal</span>
@@ -165,9 +172,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sd: 13.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a half-normal (range 0 to Infinity) prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a half-normal (range 0 to Infinity) prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     normal</span>
@@ -176,9 +183,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sd: 13.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     range: 0 to Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a student t prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"student_t"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, df <span class="op">=</span> <span class="fl">79</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a student t prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"student_t"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, df <span class="op">=</span> <span class="fl">79</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     student_t</span>
@@ -187,9 +194,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sd: 13.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     df: 79</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a truncated t prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"student_t"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, df <span class="op">=</span> <span class="fl">79</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">40</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a truncated t prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"student_t"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">13.3</span>, df <span class="op">=</span> <span class="fl">79</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">40</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     student_t</span>
@@ -199,9 +206,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     df: 79</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     range: -40 to 40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a cauchy prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"cauchy"</span>, location <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">.707</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a cauchy prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"cauchy"</span>, location <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">.707</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     cauchy</span>
@@ -209,9 +216,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     location: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     scale: 0.707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a half cauchy prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"cauchy"</span>, location <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">1</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a half cauchy prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"cauchy"</span>, location <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">1</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     cauchy</span>
@@ -220,9 +227,9 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     scale: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     range: -Inf to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a uniform prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a uniform prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     uniform</span>
@@ -230,18 +237,18 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 <span class="r-out co"><span class="r-pr">#&gt;</span>     min: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     max: 20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a point prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"point"</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a point prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"point"</span>, point <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     point</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     point: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify a beta prior</span></span>
-<span class="r-in"><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"beta"</span>, alpha <span class="op">=</span> <span class="fl">2.5</span>, beta <span class="op">=</span> <span class="fl">3.8</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify a beta prior</span></span></span>
+<span class="r-in"><span><span class="fu">prior</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"beta"</span>, alpha <span class="op">=</span> <span class="fl">2.5</span>, beta <span class="op">=</span> <span class="fl">3.8</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Prior</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     beta</span>
@@ -263,7 +270,7 @@ parameters may be set</p><ul><li><p><code>alpha</code> the first shape parameter
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
