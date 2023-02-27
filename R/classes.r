@@ -39,7 +39,8 @@ product <- setClass(
     prior = "function",
     theta_range = "numeric",
     likelihood_obj = "likelihood",
-    prior_obj = "prior"
+    prior_obj = "prior",
+    approximation = "logical"
   )
 )
 

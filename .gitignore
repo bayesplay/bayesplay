@@ -20,3 +20,4 @@ vignettes/render.sh
 vignettes/advanced.___
 scratch.R
 temp.png
+rust_tests.R

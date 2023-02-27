@@ -269,6 +269,10 @@ plot_continuous <- function(x, n) {
 
 
 plot_weighted_likelihood <- function(x, n) {
+  if (x@approximation == TRUE) {
+    stop("Marginal likelihood has been approximated; Can't reliably output a plot.", call. = FALSE)
+  }
+
   func <- x[["weighted_likelihood_function"]]
   plot_range <- x@prior_obj@plot[["range"]]
 

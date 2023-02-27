@@ -1,123 +1,324 @@
 context("Basic calculations")
 
-bf <- function(data_model, h1_model, h0_model) {
-  lik <- do.call(bayesplay::likelihood, data_model)
-  h1 <- do.call(bayesplay::prior, h1_model)
-  h0 <- do.call(bayesplay::prior, h0_model)
-  m1 <- integral(lik * h1)
-  m0 <- integral(lik * h0)
-  unclass(m1 / m0)
-}
+# set the tolerance for the tests
+tol <- 0.005
 
-test_cases <- tibble::tribble(
-  ~data_model, ~h1_model, ~h0_model, ~result, ~label,
-  list(family = "normal", mean = 5.0, sd = 10.0),
-  list(family = "uniform", min = 0.0, max = 20.0),
-  list(family = "point", point = 0.0),
-  0.89,
-  "uniform prior",
-  list(family = "normal", mean = 5.5, sd = 32.35),
-  list(family = "normal", mean = 0.0, sd = 13.3, range = c(0L, Inf)),
-  list(family = "point", point = 0L),
-  0.97,
-  "normal prior",
-  list(family = "normal", mean = 0.63, sd = 0.43),
-  list(family = "normal", mean = 0.0, sd = 2.69, range = c(0L, Inf)),
-  list(family = "point", point = 0L),
-  0.83,
-  "half-normal prior",
-  list(family = "normal", mean = 15.0, sd = 13.0),
-  list(family = "normal", mean = 50.0, sd = 14.0),
-  list(family = "point", point = 0L),
-  0.25,
-  "normal prior",
-  list("student_t", mean = 5.47, sd = 32.2, df = 119L),
-  list("student_t", mean = 13.3, sd = 4.93, df = 72L),
-  list("point", 0L),
-  0.97,
-  "student_t prior (student_t likelihood)",
-  list("noncentral_t", t = 0.8880938 / 0.5952841 * sqrt(10L), df = 9L),
-  list("cauchy", location = 0L, scale = 1L * sqrt(10L)),
-  list("point", point = 0L),
-  42.44814,
-  "against bayesfactor package",
-  list(family = "noncentral_d", d = (0.8880938 / 0.5952841), n = 10L),
-  list(family = "cauchy", 0L, 1L),
-  list(family = "point", point = 0L),
-  42.44814,
-  "one-sample default t-test (on cohen's d)",
-  list(family = "noncentral_t", t = -0.498711932866233, df = 33L),
-  list(family = "cauchy", location = 0L, scale = 2.95683228182749),
-  list(family = "point", point = 0L),
-  0.274111,
-  "one-sample default t-test (on t-stat)",
-  list(family = "noncentral_d2", d = -0.168664261389219, n1 = 17L, n2 = 18L),
-  list(family = "cauchy", location = 0L, scale = 1L),
-  list(family = "point", point = 0L),
-  0.274111,
-  "independent samples default t (on cohen's d)",
-  list(family = "noncentral_d", d = 0.226960899716229, n = 80L),
-  list(family = "cauchy", scale = 1L),
-  list(family = "point", point = 0L),
-  1L / 1.557447,
-  "default bayes t (orginal)",
-  list(family = "noncentral_d", d = 0.226960899716229, n = 80L),
-  list(family = "cauchy", scale = 1L, range = c(0L, Inf)),
-  list(family = "point", 0L),
-  1L / 0.79745,
-  "default bayes t (orginal) one-sided",
-  list(family = "noncentral_t", t = 2.03, df = 79L),
-  list(family = "cauchy", scale = 1L * sqrt(80L)),
-  list(family = "point", 0L),
-  1L / 1.557447,
-  "default bayes t (t version)",
-  list(family = "binomial", 3L, 12L),
-  list(family = "beta", alpha = 1L, beta = 2L),
-  list(family = "point", point = 0.5),
-  1L / 0.4887695,
-  "binomial likelihood, beta prior",
-  list(family = "binomial", 3L, 12L),
-  list(family = "uniform", min = 0L, max = 1L),
-  list(family = "point", point = 0.5),
-  1L / 0.6982422,
-  "binomial likelihood, uniform prior",
-  list(family = "binomial", 3L, 12L),
-  list(family = "beta", 1L, 1L),
-  list(family = "point", point = 0.5),
-  1L / 0.6982422,
-  "binomial likelihood, beta uniform",
-  list(family = "binomial", successes = 2L, trials = 10L),
-  list(family = "beta", alpha = 1L, beta = 2.5),
-  list(family = "point", point = 0.5),
-  3.3921325,
-  "binomial likelihood, beta prior",
-  list("noncentral_t", 4.46, 50L),
-  list("cauchy", 0L, 1L * sqrt(51L)),
-  list("point", 0L),
-  410.7568,
-  "anomalous t test v1 (as t)",
-  list("noncentral_d", 0.624524917476492, 51L),
-  list("cauchy", 0L, 0.707),
-  list("point", 0L),
-  460.2497,
-  "previously anomalous t test v2 (as d)",
-  list("noncentral_t", 4.46, 50L),
-  list("cauchy", 0L, 0.707 * sqrt(51L)),
-  list("point", 0L),
-  460.2497,
-  "previously anomalous t test v2 (as t)"
-)
+test_that("binomial likelihood", {
 
-patrick::with_parameters_test_that(
-  "Basic calculations",
-  {
-    testthat::expect_equal(
-      bf(data_model, h1_model, h0_model),
-      result,
-      tolerance = 0.005,
-      scale = 1L,
-      label = label
-    )
-  },
-  .cases = test_cases
-)
+  l <- likelihood(family = "binomial", 3L, 12L)
+  p1 <- prior(family = "beta", alpha = 1L, beta = 2L)
+  p0 <- prior(family = "point", point = 0.5)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+   1 / 0.4887695,
+    label = "binomial likelihood, beta prior",
+    tolerance = tol, scale = 1L
+  )
+
+  l <- likelihood(family = "binomial", 3L, 12L)
+  p1 <- prior(family = "uniform", min = 0L, max = 1L)
+  p0 <- prior(family = "point", point = 0.5)
+  p0 <- prior(family = "point", point = 0.5)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+  testthat::expect_equal(as.numeric(unclass(b)),
+    1 / 0.6982422,
+    label = "binomial likelihood, uniform prior",
+    tolerance = tol, scale = 1L
+  )
+
+
+  data_model <- likelihood(family = "binomial", 3, trials = 12)
+  alt_prior <- prior(family = "beta", 1, 1)
+  null_prior <- prior(family = "point", point = 0.5)
+  m1 <- data_model * alt_prior
+  m0 <- data_model * null_prior
+  b1 <- integral(m1) / integral(m0)
+  b2 <- 1 / 0.6982422
+  testthat::expect_equal(as.numeric(unclass(b1)),
+    unclass(unname(b2)),
+    label = "binomial likelihood, beta uniform",
+    tolerance = tol, scale = 1
+  )
+
+
+  data_model <- likelihood(family = "binomial", successes = 2, trials = 10)
+  alt_prior <- prior(family = "beta", alpha = 1, beta = 2.5)
+  null_prior <- prior(family = "point", point = 0.5)
+  m1 <- data_model * alt_prior
+  m0 <- data_model * null_prior
+  b1 <- integral(m1) / integral(m0)
+  b2 <- 3.3921325
+  testthat::expect_equal(as.numeric(unclass(b1)),
+    unclass(unname(b2)),
+    label = "binomial likelihood, beta prior",
+    tolerance = tol, scale = 1
+  )
+
+# })
+#
+#
+# test_that("noncentral_d likelhood", {
+
+
+  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80)
+  p1 <- prior("cauchy", location = 0L, scale = 1L)
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    0.64207642378841778275,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_d likelihood)"
+  )
+
+
+  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80)
+  p1 <- prior("cauchy", location = 0L, scale = 1L, range = c(0L, Inf))
+  p0 <- prior("point", 0L)
+
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    1.25399711580663364430,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_d likelihood)"
+  )
+
+
+  l <- likelihood("noncentral_d", 0.624524917476492, 51)
+  p1 <- prior("cauchy", 0L, 0.707)
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+  testthat::expect_equal(as.numeric(unclass(b)),
+    460.2497,
+    label = "previously anomalous t test v2 (as d)",
+    tolerance = tol, scale = 1L
+  )
+
+
+  l <- likelihood("noncentral_d", -2.24, 34L)
+  p1 <- prior("cauchy", 0L, 0.707, c(0L, Inf))
+  p0 <- prior("point", 0L)
+  b <- suppressWarnings({integral(l * p1) / integral(l * p0)})
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    0.006772853,
+    label = "previously anomalous t test v2 (as t)",
+    tolerance = tol, scale = 1
+  )
+
+
+# })
+#
+#
+#
+# test_that("noncentral_d2 likelihoods", {
+
+  l <- likelihood("noncentral_d2", d = -0.16866426138921944422, n1 = 17L, n2 = 18L)
+  p1 <- prior("cauchy", location = 0L, scale = 1L)
+  p0 <- prior("point", 0L)
+
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+   0.274111,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_t likelihood)"
+  )
+
+# })
+#
+#
+# test_that("noncentral_t likelihoods", {
+
+  l <- likelihood("noncentral_t", t = -0.49871193286623344276, df = 33L)
+  p1 <- prior("cauchy", location = 0L, scale = 2.95683228182748658597)
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+   0.274111,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_t likelihood)"
+  )
+
+
+  l <- likelihood("noncentral_t", t = 4.71774600375525743345, df = 9L)
+  p1 <- prior("cauchy", location = 0L, scale = 3.16227766016837952279)
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    42.44814,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_t likelihood)"
+  )
+
+
+  l <- likelihood(family = "noncentral_t", t = 2.03, df = 79)
+  p1 <- prior(family = "cauchy", location = 0L, scale = 8.94427190999915922021)
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+  0.64207642378841778275,
+    label = "default bayes t (t version)",
+    tolerance = tol, scale = 1
+  )
+
+ 
+
+  l <- likelihood(family = "noncentral_t", t = 4.46, df = 49L)
+  p1 <- prior("cauchy", location = 0L, scale = sqrt(50L)) 
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    403.35222779080226018777,
+    label = "anomalous t test v1 (as t)",
+    tolerance = tol, scale = 1L
+  )
+
+  l <- likelihood(family = "noncentral_t", t = 4.46, df = 50L)
+  p1 <- prior("cauchy", 0L, 5.0489898989798)
+  p0 <- prior("point", 0L)
+
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    460.2497,
+    label = "previously anomalous t test v2 (as t)",
+    tolerance = tol, scale = 1
+  )
+
+# })
+#
+# test_that("student_t likelihoods", {
+
+
+  l <- likelihood("student_t", mean = 5.47, sd = 32.2, df = 119)
+  p1 <- prior("student_t", mean = 13.3, sd = 4.93, df = 72L)
+
+  p0 <- prior("point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    unclass(0.97),
+    tolerance = tol, scale = 1L,
+    label = "student_t prior (student_t likelihood)"
+  )
+
+# })
+#
+# test_that("normal likelihoods", {
+
+
+  l <- likelihood(family = "normal", mean = 5L, sd = 10L)
+  p1 <- prior(family = "uniform", 0L, 20L)
+  p0 <- prior(family = "point", point = 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0 
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    unclass(0.89),
+    tolerance = tol, scale = 1L,
+    label = "uniform prior"
+  )
+
+
+  l <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
+  p1 <- prior(
+    family = "normal", mean = 0L, sd = 13.3,
+    range = c(0L, Inf)
+  )
+  p0 <- prior(family = "point", point = 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    unclass(0.97),
+    tolerance = tol, scale = 1L,
+    label = "normal prior"
+  )
+
+
+  l <- likelihood(family = "normal", mean = 0.63, sd = 0.43)
+  p1 <- prior(
+    family = "normal", mean = 0, sd = 2.69,
+    range = c(0L, Inf)
+  )
+  p0 <- prior(family = "point", point = 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    unclass(0.83),
+    tolerance = tol, scale = 1L,
+    label = "half-normal prior"
+  )
+
+
+  l <- likelihood(family = "normal", mean = 15L, sd = 13L)
+  p1 <- prior(family = "normal", mean = 50L, sd = 14L)
+  p0 <- prior(family = "point", point = 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+
+  testthat::expect_equal(as.numeric(unclass(b)),
+    unclass(0.25),
+    tolerance = tol, scale = 1L,
+    label = "normal prior"
+  )
+
+
+# })
+#
+#
+# test_that("noncentral_d likelihoods", {
+
+  l <- likelihood(family = "noncentral_d", d = 1.49188227940238959945, n = 10L)
+  p1 <- prior(family = "cauchy", 0L, 1L)
+  p0 <- prior(family = "point", 0L)
+  m1 <- integral(l * p1)
+  m0 <- integral(l * p0)
+  b <- m1 / m0
+  testthat::expect_equal(as.numeric(unclass(b)),
+    42.44814,
+    tolerance = tol, scale = 1L,
+    label = "default bayes t-test (noncentral_t likelihood)"
+  )
+
+})
+
+

@@ -42,7 +42,7 @@ test_that("Normalising warnings", {
   null_prior <- prior("point", 0L)
   bf <- integral(data_model * shifted_half_norm) /
     integral(data_model * null_prior)
-  expect_equal(unclass(bf), 0L, tolerance = 0L)
+  expect_equal(as.numeric(unclass(bf)), 0L, tolerance = 0L)
 
 
   suppressWarnings({
@@ -65,7 +65,7 @@ test_that("Normalising warnings", {
   null_prior <- prior("point", 0L)
   bf <- integral(data_model * shifted_half_norm) /
     integral(data_model * null_prior)
-  expect_equal(unclass(bf), 0L, tolerance = 0L)
+  expect_equal(as.numeric(unclass(bf)), 0L, tolerance = 0L)
 # })
 #
 # test_that("Normalisation method", {

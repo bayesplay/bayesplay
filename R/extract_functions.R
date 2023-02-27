@@ -8,6 +8,11 @@ extract_posterior <- function(x) {
     stop("Object not of class product", call. = FALSE)
   }
 
+
+  if (x@approximation == TRUE) {
+    stop("Marginal likelihood has been approximated; Can't reliably output a posterior function.", call. = FALSE)
+  }
+
   desc <- paste0(
     "Posterior\n",
     sub(

@@ -21,6 +21,7 @@ test_that("class methods", {
       "conditional_function",
       "weighted_likelihood_function",
       "prediction_function"
+      # "approximation"
     )
   )
 
