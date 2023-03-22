@@ -17,3 +17,4 @@ content of the named field from the data slot
 \description{
 Get fields from data slot
 }
+\keyword{internal}

@@ -1,11 +1,14 @@
 #' Plot a bayesplay object
 #' @description Plots an object created by bayesplay
-#' @param x a \code{likelihood}, \code{prior}, \code{posterior}, \code{product} or \code{predictive} object 
+#' @param x a \code{likelihood}, \code{prior}, \code{posterior}, 
+#' \code{product} or \code{predictive} object 
 #' @param ... arguments passed to methods
 #' @return a \code{ggplo2} object
 #' @name plot
 #' @export
-setGeneric("plot", function(x, ...) standardGeneric("plot"))
+setMethod("plot", "bayesplay", function(x, ...) {
+  UseMethod("plot")
+})
 
 #' @method plot prior
 #' @param x a \code{prior} object
@@ -56,31 +59,6 @@ setMethod("plot", "prediction", function(x, model_name = "model", ...) {
   plot_prediction(x, model_name, ...)
 })
 
-# plot.prior <- function(x, ...) {
-#   return(handle_prior_likelihood(x, n = 101L))
-# }
-#
-# plot.likelihood <- function(x, ...) {
-#   return(handle_prior_likelihood(x, n = 101L))
-# }
-#
-# plot.posterior <- function(x, add_prior = FALSE, ...) {
-#   if (!add_prior) {
-#     return(plot_posterior(x, n = 101L))
-#   }
-#   return(plot_pp(x, n = 101L))
-# }
-#
-# plot.product <- function(x, ...) {
-#   return(plot_weighted_likelihood(x, n = 101L))
-# }
-#
-# plot.prediction <- function(x, ...) {
-#   return(plot_prediction(x, n = 101L))
-# }
-#
-#
-#
 plot_prediction <- function(x, model_name = "model", ...) {
   likelihood_obj <- x@likelihood_obj
   likelihood_family <- likelihood_obj[["family"]]
