@@ -1,88 +1,101 @@
 #' Plot a bayesplay object
 #' @description Plots an object created by bayesplay
-#' @param x a \code{likelihood}, \code{prior}, \code{posterior}, \code{product} or \code{predictive} object #nolint
+#' @param x a \code{likelihood}, \code{prior}, \code{posterior}, \code{product} or \code{predictive} object 
 #' @param ... arguments passed to methods
 #' @return a \code{ggplo2} object
 #' @name plot
 #' @export
-NULL
-
-setMethod("plot", "prior", function(x) {
-  plot.prior(x)
-})
-
-setMethod("plot", "posterior", function(x, add_prior = FALSE) {
-  plot.posterior(x, add_prior)
-})
-
-setMethod("plot", "likelihood", function(x) {
-  plot.likelihood(x)
-})
-
-setMethod("plot", "product", function(x) {
-  plot.product(x)
-})
-
-setMethod("plot", "prediction", function(x) {
-  plot.prediction(x)
-})
+setGeneric("plot", function(x, ...) standardGeneric("plot"))
 
 #' @method plot prior
+#' @param x a \code{prior} object
+#' @param ... arguments passed to methods
 #' @rdname plot
-#' @export
-plot.prior <- function(x, ...) {
+setMethod("plot", "prior", function(x, ...) {
   return(handle_prior_likelihood(x, n = 101L))
-}
+})
 
-#' @method plot likelihood
-#' @rdname plot
-#' @export
-plot.likelihood <- function(x, ...) {
-  return(handle_prior_likelihood(x, n = 101L))
-}
 
 #' @method plot posterior
-#' @rdname plot
+#' @param x a \code{posterior} object
 #' @param add_prior set to TRUE to add prior to the posterior plot
-#' @export
-plot.posterior <- function(x, add_prior = FALSE, ...) {
+#' @param ... arguments passed to methods
+#' @rdname plot
+setMethod("plot", "posterior", function(x, add_prior = FALSE, ...) {
   if (!add_prior) {
     return(plot_posterior(x, n = 101L))
   }
   return(plot_pp(x, n = 101L))
-}
+})
+
+
+#' @method plot likelihood
+#' @param x a \code{likelihood} object
+#' @param ... arguments passed to methods
+#' @rdname plot
+setMethod("plot", "likelihood", function(x, ...) {
+  return(handle_prior_likelihood(x, n = 101L))
+})
+
 
 #' @method plot product
+#' @param x a \code{product} object
+#' @param ... arguments passed to methods
 #' @rdname plot
-#' @export
-plot.product <- function(x, ...) {
+setMethod("plot", "product", function(x, ...) {
   return(plot_weighted_likelihood(x, n = 101L))
-}
+})
+
 
 #' @method plot prediction
+#' @param x a \code{prediction} object
+#' @param model_name name of the model
+#' @param ... arguments passed to methods
 #' @rdname plot
-#' @export
-plot.prediction <- function(x, ...) {
-  return(plot_prediction(x, n = 101L))
-}
+setMethod("plot", "prediction", function(x, model_name = "model", ...) {
+  plot_prediction(x, model_name, ...)
+})
 
-
-
-plot_prediction <- function(x, n, model_name = "model") {
+# plot.prior <- function(x, ...) {
+#   return(handle_prior_likelihood(x, n = 101L))
+# }
+#
+# plot.likelihood <- function(x, ...) {
+#   return(handle_prior_likelihood(x, n = 101L))
+# }
+#
+# plot.posterior <- function(x, add_prior = FALSE, ...) {
+#   if (!add_prior) {
+#     return(plot_posterior(x, n = 101L))
+#   }
+#   return(plot_pp(x, n = 101L))
+# }
+#
+# plot.product <- function(x, ...) {
+#   return(plot_weighted_likelihood(x, n = 101L))
+# }
+#
+# plot.prediction <- function(x, ...) {
+#   return(plot_prediction(x, n = 101L))
+# }
+#
+#
+#
+plot_prediction <- function(x, model_name = "model", ...) {
   likelihood_obj <- x@likelihood_obj
   likelihood_family <- likelihood_obj[["family"]]
 
   # now call the functions for different families
   if (likelihood_family == "binomial") {
-    return(handle_binomial_marginal(x, n, model_name))
+    return(handle_binomial_marginal(x, model_name, ...))
   }
 
-  return(handle_other_marginal(x, n, model_name))
+  return(handle_other_marginal(x, model_name, ...))
 }
 
 
 
-handle_binomial_marginal <- function(x, n, model_name) {
+handle_binomial_marginal <- function(x, model_name = "model", ...) {
   model_func <- x[["prediction_function"]]
   plot_range <- c(0L, get_binomial_trials(x))
   observation <- x@likelihood_obj@observation
@@ -169,7 +182,7 @@ get_max_range <- function(x) {
 
 
 
-handle_other_marginal <- function(x, n, model_name) {
+handle_other_marginal <- function(x, model_name = "model", ...) {
   model_func <- x[["prediction_function"]]
   plot_range <- get_max_range(x)
   observation <- x@likelihood_obj@observation

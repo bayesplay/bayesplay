@@ -13,3 +13,5 @@
 monitor.rb
 cran-comments.md
 CITATION.cff
+.lintr
+.git

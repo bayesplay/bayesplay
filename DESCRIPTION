@@ -1,7 +1,7 @@
 Package: bayesplay
 Type: Package
 Title: The Bayes Factor Playground 
-Version: 0.9.2
+Version: 0.9.3
 Description: A lightweight modelling syntax for defining likelihoods and priors
     and for computing Bayes factors for simple one parameter models. It includes
     functionality for computing and plotting priors, likelihoods, and model
@@ -22,7 +22,8 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports: 
     methods,
-    gginnards
+    gginnards,
+    stats
 Authors@R: 
     person(given = c("Lincoln", "J"), 
             family = "Colling",

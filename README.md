@@ -8,7 +8,7 @@
 ![R-CMD-check](https://github.com/bayesplay/bayesplay/workflows/R-CMD-check/badge.svg)
 ![CRAN](https://www.r-pkg.org/badges/version-ago/bayesplay)
 ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/bayesplay)
-[![codecov](https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
+[![codecov](https://app.codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
 
 <!-- badges: end -->
 
@@ -21,13 +21,17 @@ tools.
 
 bayesplay is now on CRAN. You can install it with:
 
-    install.packages("bayesplay")
+``` r
+install.packages("bayesplay")
+```
 
 Or if you want to live on the edge, you can install the development
 version from [GitHub](https://github.com/) with:
 
-    # install.packages("devtools")
-    devtools::install_github("bayesplay/bayesplay")
+``` r
+# install.packages("devtools")
+devtools::install_github("bayesplay/bayesplay")
+```
 
 ## Basic usage
 
@@ -65,13 +69,13 @@ priors
 
 4.  Various noncentral *t* distributions, including:
 
-    -   Noncentral *t* distribution (`noncentral_t`)
+    - Noncentral *t* distribution (`noncentral_t`)
 
-    -   Noncentral *t* distribution scaled for a paired samples/one
-        sample Cohen’s *d* (`noncentral_d`)
+    - Noncentral *t* distribution scaled for a paired samples/one sample
+      Cohen’s *d* (`noncentral_d`)
 
-    -   Noncentral *t* distribution scaled for an independent samples
-        Cohen’s *d* (`noncentral_d2`)
+    - Noncentral *t* distribution scaled for an independent samples
+      Cohen’s *d* (`noncentral_d2`)
 
 ## Worked examples
 
@@ -82,7 +86,7 @@ plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
 ## Changelog
 
-> Breaking changes for &lt; v0.9.0
+> Breaking changes for \< v0.9.0
 >
 > `distribution` parameter for specifying likelihoods and priors has
 > been renamed `family`
