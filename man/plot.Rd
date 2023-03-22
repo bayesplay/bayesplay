@@ -9,15 +9,15 @@
 \alias{plot,prediction-method}
 \title{Plot a bayesplay object}
 \usage{
-plot(x, ...)
+\S4method{plot}{bayesplay}(x, y, ...)
 
-\S4method{plot}{prior}(x, ...)
+\S4method{plot}{prior}(x, y, ...)
 
 \S4method{plot}{posterior}(x, add_prior = FALSE, ...)
 
-\S4method{plot}{likelihood}(x, ...)
+\S4method{plot}{likelihood}(x, y, ...)
 
-\S4method{plot}{product}(x, ...)
+\S4method{plot}{product}(x, y, ...)
 
 \S4method{plot}{prediction}(x, model_name = "model", ...)
 }

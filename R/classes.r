@@ -103,6 +103,7 @@ show <- function(x) {
 #' @param x a \code{bayesplay} object
 #' @param name field name
 #' @return content of the named field from the data slot
+#' @keywords internal
 setMethod(
   "$",
   "bayesplay",
@@ -115,6 +116,7 @@ setMethod(
 #' @param x a \code{bayesplay} object
 #' @param i field index
 #' @return content of the specified field from the data slot
+#' @keywords internal
 setMethod(
   "[[",
   "bayesplay",
