@@ -9,7 +9,6 @@
 ![CRAN](https://www.r-pkg.org/badges/version-ago/bayesplay)
 ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/bayesplay)
 [![codecov](https://app.codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
-
 <!-- badges: end -->
 
 The goal of bayesplay is to provide an interface for calculating Bayes

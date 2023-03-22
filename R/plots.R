@@ -1,63 +1,71 @@
 #' Plot a bayesplay object
 #' @description Plots an object created by bayesplay
-#' @param x a \code{likelihood}, \code{prior}, \code{posterior}, 
-#' \code{product} or \code{predictive} object 
+#' @param x a \code{likelihood}, \code{prior}, \code{posterior},
+#' \code{product} or \code{predictive} object
 #' @param ... arguments passed to methods
-#' @return a \code{ggplo2} object
+#' @return a \code{ggplot2} object
 #' @name plot
-#' @export
-setMethod("plot", "bayesplay", function(x, ...) {
-  UseMethod("plot")
-})
+NULL
 
+
+#' @name plot
 #' @method plot prior
 #' @param x a \code{prior} object
 #' @param ... arguments passed to methods
 #' @rdname plot
-setMethod("plot", "prior", function(x, ...) {
+#' @exportS3Method plot prior
+plot.prior <- function(x, ...) {
   return(handle_prior_likelihood(x, n = 101L))
-})
+}
 
 
+#' @name plot
 #' @method plot posterior
 #' @param x a \code{posterior} object
 #' @param add_prior set to TRUE to add prior to the posterior plot
 #' @param ... arguments passed to methods
 #' @rdname plot
-setMethod("plot", "posterior", function(x, add_prior = FALSE, ...) {
+#' @exportS3Method plot posterior
+plot.posterior <- function(x, add_prior = FALSE, ...) {
   if (!add_prior) {
     return(plot_posterior(x, n = 101L))
   }
   return(plot_pp(x, n = 101L))
-})
+}
 
 
+#' @name plot
 #' @method plot likelihood
 #' @param x a \code{likelihood} object
 #' @param ... arguments passed to methods
 #' @rdname plot
-setMethod("plot", "likelihood", function(x, ...) {
+#' @exportS3Method plot likelihood
+plot.likelihood <- function(x, ...) {
   return(handle_prior_likelihood(x, n = 101L))
-})
+}
 
 
+#' @name plot
 #' @method plot product
 #' @param x a \code{product} object
 #' @param ... arguments passed to methods
 #' @rdname plot
-setMethod("plot", "product", function(x, ...) {
+#' @exportS3Method plot product
+plot.product <- function(x, ...) {
   return(plot_weighted_likelihood(x, n = 101L))
-})
+}
 
 
+#' @title plot
 #' @method plot prediction
 #' @param x a \code{prediction} object
 #' @param model_name name of the model
 #' @param ... arguments passed to methods
 #' @rdname plot
-setMethod("plot", "prediction", function(x, model_name = "model", ...) {
-  plot_prediction(x, model_name, ...)
-})
+#' @exportS3Method plot prediction
+plot.prediction <- function(x, model_name = "model", ...) {
+  return(plot_prediction(x, model_name, ...))
+}
 
 plot_prediction <- function(x, model_name = "model", ...) {
   likelihood_obj <- x@likelihood_obj
@@ -74,7 +82,7 @@ plot_prediction <- function(x, model_name = "model", ...) {
 
 
 handle_binomial_marginal <- function(x, model_name = "model", ...) {
-  model_func <- x[["prediction_function"]]
+  model_func <- suppressWarnings(x[["prediction_function"]])
   plot_range <- c(0L, get_binomial_trials(x))
   observation <- x@likelihood_obj@observation
 
@@ -161,7 +169,7 @@ get_max_range <- function(x) {
 
 
 handle_other_marginal <- function(x, model_name = "model", ...) {
-  model_func <- x[["prediction_function"]]
+  model_func <- suppressWarnings(x[["prediction_function"]])
   plot_range <- get_max_range(x)
   observation <- x@likelihood_obj@observation
 
@@ -173,10 +181,9 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
     x = x, y = y, color = color, linetype = linetype
   )
 
-
   ggplot2::ggplot() +
     ggplot2::geom_function(
-      fun = model_func,
+      fun = suppressWarnings(model_func),
       ggplot2::aes(colour = model_name, linetype = model_name)
     ) +
     ggplot2::geom_point(
@@ -399,8 +406,13 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
   model_name1 <- paste0(substitute(model1))
   model_name2 <- paste0(substitute(model2))
 
-  model1_layer <- plot_prediction(model1, n = 101L, model_name1)
-  model2_layer <- plot_prediction(model2, n = 101L, model_name2)
+  suppressWarnings({
+    model1_layer <- plot_prediction(model1, n = 101L, model_name1)
+  })
+
+  suppressWarnings({
+   model2_layer <- plot_prediction(model2, n = 101L, model_name2)
+  })
 
   if (!ratio) {
     return(suppressMessages(
@@ -421,8 +433,10 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
 
   if (ratio) {
     ratio_function <- function(x) {
+      suppressWarnings({
       model1[["prediction_function"]](x) /
         model2[["prediction_function"]](x)
+      })
     }
 
     if (model1@likelihood_obj@data[["family"]] == "binomial") {
