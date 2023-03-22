@@ -2,24 +2,22 @@
 % Please edit documentation in R/plots.R
 \name{plot}
 \alias{plot}
-\alias{plot,prior-method}
-\alias{plot,posterior-method}
-\alias{plot,likelihood-method}
-\alias{plot,product-method}
-\alias{plot,prediction-method}
+\alias{plot.prior}
+\alias{plot.posterior}
+\alias{plot.likelihood}
+\alias{plot.product}
+\alias{plot.prediction}
 \title{Plot a bayesplay object}
 \usage{
-\S4method{plot}{bayesplay}(x, y, ...)
+\method{plot}{prior}(x, ...)
 
-\S4method{plot}{prior}(x, y, ...)
+\method{plot}{posterior}(x, add_prior = FALSE, ...)
 
-\S4method{plot}{posterior}(x, add_prior = FALSE, ...)
+\method{plot}{likelihood}(x, ...)
 
-\S4method{plot}{likelihood}(x, y, ...)
+\method{plot}{product}(x, ...)
 
-\S4method{plot}{product}(x, y, ...)
-
-\S4method{plot}{prediction}(x, model_name = "model", ...)
+\method{plot}{prediction}(x, model_name = "model", ...)
 }
 \arguments{
 \item{x}{a \code{prediction} object}
@@ -31,7 +29,7 @@
 \item{model_name}{name of the model}
 }
 \value{
-a \code{ggplo2} object
+a \code{ggplot2} object
 }
 \description{
 Plots an object created by bayesplay

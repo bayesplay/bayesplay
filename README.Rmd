@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 ![CRAN](https://www.r-pkg.org/badges/version-ago/bayesplay)
 ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/bayesplay)
 [![codecov](https://app.codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg?token=hEQ5HY3XOd)](https://codecov.io/gh/bayesplay/bayesplay)
-
 <!-- badges: end -->
 
 The goal of bayesplay is to provide an interface for calculating Bayes factors for simple models. It does this in a way that makes the calculations more *transparent* and it is therefore useful as a teaching tools. 
@@ -76,11 +75,11 @@ Currently the following distributions are supported for likelihoods and priors
 
 4. Various noncentral *t* distributions, including: 
 
-    - Noncentral *t* distribution (`noncentral_t`)
-    
-    - Noncentral *t* distribution scaled for a paired samples/one sample Cohen's *d* (`noncentral_d`)
-    
-    - Noncentral *t* distribution scaled for an independent samples Cohen's *d* (`noncentral_d2`)
+      - Noncentral *t* distribution (`noncentral_t`)
+
+      - Noncentral *t* distribution scaled for a paired samples/one sample Cohen's *d* (`noncentral_d`)
+
+      - Noncentral *t* distribution scaled for an independent samples Cohen's *d* (`noncentral_d2`)
     
 ## Worked examples
 
