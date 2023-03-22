@@ -39,7 +39,9 @@ product <- setClass(
     prior = "function",
     theta_range = "numeric",
     likelihood_obj = "likelihood",
-    prior_obj = "prior"
+    prior_obj = "prior",
+    approximation = "logical",
+    bf_against_point = "numeric"
   )
 )
 
@@ -54,7 +56,9 @@ posterior <- setClass(
     prior = "function",
     theta_range = "numeric",
     likelihood_obj = "likelihood",
-    prior_obj = "prior"
+    prior_obj = "prior",
+    approximation = "logical",
+    bf_against_point = "numeric"
   )
 )
 
@@ -68,7 +72,9 @@ prediction <- setClass(
     prior = "function",
     theta_range = "numeric",
     likelihood_obj = "likelihood",
-    prior_obj = "prior"
+    prior_obj = "prior",
+    approximation = "logical",
+    bf_against_point = "numeric"
   )
 )
 
@@ -107,12 +113,12 @@ setMethod(
 
 #' Get fields from data slot
 #' @param x a \code{bayesplay} object
-#' @param name field name
-#' @return content of the named field from the data slot
+#' @param i field index
+#' @return content of the specified field from the data slot
 setMethod(
   "[[",
   "bayesplay",
-  function(x, i, j, ..., drop = TRUE) {
+  function(x, i) {
     x@data[[i]]
   }
 )

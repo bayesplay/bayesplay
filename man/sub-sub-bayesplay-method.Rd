@@ -4,15 +4,15 @@
 \alias{[[,bayesplay-method}
 \title{Get fields from data slot}
 \usage{
-\S4method{[[}{bayesplay}(x, i, j, ..., drop = TRUE)
+\S4method{[[}{bayesplay}(x, i)
 }
 \arguments{
 \item{x}{a \code{bayesplay} object}
 
-\item{name}{field name}
+\item{i}{field index}
 }
 \value{
-content of the named field from the data slot
+content of the specified field from the data slot
 }
 \description{
 Get fields from data slot

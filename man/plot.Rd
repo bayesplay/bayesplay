@@ -2,29 +2,33 @@
 % Please edit documentation in R/plots.R
 \name{plot}
 \alias{plot}
-\alias{plot.prior}
-\alias{plot.likelihood}
-\alias{plot.posterior}
-\alias{plot.product}
-\alias{plot.prediction}
+\alias{plot,prior-method}
+\alias{plot,posterior-method}
+\alias{plot,likelihood-method}
+\alias{plot,product-method}
+\alias{plot,prediction-method}
 \title{Plot a bayesplay object}
 \usage{
-\method{plot}{prior}(x, ...)
+plot(x, ...)
 
-\method{plot}{likelihood}(x, ...)
+\S4method{plot}{prior}(x, ...)
 
-\method{plot}{posterior}(x, add_prior = FALSE, ...)
+\S4method{plot}{posterior}(x, add_prior = FALSE, ...)
 
-\method{plot}{product}(x, ...)
+\S4method{plot}{likelihood}(x, ...)
 
-\method{plot}{prediction}(x, ...)
+\S4method{plot}{product}(x, ...)
+
+\S4method{plot}{prediction}(x, model_name = "model", ...)
 }
 \arguments{
-\item{x}{a \code{likelihood}, \code{prior}, \code{posterior}, \code{product} or \code{predictive} object #nolint}
+\item{x}{a \code{prediction} object}
 
 \item{...}{arguments passed to methods}
 
 \item{add_prior}{set to TRUE to add prior to the posterior plot}
+
+\item{model_name}{name of the model}
 }
 \value{
 a \code{ggplo2} object
