@@ -8,6 +8,14 @@
 \description{
 A lightweight modelling syntax for defining likelihoods and priors and for computing Bayes factors for simple one parameter models. It includes functionality for computing and plotting priors, likelihoods, and model predictions. Additional functionality is included for computing and plotting posteriors.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/bayesplay/bayesplay}
+  \item Report bugs at \url{https://github.com/bayesplay/bayesplay/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Lincoln J Colling \email{lincoln@colling.net.nz} (\href{https://orcid.org/0000-0002-3572-7758}{ORCID})
 

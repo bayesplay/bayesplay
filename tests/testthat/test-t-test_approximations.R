@@ -11,11 +11,6 @@ t_to_d2 <- function(t, df) {
   list(d = d, n1 = n1, n2 = n2)
 }
 
-# unname <- function(x) {
-#   x <- base::unname(x)
-#   clipr::write_clip(glue::glue("bf <- {x}"))
-#   x
-# }
 
 
 test_that("Approximation works", {

@@ -10,7 +10,8 @@ extract_posterior <- function(x) {
 
 
   if (x@approximation == TRUE) {
-    stop("Marginal likelihood has been approximated; Can't reliably output a posterior function.", call. = FALSE)
+    stop("Marginal likelihood has been approximated; Can't reliably output",
+      " a posterior function.", call. = FALSE)
   }
 
   desc <- paste0(
