@@ -21,9 +21,9 @@ test_that("Normalising warnings", {
     ), "mean"
   )
 
-# })
-#
-# test_that("Results with normalising errors", {
+})
+
+test_that("Results with normalising errors", {
   suppressWarnings({
     shifted_half_norm <- prior(
       family = "normal",
@@ -66,9 +66,9 @@ test_that("Normalising warnings", {
   bf <- integral(data_model * shifted_half_norm) /
     integral(data_model * null_prior)
   expect_equal(as.numeric(unclass(bf)), 0L, tolerance = 0L)
-# })
-#
-# test_that("Normalisation method", {
+})
+
+test_that("Normalisation method", {
   mean <- 1L
   sd <- 10L
   ll <- -2L

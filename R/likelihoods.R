@@ -118,7 +118,8 @@ get_plot_range <- function(family) { # nolint
 
 
 #' Specify a likelihood
-#' @description Define likelihoods using different different distribution families #nolint
+#' @description Define likelihoods using different different distribution
+#' families
 #' @param family the likelihood distribution (see details)
 #' @param ... see details
 #'
@@ -131,8 +132,12 @@ get_plot_range <- function(family) { # nolint
 #' * \code{noncentral_d} a noncentral t (for one sample d)
 #' * \code{noncentral_d2} a noncentral t (for independent samples d)
 #' * \code{binomial} a binomial distribution
+#'
+#'
 #' The parameters that need to be specified will be dependent on the
 #' family
+#'
+#'
 #' ## normal distribution
 #' When \code{family} is set to \code{normal} then the following
 #' parameters must be set
@@ -166,7 +171,8 @@ get_plot_range <- function(family) { # nolint
 #' * \code{n2} the sample size of group 2
 #'
 #' \eqn{s_{\mathrm{pooled}}}{s_pooled} is set as below:
-#' \deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))}
+#' \deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }
+#' {n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))}
 #'
 #'
 #' ## binomial distribution

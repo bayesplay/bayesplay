@@ -11,13 +11,8 @@ t_to_d2 <- function(t, df) {
   list(d = d, n1 = n1, n2 = n2)
 }
 
-# unname <- function(x) {
-#   x <- base::unname(x)
-#   clipr::write_clip(glue::glue("bf <- {x}"))
-#   x
-# }
 
-
+## FIXME: This needs approximations for one-sample tests too!
 test_that("Approximation works", {
   # note, that approximations are invoked when the t-value is very large
   # or when the prior is truncated and the t-value is in the truncated region
@@ -32,13 +27,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 16.8045514199822
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -53,13 +41,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 57.9851200108064
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -74,13 +55,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 538.691408434198
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -95,13 +69,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 302479507.020976
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -118,13 +85,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 25655644599.9737
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -140,13 +100,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 81407502464.5156
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -161,13 +114,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 7727336038836.84
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -185,14 +131,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0748129841998264
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -208,14 +146,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0677364571619135
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -233,14 +163,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0216306847663303
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -255,14 +177,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.00514506391415391
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -277,14 +191,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.00154498566424772
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -299,14 +205,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(-Inf, 0L),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.00415484006186442
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -323,14 +221,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0728303285761128
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -345,14 +235,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0436725327106835
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -368,14 +250,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.0160479382778689
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -390,14 +264,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.00903123730304949
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -412,14 +278,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 1L, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.00034618370689802
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -436,14 +294,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 0.707, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.000245186701573274
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -459,14 +309,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 0.707, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.000588357441164805
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -481,14 +323,6 @@ test_that("Approximation works", {
     ))() |>
     sd_ratio(point = 0L) |>
     as.numeric()
-  # bf <- BayesFactor::ttest.tstat(
-  #   t_value,
-  #   floor((df + 2L) / 2L),
-  #   ceiling((df + 2L) / 2L),
-  #   nullInterval = c(0L, Inf),
-  #   rscale = 0.707, simple = TRUE
-  # ) |>
-  #   unname()
   bf <- 0.000588357441164805
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 

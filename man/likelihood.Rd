@@ -15,7 +15,8 @@ likelihood(family, ...)
 an object of class \code{likelihood}
 }
 \description{
-Define likelihoods using different different distribution families #nolint
+Define likelihoods using different different distribution
+families
 }
 \details{
 \subsection{Available distribution families}{
@@ -28,9 +29,10 @@ The following distribution families can be used for the likelihood
 \item \code{noncentral_d} a noncentral t (for one sample d)
 \item \code{noncentral_d2} a noncentral t (for independent samples d)
 \item \code{binomial} a binomial distribution
+}
+
 The parameters that need to be specified will be dependent on the
 family
-}
 }
 
 \subsection{normal distribution}{
@@ -85,7 +87,8 @@ parameters may be set
 }
 
 \eqn{s_{\mathrm{pooled}}}{s_pooled} is set as below:
-\deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))}
+\deqn{s_{\mathrm{pooled}} = \sqrt{\frac{(n_1 - 1)s^2_1 + (n_2 - 1)s^2_2 }
+{n_1 + n_2 - 2}}}{\sqrt(((n1 - 1) * s1^2 + (n2 - 1)*s2^2)/(n1 + n2 - 2))}
 }
 
 \subsection{binomial distribution}{

@@ -13,5 +13,6 @@
 No return, called for side effects
 }
 \description{
-Provide a verbal summary of a Bayes factor and the level of evidence
+Provide a verbal summary of a Bayes factor and
+the level of evidence
 }

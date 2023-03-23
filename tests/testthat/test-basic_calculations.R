@@ -13,7 +13,7 @@ test_that("binomial likelihood", {
   b <- m1 / m0
 
   testthat::expect_equal(as.numeric(unclass(b)),
-   1 / 0.4887695,
+   1L / 0.4887695,
     label = "binomial likelihood, beta prior",
     tolerance = tol, scale = 1L
   )
@@ -26,28 +26,28 @@ test_that("binomial likelihood", {
   m0 <- integral(l * p0)
   b <- m1 / m0
   testthat::expect_equal(as.numeric(unclass(b)),
-    1 / 0.6982422,
+    1L / 0.6982422,
     label = "binomial likelihood, uniform prior",
     tolerance = tol, scale = 1L
   )
 
 
-  data_model <- likelihood(family = "binomial", 3, trials = 12)
-  alt_prior <- prior(family = "beta", 1, 1)
+  data_model <- likelihood(family = "binomial", 3L, trials = 12L)
+  alt_prior <- prior(family = "beta", 1L, 1L)
   null_prior <- prior(family = "point", point = 0.5)
   m1 <- data_model * alt_prior
   m0 <- data_model * null_prior
   b1 <- integral(m1) / integral(m0)
-  b2 <- 1 / 0.6982422
+  b2 <- 1L / 0.6982422
   testthat::expect_equal(as.numeric(unclass(b1)),
     unclass(unname(b2)),
     label = "binomial likelihood, beta uniform",
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1L
   )
 
 
-  data_model <- likelihood(family = "binomial", successes = 2, trials = 10)
-  alt_prior <- prior(family = "beta", alpha = 1, beta = 2.5)
+  data_model <- likelihood(family = "binomial", successes = 2L, trials = 10L)
+  alt_prior <- prior(family = "beta", alpha = 1L, beta = 2.5)
   null_prior <- prior(family = "point", point = 0.5)
   m1 <- data_model * alt_prior
   m0 <- data_model * null_prior
@@ -56,16 +56,16 @@ test_that("binomial likelihood", {
   testthat::expect_equal(as.numeric(unclass(b1)),
     unclass(unname(b2)),
     label = "binomial likelihood, beta prior",
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1L
   )
 
-# })
-#
-#
-# test_that("noncentral_d likelhood", {
+})
 
 
-  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80)
+test_that("noncentral_d likelhood", {
+
+
+  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80L)
   p1 <- prior("cauchy", location = 0L, scale = 1L)
   p0 <- prior("point", 0L)
   m1 <- integral(l * p1)
@@ -79,7 +79,7 @@ test_that("binomial likelihood", {
   )
 
 
-  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80)
+  l <- likelihood(family = "noncentral_d", d = 0.22696089971622862569, n = 80L)
   p1 <- prior("cauchy", location = 0L, scale = 1L, range = c(0L, Inf))
   p0 <- prior("point", 0L)
 
@@ -94,7 +94,7 @@ test_that("binomial likelihood", {
   )
 
 
-  l <- likelihood("noncentral_d", 0.624524917476492, 51)
+  l <- likelihood("noncentral_d", 0.624524917476492, 51L)
   p1 <- prior("cauchy", 0L, 0.707)
   p0 <- prior("point", 0L)
   m1 <- integral(l * p1)
@@ -110,22 +110,22 @@ test_that("binomial likelihood", {
   l <- likelihood("noncentral_d", -2.24, 34L)
   p1 <- prior("cauchy", 0L, 0.707, c(0L, Inf))
   p0 <- prior("point", 0L)
-  b <- suppressWarnings({integral(l * p1) / integral(l * p0)})
+  b <- suppressWarnings(integral(l * p1) / integral(l * p0))
 
   testthat::expect_equal(as.numeric(unclass(b)),
     0.006772853,
     label = "previously anomalous t test v2 (as t)",
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1L
   )
 
 
-# })
-#
-#
-#
-# test_that("noncentral_d2 likelihoods", {
+})
 
-  l <- likelihood("noncentral_d2", d = -0.16866426138921944422, n1 = 17L, n2 = 18L)
+
+
+test_that("noncentral_d2 likelihoods", {
+
+  l <- likelihood("noncentral_d2", -0.16866426138921944422, 17L,  18L)
   p1 <- prior("cauchy", location = 0L, scale = 1L)
   p0 <- prior("point", 0L)
 
@@ -172,7 +172,7 @@ test_that("binomial likelihood", {
   )
 
 
-  l <- likelihood(family = "noncentral_t", t = 2.03, df = 79)
+  l <- likelihood(family = "noncentral_t", t = 2.03, df = 79L)
   p1 <- prior(family = "cauchy", location = 0L, scale = 8.94427190999915922021)
   p0 <- prior("point", 0L)
   m1 <- integral(l * p1)
@@ -182,13 +182,11 @@ test_that("binomial likelihood", {
   testthat::expect_equal(as.numeric(unclass(b)),
   0.64207642378841778275,
     label = "default bayes t (t version)",
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1L
   )
 
- 
-
   l <- likelihood(family = "noncentral_t", t = 4.46, df = 49L)
-  p1 <- prior("cauchy", location = 0L, scale = sqrt(50L)) 
+  p1 <- prior("cauchy", location = 0L, scale = sqrt(50L))
   p0 <- prior("point", 0L)
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
@@ -212,15 +210,15 @@ test_that("binomial likelihood", {
   testthat::expect_equal(as.numeric(unclass(b)),
     460.2497,
     label = "previously anomalous t test v2 (as t)",
-    tolerance = tol, scale = 1
+    tolerance = tol, scale = 1L
   )
 
-# })
-#
-# test_that("student_t likelihoods", {
+})
+
+test_that("student_t likelihoods", {
 
 
-  l <- likelihood("student_t", mean = 5.47, sd = 32.2, df = 119)
+  l <- likelihood("student_t", mean = 5.47, sd = 32.2, df = 119L)
   p1 <- prior("student_t", mean = 13.3, sd = 4.93, df = 72L)
 
   p0 <- prior("point", 0L)
@@ -235,9 +233,9 @@ test_that("binomial likelihood", {
     label = "student_t prior (student_t likelihood)"
   )
 
-# })
-#
-# test_that("normal likelihoods", {
+})
+
+test_that("normal likelihoods", {
 
 
   l <- likelihood(family = "normal", mean = 5L, sd = 10L)
@@ -245,7 +243,7 @@ test_that("binomial likelihood", {
   p0 <- prior(family = "point", point = 0L)
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
-  b <- m1 / m0 
+  b <- m1 / m0
 
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.89),
@@ -273,7 +271,7 @@ test_that("binomial likelihood", {
 
   l <- likelihood(family = "normal", mean = 0.63, sd = 0.43)
   p1 <- prior(
-    family = "normal", mean = 0, sd = 2.69,
+    family = "normal", mean = 0L, sd = 2.69,
     range = c(0L, Inf)
   )
   p0 <- prior(family = "point", point = 0L)
@@ -302,10 +300,10 @@ test_that("binomial likelihood", {
   )
 
 
-# })
-#
-#
-# test_that("noncentral_d likelihoods", {
+})
+
+
+test_that("noncentral_d likelihoods", {
 
   l <- likelihood(family = "noncentral_d", d = 1.49188227940238959945, n = 10L)
   p1 <- prior(family = "cauchy", 0L, 1L)
@@ -321,5 +319,3 @@ test_that("binomial likelihood", {
 
 
 })
-
-

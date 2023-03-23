@@ -98,7 +98,8 @@ integral <- function(obj) {
   # then one of the them must also be a point null
   # FIXME: This condition is not correct
   if (has_approximation == TRUE && one_is_point == FALSE) {
-    stop("Marginal likelihood is a approximation. One prior must be a point prior at 0",
+    stop("Marginal likelihood is a approximation. One prior must ",
+      "be a point prior at 0",
       call. = FALSE
     )
   }
@@ -150,7 +151,8 @@ bfsay <- function(bf) {
 }
 
 #' Summarise a Bayes factor
-#' @description Provide a verbal summary of a Bayes factor and the level of evidence
+#' @description Provide a verbal summary of a Bayes factor and
+#' the level of evidence
 #' @param object a \code{bf} object
 #' @export
 #' @return No return, called for side effects
@@ -256,7 +258,7 @@ sd_ratio <- function(x, point) {
 
 
   likelihood_family <- likelihood[["family"]]
-  prior_family <- prior[["family"]]
+  # prior_family <- prior[["family"]]
 
   approx <- check_approximation(likelihood, prior)
   do_approximation <- approx[["approximation"]]
@@ -270,8 +272,9 @@ sd_ratio <- function(x, point) {
 
   if (do_approximation == TRUE && likelihood_family == "noncentral_t") {
     stop("t value is large; approximation needed.
-    Reparametrise using a `noncentral_d` or `noncentral_d2` likelihood.", 
-    call. = FALSE)
+    Reparametrise using a `noncentral_d` or `noncentral_d2` likelihood.",
+      call. = FALSE
+    )
   }
 
 
@@ -285,15 +288,16 @@ sd_ratio <- function(x, point) {
     t <- approximation_params[["t"]]
     df <- approximation_params[["df"]]
     approximation <- estimate_marginal(n, t, df, prior)
-    marginal_likelihood_approximation <- approximation[["marginal"]]
+    marginal_likelihood_approx <- approximation[["marginal"]]
     observation_shift <- approximation[["observation_shift"]]
     if (observation_shift != 0L) {
       obs <- recompute_observation(likelihood, observation_shift)
-      warning("Observation of d = ", obs[['d']], " is unstable.\n",
-      "Shifting observation to d = ", obs[['new_d']]
-        , call. = FALSE) 
+      warning("Observation of d = ", obs[["d"]], " is unstable.\n",
+        "Shifting observation to d = ", obs[["new_d"]],
+        call. = FALSE
+      )
     }
-    
+
     warning("Observation is large; approximation needed.", call. = FALSE)
   }
 
@@ -348,9 +352,11 @@ sd_ratio <- function(x, point) {
 
 
   if (do_approximation) {
-    auc <- marginal_likelihood_approximation
-    text <- paste0("  Area under curve: ", round(auc, 4L),
-      " (approximation)")
+    auc <- marginal_likelihood_approx
+    text <- paste0(
+      "  Area under curve: ", round(auc, 4L),
+      " (approximation)"
+    )
   } else {
     auc <- marginal_likelihood
     text <- paste0("  Area under curve: ", round(auc, 4L))
@@ -373,7 +379,7 @@ sd_ratio <- function(x, point) {
     text
     # "  Area under curve: ", round(data[["integral"]], 4L)
   )
-  
+
 
   new(
     Class = "product",
@@ -414,7 +420,7 @@ reparameterise_d2_to_t <- function(likelihood_obj) {
 prior_in_range <- function(prior_obj, likelihood_obj) {
   prior_limits <- prior_obj[["parameters"]][["range"]]
   observation <- likelihood_obj@observation
-  observation >= prior_limits[[1]] && observation <= prior_limits[[2]]
+  observation >= prior_limits[[1L]] && observation <= prior_limits[[2L]]
 }
 
 
@@ -423,7 +429,7 @@ check_approximation <- function(likelihood_obj, prior_obj) {
   likelihood_family <- likelihood_obj[["family"]]
 
   likelihods_approx <- c("noncentral_t", "noncentral_d2", "noncentral_d")
-  priors_approx <- c("cauchy")
+  priors_approx <- "cauchy"
 
   # don't perform approximation if the likelihoods or priors are not supported
   if (likelihood_family %in% likelihods_approx == FALSE) {
@@ -488,8 +494,8 @@ shift_observation <- function(likelihood_obj, shift) {
   round_observation <- observation
   # fallback for second pass
   # if (observation == round_observation) {
-    round_observation <- round_observation + shift
-  # } 
+  round_observation <- round_observation + shift
+  # }
   params[[1L]] <- round_observation
   params[["family"]] <- family
   do.call(likelihood, params)
@@ -500,7 +506,7 @@ total_n <- function(likelihood_obj) {
   if (likelihood_obj[["family"]] == "noncentral_d") {
     n <- likelihood_obj[["parameters"]][["n"]]
   } else if (likelihood_obj[["family"]] == "noncentral_d2") {
-    n1 <- likelihood_obj[["parameters"]][["n1"]] 
+    n1 <- likelihood_obj[["parameters"]][["n1"]]
     n2 <- likelihood_obj[["parameters"]][["n2"]]
     n <- n1 * n2 / (n1 + n2)
   } else {
@@ -511,7 +517,7 @@ total_n <- function(likelihood_obj) {
 
 
 recompute_observation <- function(likelihood_obj, observation_shift) {
-  n <- total_n(likelihood_obj) 
+  n <- total_n(likelihood_obj)
   d <- likelihood_obj[["parameters"]][["d"]]
   t <- d * sqrt(n)
   new_t <- t + observation_shift
@@ -523,7 +529,7 @@ recompute_observation <- function(likelihood_obj, observation_shift) {
 
 estimate_marginal <- function(n, t, df, prior) {
   prior_limits <- prior[["parameters"]][["range"]]
-  prior_family <- prior[["family"]]
+  # prior_family <- prior[["family"]]
   upper <- prior_limits[[2L]]
   lower <- prior_limits[[1L]]
   var_delta <- 1L / n
@@ -571,53 +577,55 @@ estimate_marginal <- function(n, t, df, prior) {
   while (TRUE) {
     auc_h1_pass1 <- integrate(
       Vectorize(\(x)  pass_1_likelihood@func(x) * new_prior@func(x)),
-      -Inf, Inf, subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
+      -Inf, Inf,
+      subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
     )
     error1 <- auc_h1_pass1[["abs.error"]]
 
     auc_h1_pass2 <- integrate(
       Vectorize(\(x)  pass_2_likelihood@func(x) * new_prior@func(x)),
-      -Inf, Inf, subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
+      -Inf, Inf,
+      subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
     )
     error2 <- auc_h1_pass2[["abs.error"]]
 
 
-    error <- error1 == 0L | error2  == 0L
+    error <- error1 == 0L | error2 == 0L
     if (error) {
-        pass_1_likelihood <- shift_observation(pass_1_likelihood, -0.01)
-        pass_2_likelihood <- shift_observation(pass_2_likelihood, 0.01)
+      pass_1_likelihood <- shift_observation(pass_1_likelihood, -0.01)
+      pass_2_likelihood <- shift_observation(pass_2_likelihood, 0.01)
     } else {
       break
     }
   }
 
-   # TODO: This should pick the most conservative one
-    observation_shift_1 <- abs(
-      pass_1_likelihood@observation - original_observation
+  # TODO: This should pick the most conservative one
+  observation_shift_1 <- abs(
+    pass_1_likelihood@observation - original_observation
   )
-    observation_shift_2 <- abs(
-      pass_2_likelihood@observation - original_observation
+  observation_shift_2 <- abs(
+    pass_2_likelihood@observation - original_observation
   )
-    if (observation_shift_1 < observation_shift_2) {
-      auc_h1 <- auc_h1_pass1
-      new_likelihood <- pass_1_likelihood
-    } else {
-      auc_h1 <- auc_h1_pass2
-      new_likelihood <- pass_2_likelihood
-    }
-     
-   
-    auc_h1 <- auc_h1[["value"]]
-    auc_h0 <- new_likelihood@func(0L)
-    log_bf_uncorrected <- log(auc_h1 / auc_h0)
-    log_bf <- log_bf_interval + log_bf_uncorrected
-    bf <- exp(log_bf)
-    new_observation <- new_likelihood@observation
+  if (observation_shift_1 < observation_shift_2) {
+    auc_h1 <- auc_h1_pass1
+    new_likelihood <- pass_1_likelihood
+  } else {
+    auc_h1 <- auc_h1_pass2
+    new_likelihood <- pass_2_likelihood
+  }
+
+
+  auc_h1 <- auc_h1[["value"]]
+  auc_h0 <- new_likelihood@func(0L)
+  log_bf_uncorrected <- log(auc_h1 / auc_h0)
+  log_bf <- log_bf_interval + log_bf_uncorrected
+  bf <- exp(log_bf)
+  new_observation <- new_likelihood@observation
 
   if (new_observation != original_observation) {
     observation_shift <- new_observation - original_observation
   } else {
-      observation_shift <- 0L
+    observation_shift <- 0L
   }
 
   list(marginal = bf * auc_h0, bf = bf, observation_shift = observation_shift)
