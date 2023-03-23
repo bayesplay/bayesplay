@@ -30,3 +30,5 @@ Authors@R:
             comment = c(ORCID = "0000-0002-3572-7758"),
             email = "lincoln@colling.net.nz",
             role = c("aut","cre"))
+URL: https://github.com/bayesplay/bayesplay
+BugReports: https://github.com/bayesplay/bayesplay/issues
