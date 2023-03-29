@@ -332,12 +332,13 @@ truncate_normalise_beta <- function(family, range, alpha, beta, ...) {
   }
 
   k <- range_area_beta(alpha, beta, ll, ul)
-  if (k != 0L) {
-    constant <- 1L / k
-  } else {
-    warning("Could not normalise the truncated prior. Adjust the limits.")
-    constant <- 0L
-  }
+  constant <- 1L / k
+  # if (k != 0L) {
+  # }
+  # } else {
+  #   warning("Could not normalise the truncated prior. Adjust the limits.")
+  #   constant <- 0L
+  # }
 
 
   normalised <- function(x) truncated_function(x) * constant

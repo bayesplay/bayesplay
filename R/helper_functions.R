@@ -25,10 +25,10 @@ in_range <- function(x, range) {
 
 
 
-`/.product` <- function(e1, e2) {
-  bf <- e1@data[["integral"]] / e2@data[["integral"]]
-  return(bf)
-}
+# `/.product` <- function(e1, e2) {
+#   bf <- e1@data[["integral"]] / e2@data[["integral"]]
+#   return(bf)
+# }
 
 setOldClass("numeric")
 
@@ -64,7 +64,7 @@ integral <- function(obj) {
     stop("obj must be of class product", call. = FALSE)
   }
   rv <- new("auc", obj[["integral"]])
-  attr(rv, "approximate") <- obj[["approximate"]]
+  attr(rv, "approximate") <- slot(obj, "approximation")
   ## prior description
   p <- obj@prior_obj
   p_desc <- p[["parameters"]]
@@ -76,20 +76,20 @@ integral <- function(obj) {
 #' @export
 `/.auc` <- function(e1, e2) {
   # FIXME: This is a hack... attribute should be set earlier
-  is_e1_approx <- attributes(e1)[["approximate"]] %||% FALSE
-  is_e2_approx <- attributes(e2)[["approximate"]] %||% FALSE
+  is_e1_approx <- is_approx(e1)
+  is_e2_approx <- is_approx(e2)
 
   has_approximation <- is_e1_approx | is_e2_approx
 
-  is_e1_point <- attributes(e1)[["prior"]][["family"]] == "point"
-  is_e2_point <- attributes(e2)[["prior"]][["family"]] == "point"
+  is_e1_point <- is_point(e1, 0L)
+  is_e2_point <- is_point(e2, 0L)
 
-  is_e1_point <- ifelse(is_e1_point,
-    attributes(e1)[["prior"]][["point"]] == 0L, FALSE
-  )
-  is_e2_point <- ifelse(is_e2_point,
-    attributes(e2)[["prior"]][["point"]] == 0L, FALSE
-  )
+  # is_e1_point <- ifelse(is_e1_point,
+  #   attributes(e1)[["prior"]][["point"]] == 0L, FALSE
+  # )
+  # is_e2_point <- ifelse(is_e2_point,
+  #   attributes(e2)[["prior"]][["point"]] == 0L, FALSE
+  # )
 
   one_is_point <- is_e1_point | is_e2_point
 
@@ -103,9 +103,6 @@ integral <- function(obj) {
       call. = FALSE
     )
   }
-
-
-
 
   new("bf", unclass(e1) / unclass(e2))
 }
@@ -231,7 +228,7 @@ integer_breaks <- function(n = 5L, ...) {
 sd_ratio <- function(x, point) {
   is_estimated <- x@approximation %||% FALSE
   if (is_estimated && point != 0L) {
-    stop("point must be 0 if the marginal likelihood is estimated",
+    stop("point must be 0 if the marginal likelihood is an approximation",
       call. = FALSE
     )
   } else if (is_estimated && point == 0L) {
@@ -271,16 +268,17 @@ sd_ratio <- function(x, point) {
 
 
   if (do_approximation == TRUE && likelihood_family == "noncentral_t") {
-    stop("t value is large; approximation needed.
-    Reparametrise using a `noncentral_d` or `noncentral_d2` likelihood.",
+    stop(
+    "t value is large; approximation needed
+     Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood.",
       call. = FALSE
     )
   }
 
 
   if (do_approximation == TRUE && supported_prior == FALSE) {
-    stop("Obseration is large; approximation needed.
-    Approximations are only supported with cauchy priors.", call. = FALSE)
+    warning("Observation is large; approximation needed.")
+    stop("Approximations are only supported with cauchy priors.", call. = FALSE)
   }
 
   if (do_approximation == TRUE) {
@@ -633,4 +631,20 @@ estimate_marginal <- function(n, t, df, prior) {
   }
 
   list(marginal = bf * auc_h0, bf = bf, observation_shift = observation_shift)
+}
+
+
+is_approx <- function(e1) {
+  atr <- attributes(e1)
+  if(!"approximate" %in% names(atr)) {
+    return(FALSE)
+  }
+  atr[["approximate"]]
+}
+
+is_point <- function(e1, value) {
+  if(attributes(e1)[["prior"]][["family"]] == "point") {
+   return(attributes(e1)[["prior"]][["point"]] == value)
+  } 
+  FALSE
 }

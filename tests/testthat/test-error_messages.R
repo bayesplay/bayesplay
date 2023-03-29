@@ -151,4 +151,69 @@ test_that("error messages", {
     integral(prior("normal", 0.0, 1.0)),
     "obj must be of class product"
   )
+
+  expect_error(
+    suppressWarnings(
+    plot(likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L))
+      ),
+    "Marginal likelihood has been approximated; Can't reliably output a plot."
+  )
+
+  expect_error(
+    suppressWarnings(
+    extract_posterior(likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L))
+      ),
+    "Marginal likelihood has been approximated; Can't reliably output a posterior function"
+  )
+
+  # TODO: Move these to a someting called approximation helper
+  mod1 <- suppressWarnings(
+      likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L)
+  )
+  mod2 <- suppressWarnings(
+      likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 1L, 2L)
+  ) 
+
+  e1 <- integral(mod1)
+  e2 <- integral(mod2)
+
+  e4 <- integral(likelihood("noncentral_d", 20.0, 20L) * prior("point", 0L))
+  e5 <- integral(likelihood("noncentral_d", 20.0, 20L) * prior("point", 1L))
+ 
+  expect_false(is_point(e1, 0L))
+  expect_true(is_point(e4, 0L))
+  expect_false(is_point(e5, 0L))
+
+
+  expect_error(
+    e1 / e2,
+    paste0("Marginal likelihood is a approximation. ",
+      "One prior must be a point prior at 0")
+  )
+
+
+ 
+  expect_error(
+    suppressWarnings(
+      likelihood("noncentral_d", 20.0, 20L) * prior("uniform", 1L, 2L)
+    ),
+    "Approximations are only supported with cauchy priors",
+  )
+
+  expect_error(
+    sd_ratio(mod2, 1),
+    "point must be 0 if the marginal likelihood is an approximation"
+  )
+
+  expect_error(
+    suppressWarnings(
+      likelihood("noncentral_t", 20.0, 20L) * prior("uniform", 1L, 2L)
+    ),
+    "t value is large; approximation needed
+     Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood.",
+  )
+
+
+
+
 })
