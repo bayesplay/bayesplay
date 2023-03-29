@@ -578,15 +578,15 @@ estimate_marginal <- function(n, t, df, prior) {
     auc_h1_pass1 <- integrate(
       Vectorize(\(x)  pass_1_likelihood@func(x) * new_prior@func(x)),
       -Inf, Inf,
-      subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
+      subdivisions = 1000L, abs.tol = 1e-14
     )
     error1 <- auc_h1_pass1[["abs.error"]]
 
     auc_h1_pass2 <- integrate(
       Vectorize(\(x)  pass_2_likelihood@func(x) * new_prior@func(x)),
       -Inf, Inf,
-      subdivisions = 1000L, rel.tol = 1e-10, abs.tol = 1e-10
-    )
+      subdivisions = 1000L, abs.tol = 1e-14
+     )
     error2 <- auc_h1_pass2[["abs.error"]]
 
 
@@ -626,6 +626,10 @@ estimate_marginal <- function(n, t, df, prior) {
     observation_shift <- new_observation - original_observation
   } else {
     observation_shift <- 0L
+  }
+
+  if (observation_shift != 0L) {
+    stop(t, n, df, observation_shift)
   }
 
   list(marginal = bf * auc_h0, bf = bf, observation_shift = observation_shift)
