@@ -214,6 +214,16 @@ test_that("error messages", {
   )
 
 
+  bf <- integral(likelihood("binomial", 2L, 10) * prior("uniform", 0L, 1L)) / 
+      integral(likelihood("binomial", 2L, 10L) * prior("point", 0.5))
+  
+  expect_output(
+    show(summary(bf)),
+    paste0(r"(Bayes factor\n)",
+      r"( Using the levels from Wagenmakers et al \(2017\)\n)",
+      r"( A BF of 2\.0687 indicates:\n)",
+      r"( Anecdotal evidence)")
+  )
 
 
 })

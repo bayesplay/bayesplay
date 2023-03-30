@@ -25,10 +25,6 @@ in_range <- function(x, range) {
 
 
 
-# `/.product` <- function(e1, e2) {
-#   bf <- e1@data[["integral"]] / e2@data[["integral"]]
-#   return(bf)
-# }
 
 setOldClass("numeric")
 
@@ -75,7 +71,7 @@ integral <- function(obj) {
 
 #' @export
 `/.auc` <- function(e1, e2) {
-  # FIXME: This is a hack... attribute should be set earlier
+
   is_e1_approx <- is_approx(e1)
   is_e2_approx <- is_approx(e2)
 
@@ -84,19 +80,13 @@ integral <- function(obj) {
   is_e1_point <- is_point(e1, 0L)
   is_e2_point <- is_point(e2, 0L)
 
-  # is_e1_point <- ifelse(is_e1_point,
-  #   attributes(e1)[["prior"]][["point"]] == 0L, FALSE
-  # )
-  # is_e2_point <- ifelse(is_e2_point,
-  #   attributes(e2)[["prior"]][["point"]] == 0L, FALSE
-  # )
 
   one_is_point <- is_e1_point | is_e2_point
 
 
   # if one of the objects is an approximation
   # then one of the them must also be a point null
-  # FIXME: This condition is not correct
+
   if (has_approximation == TRUE && one_is_point == FALSE) {
     stop("Marginal likelihood is a approximation. One prior must ",
       "be a point prior at 0",
@@ -235,13 +225,13 @@ sd_ratio <- function(x, point) {
     bf <- x@data[["integral"]] / x@likelihood_obj@func(0L)
     return(new("bf", bf))
   }
-  # TODO: Move approximation it's own slot in class
+
   bf <- x@prior_obj@func(point) / x[["posterior_function"]](point)
   new("bf", bf)
 }
 
 
-### FIXME: This needs to be updated
+
 
 #' @export
 `*.bayesplay` <- function(e1, e2) {
@@ -255,7 +245,7 @@ sd_ratio <- function(x, point) {
 
 
   likelihood_family <- likelihood[["family"]]
-  # prior_family <- prior[["family"]]
+
 
   approx <- check_approximation(likelihood, prior)
   do_approximation <- approx[["approximation"]]
@@ -288,13 +278,14 @@ sd_ratio <- function(x, point) {
     approximation <- estimate_marginal(n, t, df, prior)
     marginal_likelihood_approx <- approximation[["marginal"]]
     observation_shift <- approximation[["observation_shift"]]
-    if (observation_shift != 0L) {
-      obs <- recompute_observation(likelihood, observation_shift)
-      warning("Observation of d = ", obs[["d"]], " is unstable.\n",
-        "Shifting observation to d = ", obs[["new_d"]],
-        call. = FALSE
-      )
-    }
+
+    # if (observation_shift != 0L) {
+    #   obs <- recompute_observation(likelihood, observation_shift)
+    #   warning("Observation of d = ", obs[["d"]], " is unstable.\n",
+    #     "Shifting observation to d = ", obs[["new_d"]],
+    #     call. = FALSE
+    #   )
+    # }
 
     warning("Observation is large; approximation needed.", call. = FALSE)
   }
@@ -401,7 +392,7 @@ reparameterise_d_to_t <- function(likelihood_obj) {
   d <- likelihood_obj[["parameters"]][["d"]]
   t <- d * sqrt(n)
   df <- n - 1L
-  # observation_type <- "d"
+
   list(n = n, t = t, df = df)
 }
 
@@ -484,50 +475,48 @@ check_approximation <- function(likelihood_obj, prior_obj) {
 }
 
 
-shift_observation <- function(likelihood_obj, shift) {
-  family <- likelihood_obj[["family"]]
-  params <- likelihood_obj[["parameters"]]
-  observation <- params[[1L]]
-  # round_observation <- round(observation, 2L)
-  round_observation <- observation
-  # fallback for second pass
-  # if (observation == round_observation) {
-  round_observation <- round_observation + shift
-  # }
-  params[[1L]] <- round_observation
-  params[["family"]] <- family
-  do.call(likelihood, params)
-}
+# shift_observation <- function(likelihood_obj, shift) {
+#   family <- likelihood_obj[["family"]]
+#   params <- likelihood_obj[["parameters"]]
+#   observation <- params[[1L]]
+#
+#   round_observation <- observation
+#
+#
+#   round_observation <- round_observation + shift
+#
+#   params[[1L]] <- round_observation
+#   params[["family"]] <- family
+#   do.call(likelihood, params)
+# }
 
 
-total_n <- function(likelihood_obj) {
-  if (likelihood_obj[["family"]] == "noncentral_d") {
-    n <- likelihood_obj[["parameters"]][["n"]]
-  } else if (likelihood_obj[["family"]] == "noncentral_d2") {
-    n1 <- likelihood_obj[["parameters"]][["n1"]]
-    n2 <- likelihood_obj[["parameters"]][["n2"]]
-    n <- n1 * n2 / (n1 + n2)
-  } else {
-    stop("This should not happen")
-  }
-  n
-}
+# total_n <- function(likelihood_obj) {
+#   if (likelihood_obj[["family"]] == "noncentral_d") {
+#     n <- likelihood_obj[["parameters"]][["n"]]
+#   } else if (likelihood_obj[["family"]] == "noncentral_d2") {
+#     n1 <- likelihood_obj[["parameters"]][["n1"]]
+#     n2 <- likelihood_obj[["parameters"]][["n2"]]
+#     n <- n1 * n2 / (n1 + n2)
+#   } else {
+#     stop("This should not happen")
+#   }
+#   n
+# }
 
 
-recompute_observation <- function(likelihood_obj, observation_shift) {
-  n <- total_n(likelihood_obj)
-  d <- likelihood_obj[["parameters"]][["d"]]
-  t <- d * sqrt(n)
-  new_t <- t + observation_shift
-  new_d <- new_t / sqrt(n)
-  list(d = d, new_d = new_d)
-}
-
-
+ # recompute_observation <- function(likelihood_obj, observation_shift) {
+ #   n <- total_n(likelihood_obj)
+ #   d <- likelihood_obj[["parameters"]][["d"]]
+ #   t <- d * sqrt(n)
+ #   new_t <- t + observation_shift
+ #   new_d <- new_t / sqrt(n)
+ #   list(d = d, new_d = new_d)
+ # }
 
 estimate_marginal <- function(n, t, df, prior) {
   prior_limits <- prior[["parameters"]][["range"]]
-  # prior_family <- prior[["family"]]
+
   upper <- prior_limits[[2L]]
   lower <- prior_limits[[1L]]
   var_delta <- 1L / n
@@ -565,52 +554,52 @@ estimate_marginal <- function(n, t, df, prior) {
   # The numerical integration can silently fail
   # This is extremely rare, but when it does occur we just need to
   # shift the observation by a small amount and try again
-  # TODO: Move up and down so that we can get a better estimate
 
-  # FIXME: Step out in both directions at the same time
-  # Then the one that stops first is the closest one
+
+
+
   pass_1_likelihood <- new_likelihood
-  pass_2_likelihood <- new_likelihood
+  # pass_2_likelihood <- new_likelihood
   original_observation <- new_likelihood@observation
-  while (TRUE) {
+  # while (TRUE) {
     auc_h1_pass1 <- integrate(
       Vectorize(\(x)  pass_1_likelihood@func(x) * new_prior@func(x)),
       -Inf, Inf,
       subdivisions = 1000L, abs.tol = 1e-14
     )
-    error1 <- auc_h1_pass1[["abs.error"]]
+    # error1 <- auc_h1_pass1[["abs.error"]]
 
-    auc_h1_pass2 <- integrate(
-      Vectorize(\(x)  pass_2_likelihood@func(x) * new_prior@func(x)),
-      -Inf, Inf,
-      subdivisions = 1000L, abs.tol = 1e-14
-     )
-    error2 <- auc_h1_pass2[["abs.error"]]
+    # auc_h1_pass2 <- integrate(
+    #   Vectorize(\(x)  pass_2_likelihood@func(x) * new_prior@func(x)),
+    #   -Inf, Inf,
+    #   subdivisions = 1000L, abs.tol = 1e-14
+    #  )
+    # error2 <- auc_h1_pass2[["abs.error"]]
 
 
-    error <- error1 == 0L | error2 == 0L
-    if (error) {
-      pass_1_likelihood <- shift_observation(pass_1_likelihood, -0.01)
-      pass_2_likelihood <- shift_observation(pass_2_likelihood, 0.01)
-    } else {
-      break
-    }
-  }
+    # error <- error1 == 0L | error2 == 0L
+    # if (error) {
+      # pass_1_likelihood <- shift_observation(pass_1_likelihood, -0.01)
+      # pass_2_likelihood <- shift_observation(pass_2_likelihood, 0.01)
+    # } else {
+      # break
+    # }
+  # }
 
-  # TODO: This should pick the most conservative one
+
   observation_shift_1 <- abs(
     pass_1_likelihood@observation - original_observation
   )
-  observation_shift_2 <- abs(
-    pass_2_likelihood@observation - original_observation
-  )
-  if (observation_shift_1 < observation_shift_2) {
+  # observation_shift_2 <- abs(
+    # pass_2_likelihood@observation - original_observation
+  # )
+  # if (observation_shift_1 < observation_shift_2) {
     auc_h1 <- auc_h1_pass1
     new_likelihood <- pass_1_likelihood
-  } else {
-    auc_h1 <- auc_h1_pass2
-    new_likelihood <- pass_2_likelihood
-  }
+  # } else {
+    # auc_h1 <- auc_h1_pass2
+    # new_likelihood <- pass_2_likelihood
+  # }
 
 
   auc_h1 <- auc_h1[["value"]]
@@ -620,31 +609,31 @@ estimate_marginal <- function(n, t, df, prior) {
   bf <- exp(log_bf)
   new_observation <- new_likelihood@observation
 
-  if (new_observation != original_observation) {
-    observation_shift <- new_observation - original_observation
-  } else {
-    observation_shift <- 0L
-  }
+  # if (new_observation != original_observation) {
+  #   observation_shift <- new_observation - original_observation
+  # } else {
+  #   observation_shift <- 0L
+  # }
+  #
+  # if (observation_shift != 0L) {
+  #   stop(t, n, df, observation_shift)
+  # }
 
-  if (observation_shift != 0L) {
-    stop(t, n, df, observation_shift)
-  }
-
-  list(marginal = bf * auc_h0, bf = bf, observation_shift = observation_shift)
+  list(marginal = bf * auc_h0, bf = bf)#, observation_shift = observation_shift)
 }
 
 
 is_approx <- function(e1) {
   atr <- attributes(e1)
-  if(!"approximate" %in% names(atr)) {
-    return(FALSE)
-  }
+  # if (!"approximate" %in% names(atr)) {
+    # return(FALSE)
+  # }
   atr[["approximate"]]
 }
 
 is_point <- function(e1, value) {
-  if(attributes(e1)[["prior"]][["family"]] == "point") {
+  if (attributes(e1)[["prior"]][["family"]] == "point") {
    return(attributes(e1)[["prior"]][["point"]] == value)
-  } 
+  }
   FALSE
 }
