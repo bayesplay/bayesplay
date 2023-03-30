@@ -161,9 +161,11 @@ test_that("error messages", {
 
   expect_error(
     suppressWarnings(
-    extract_posterior(likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L))
+    extract_posterior(likelihood("noncentral_d", 20.0, 20L) *
+        prior("cauchy", 0L, 1L))
       ),
-    "Marginal likelihood has been approximated; Can't reliably output a posterior function"
+    paste0("Marginal likelihood has been approximated; ",
+    "Can't reliably output a posterior function")
   )
 
   # TODO: Move these to a someting called approximation helper
@@ -172,14 +174,14 @@ test_that("error messages", {
   )
   mod2 <- suppressWarnings(
       likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 1L, 2L)
-  ) 
+  )
 
   e1 <- integral(mod1)
   e2 <- integral(mod2)
 
   e4 <- integral(likelihood("noncentral_d", 20.0, 20L) * prior("point", 0L))
   e5 <- integral(likelihood("noncentral_d", 20.0, 20L) * prior("point", 1L))
- 
+
   expect_false(is_point(e1, 0L))
   expect_true(is_point(e4, 0L))
   expect_false(is_point(e5, 0L))
@@ -192,16 +194,16 @@ test_that("error messages", {
   )
 
 
- 
+
   expect_error(
     suppressWarnings(
       likelihood("noncentral_d", 20.0, 20L) * prior("uniform", 1L, 2L)
     ),
-    "Approximations are only supported with cauchy priors",
+    "Approximations are only supported with cauchy priors"
   )
 
   expect_error(
-    sd_ratio(mod2, 1),
+    sd_ratio(mod2, 1L),
     "point must be 0 if the marginal likelihood is an approximation"
   )
 
@@ -210,17 +212,17 @@ test_that("error messages", {
       likelihood("noncentral_t", 20.0, 20L) * prior("uniform", 1L, 2L)
     ),
     "t value is large; approximation needed
-     Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood.",
+     Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood."
   )
 
 
-  bf <- integral(likelihood("binomial", 2L, 10) * prior("uniform", 0L, 1L)) / 
+  bf <- integral(likelihood("binomial", 2L, 10L) * prior("uniform", 0L, 1L)) /
       integral(likelihood("binomial", 2L, 10L) * prior("point", 0.5))
-  
+
   expect_output(
     show(summary(bf)),
     paste0(r"(Bayes factor\n)",
-      r"( Using the levels from Wagenmakers et al \(2017\)\n)",
+      r"( Using the levels from Wagenmakers et al \(2017\)\n)", #nolint
       r"( A BF of 2\.0687 indicates:\n)",
       r"( Anecdotal evidence)")
   )

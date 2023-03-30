@@ -45,7 +45,7 @@ test_that("class methods", {
 
 
   expect_equivalent(
-    prior("cauchy", 0.0, 1.0, c(-Inf, Inf))$family,
+    prior("cauchy", 0.0, 1.0, c(-Inf, Inf))$family, # nolint
     "cauchy",
     "accesing with $ works"
   )

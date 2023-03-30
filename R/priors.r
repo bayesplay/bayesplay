@@ -286,10 +286,10 @@ Adjust the mean or the limits.")
 }
 
 truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
-  # nolint
-  unnormalised <- function(x) get_function(family)(x = x, location, scale) # nolint
-  # ll <- min(range)
-  # ul <- max(range)
+
+  unnormalised <- function(x) get_function(family)(x = x, location, scale)
+
+
 
   truncated_function <- function(x) {
     ifelse(in_range(x, range),
@@ -312,10 +312,6 @@ truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
 }
 
 
-# truncate_normalise_beta <- function(family = family, range = range,
-# beta = beta, alpha = alpha) {
-#   stop("Error")
-# }
 
 
 truncate_normalise_beta <- function(family, range, alpha, beta, ...) {
@@ -333,12 +329,6 @@ truncate_normalise_beta <- function(family, range, alpha, beta, ...) {
 
   k <- range_area_beta(alpha, beta, ll, ul)
   constant <- 1L / k
-  # if (k != 0L) {
-  # }
-  # } else {
-  #   warning("Could not normalise the truncated prior. Adjust the limits.")
-  #   constant <- 0L
-  # }
 
 
   normalised <- function(x) truncated_function(x) * constant
@@ -404,10 +394,10 @@ make_prior.normal <- function(family, mean, sd, range = NULL) { # nolint
 #' @noRd
 make_prior.point <- function(family, point = 0L) { # nolint
   func <- function(x) get_function(family)(x = x, point = point)
-  # width <- 4L
-  # range <- c(point - width, point + width)
+
+
   params <- list(point = point)
-  # func <- make_distribution("point", list(point = point)) # nolint
+
   desc <- describe_prior(family, params)
 
   data <- make_prior_data(family, params, func)

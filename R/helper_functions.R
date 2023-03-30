@@ -277,15 +277,10 @@ sd_ratio <- function(x, point) {
     df <- approximation_params[["df"]]
     approximation <- estimate_marginal(n, t, df, prior)
     marginal_likelihood_approx <- approximation[["marginal"]]
-    observation_shift <- approximation[["observation_shift"]]
 
-    # if (observation_shift != 0L) {
-    #   obs <- recompute_observation(likelihood, observation_shift)
-    #   warning("Observation of d = ", obs[["d"]], " is unstable.\n",
-    #     "Shifting observation to d = ", obs[["new_d"]],
-    #     call. = FALSE
-    #   )
-    # }
+
+
+
 
     warning("Observation is large; approximation needed.", call. = FALSE)
   }
@@ -475,44 +470,6 @@ check_approximation <- function(likelihood_obj, prior_obj) {
 }
 
 
-# shift_observation <- function(likelihood_obj, shift) {
-#   family <- likelihood_obj[["family"]]
-#   params <- likelihood_obj[["parameters"]]
-#   observation <- params[[1L]]
-#
-#   round_observation <- observation
-#
-#
-#   round_observation <- round_observation + shift
-#
-#   params[[1L]] <- round_observation
-#   params[["family"]] <- family
-#   do.call(likelihood, params)
-# }
-
-
-# total_n <- function(likelihood_obj) {
-#   if (likelihood_obj[["family"]] == "noncentral_d") {
-#     n <- likelihood_obj[["parameters"]][["n"]]
-#   } else if (likelihood_obj[["family"]] == "noncentral_d2") {
-#     n1 <- likelihood_obj[["parameters"]][["n1"]]
-#     n2 <- likelihood_obj[["parameters"]][["n2"]]
-#     n <- n1 * n2 / (n1 + n2)
-#   } else {
-#     stop("This should not happen")
-#   }
-#   n
-# }
-
-
- # recompute_observation <- function(likelihood_obj, observation_shift) {
- #   n <- total_n(likelihood_obj)
- #   d <- likelihood_obj[["parameters"]][["d"]]
- #   t <- d * sqrt(n)
- #   new_t <- t + observation_shift
- #   new_d <- new_t / sqrt(n)
- #   list(d = d, new_d = new_d)
- # }
 
 estimate_marginal <- function(n, t, df, prior) {
   prior_limits <- prior[["parameters"]][["range"]]
@@ -558,48 +515,19 @@ estimate_marginal <- function(n, t, df, prior) {
 
 
 
-  pass_1_likelihood <- new_likelihood
-  # pass_2_likelihood <- new_likelihood
-  original_observation <- new_likelihood@observation
-  # while (TRUE) {
+
+
+
+
     auc_h1_pass1 <- integrate(
-      Vectorize(\(x)  pass_1_likelihood@func(x) * new_prior@func(x)),
+      Vectorize(\(x)  new_likelihood@func(x) * new_prior@func(x)),
       -Inf, Inf,
       subdivisions = 1000L, abs.tol = 1e-14
     )
-    # error1 <- auc_h1_pass1[["abs.error"]]
-
-    # auc_h1_pass2 <- integrate(
-    #   Vectorize(\(x)  pass_2_likelihood@func(x) * new_prior@func(x)),
-    #   -Inf, Inf,
-    #   subdivisions = 1000L, abs.tol = 1e-14
-    #  )
-    # error2 <- auc_h1_pass2[["abs.error"]]
 
 
-    # error <- error1 == 0L | error2 == 0L
-    # if (error) {
-      # pass_1_likelihood <- shift_observation(pass_1_likelihood, -0.01)
-      # pass_2_likelihood <- shift_observation(pass_2_likelihood, 0.01)
-    # } else {
-      # break
-    # }
-  # }
-
-
-  observation_shift_1 <- abs(
-    pass_1_likelihood@observation - original_observation
-  )
-  # observation_shift_2 <- abs(
-    # pass_2_likelihood@observation - original_observation
-  # )
-  # if (observation_shift_1 < observation_shift_2) {
     auc_h1 <- auc_h1_pass1
-    new_likelihood <- pass_1_likelihood
-  # } else {
-    # auc_h1 <- auc_h1_pass2
-    # new_likelihood <- pass_2_likelihood
-  # }
+    new_likelihood <- new_likelihood
 
 
   auc_h1 <- auc_h1[["value"]]
@@ -607,27 +535,15 @@ estimate_marginal <- function(n, t, df, prior) {
   log_bf_uncorrected <- log(auc_h1 / auc_h0)
   log_bf <- log_bf_interval + log_bf_uncorrected
   bf <- exp(log_bf)
-  new_observation <- new_likelihood@observation
 
-  # if (new_observation != original_observation) {
-  #   observation_shift <- new_observation - original_observation
-  # } else {
-  #   observation_shift <- 0L
-  # }
-  #
-  # if (observation_shift != 0L) {
-  #   stop(t, n, df, observation_shift)
-  # }
 
-  list(marginal = bf * auc_h0, bf = bf)#, observation_shift = observation_shift)
+
+  list(marginal = bf * auc_h0, bf = bf)
 }
 
 
 is_approx <- function(e1) {
   atr <- attributes(e1)
-  # if (!"approximate" %in% names(atr)) {
-    # return(FALSE)
-  # }
   atr[["approximate"]]
 }
 
