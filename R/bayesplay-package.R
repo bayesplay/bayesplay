@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom methods new
+#' @importFrom methods slot
 #' @importFrom stats integrate
 #' @importFrom stats pbeta
 #' @importFrom stats pcauchy
