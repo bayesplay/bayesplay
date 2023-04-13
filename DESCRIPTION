@@ -25,7 +25,7 @@ Imports:
     gginnards,
     stats
 Authors@R: 
-    person(given = c("Lincoln", "J"), 
+    person(given = c("Lincoln", "John"), 
             family = "Colling",
             comment = c(ORCID = "0000-0002-3572-7758"),
             email = "lincoln@colling.net.nz",

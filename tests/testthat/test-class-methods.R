@@ -36,4 +36,21 @@ test_that("class methods", {
     make_prior(new("cauchy"), 0.0, 1.0, c(-Inf, Inf)),
     "contructor works"
   )
+
+  expect_equivalent(
+    prior("cauchy", 0.0, 1.0, c(-Inf, Inf))[["family"]],
+    "cauchy",
+    "accesing with [[]] works"
+  )
+
+
+  expect_equivalent(
+    prior("cauchy", 0.0, 1.0, c(-Inf, Inf))$family, # nolint
+    "cauchy",
+    "accesing with $ works"
+  )
+
+
+
+
 })

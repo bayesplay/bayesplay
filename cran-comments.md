@@ -1,3 +1,22 @@
+## Resubmission after archive
+
+Fixed warning on undocumented s3 methods
+
+
+## Test environments
+
+* R-hub builder macOS R-release
+* R-hub builder Debian Linux, R-release, GCC
+* R-hub builder Fedora Linux, R-devel, clang, gfortran
+* R win-builder R-devel 
+
+## R CMD check results
+
+1 NOTE
+New submission
+
+Package was archived on CRAN because of warning on undocumented S3 method
+
 ## Update
 
 Minor bug-fix to `make_likelihood.noncentral_d2()`
