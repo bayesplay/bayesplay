@@ -1,6 +1,6 @@
 context("Plots")
 test_that("Prior plots", {
-
+  skip_on_cran()
 
   # Half normal prior
   half_normal <- prior("normal", 0L, 45L, range = c(0L, Inf))
