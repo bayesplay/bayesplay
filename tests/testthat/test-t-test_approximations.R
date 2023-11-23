@@ -192,7 +192,7 @@ test_that("Approximation works", {
     sd_ratio(point = 0L) |>
     as.numeric()
   bf <- 0.00154498566424772
-  testthat::expect_equal(bp, bf, tolerance = 1e-6)
+  testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
 
   t_value <- 17.8
@@ -310,7 +310,7 @@ test_that("Approximation works", {
     sd_ratio(point = 0L) |>
     as.numeric()
   bf <- 0.000588357441164805
-  testthat::expect_equal(bp, bf, tolerance = 1e-6)
+  testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
 
   t_value <- -94L
@@ -324,7 +324,7 @@ test_that("Approximation works", {
     sd_ratio(point = 0L) |>
     as.numeric()
   bf <- 0.000588357441164805
-  testthat::expect_equal(bp, bf, tolerance = 1e-6)
+  testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
 
 })

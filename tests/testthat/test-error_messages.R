@@ -1,4 +1,4 @@
-context("Error messages")
+# context("Error messages")
 test_that("error messages", {
   expect_error(
     prior("uniform", 0.0),
@@ -154,26 +154,28 @@ test_that("error messages", {
 
   expect_error(
     suppressWarnings(
-    plot(likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L))
-      ),
+      plot(likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L))
+    ),
     "Marginal likelihood has been approximated; Can't reliably output a plot."
   )
 
   expect_error(
     suppressWarnings(
-    extract_posterior(likelihood("noncentral_d", 20.0, 20L) *
+      extract_posterior(likelihood("noncentral_d", 20.0, 20L) *
         prior("cauchy", 0L, 1L))
-      ),
-    paste0("Marginal likelihood has been approximated; ",
-    "Can't reliably output a posterior function")
+    ),
+    paste0(
+      "Marginal likelihood has been approximated; ",
+      "Can't reliably output a posterior function"
+    )
   )
 
   # TODO: Move these to a someting called approximation helper
   mod1 <- suppressWarnings(
-      likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L)
+    likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L)
   )
   mod2 <- suppressWarnings(
-      likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 1L, 2L)
+    likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 1L, 2L)
   )
 
   e1 <- integral(mod1)
@@ -189,8 +191,10 @@ test_that("error messages", {
 
   expect_error(
     e1 / e2,
-    paste0("Marginal likelihood is a approximation. ",
-      "One prior must be a point prior at 0")
+    paste0(
+      "Marginal likelihood is a approximation. ",
+      "One prior must be a point prior at 0"
+    )
   )
 
 
@@ -217,15 +221,15 @@ test_that("error messages", {
 
 
   bf <- integral(likelihood("binomial", 2L, 10L) * prior("uniform", 0L, 1L)) /
-      integral(likelihood("binomial", 2L, 10L) * prior("point", 0.5))
+    integral(likelihood("binomial", 2L, 10L) * prior("point", 0.5))
 
   expect_output(
     show(summary(bf)),
-    paste0(r"(Bayes factor\n)",
-      r"( Using the levels from Wagenmakers et al \(2017\)\n)", #nolint
+    paste0(
+      r"(Bayes factor\n)",
+      r"( Using the levels from Wagenmakers et al \(2017\)\n)", # nolint
       r"( A BF of 2\.0687 indicates:\n)",
-      r"( Anecdotal evidence)")
+      r"( Anecdotal evidence)"
+    )
   )
-
-
 })

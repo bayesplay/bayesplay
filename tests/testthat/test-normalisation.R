@@ -1,4 +1,4 @@
-context("Normalising priors")
+# context("Normalising priors")
 test_that("Normalising warnings", {
 
   expect_warning(

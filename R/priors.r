@@ -60,6 +60,7 @@ prior_data_names <- c("family", "parameters", "prior_function")
 #' * \code{uniform} a uniform distribution
 #' * \code{point} a point
 #' * \code{beta} a beta distribution
+#' 
 #' The parameters that need to be specified will be dependent on the
 #' family
 #'

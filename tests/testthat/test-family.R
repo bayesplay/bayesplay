@@ -1,4 +1,4 @@
-context("Family attribute")
+# context("Family attribute")
 test_that("family attribute for object", {
 
   # first we'll test the priors

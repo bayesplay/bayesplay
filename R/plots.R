@@ -101,43 +101,43 @@ handle_binomial_marginal <- function(x, model_name = "model", ...) {
   )
 
 
-  ggplot2::ggplot() +
-    ggplot2::geom_line(
+  ggplot() +
+    geom_line(
       data = counterfactual,
-      ggplot2::aes(x = observation, y = auc, colour = model_name)
+      aes(x = observation, y = auc, colour = model_name)
     ) +
-    ggplot2::geom_point(
+    geom_point(
       data = counterfactual,
-      ggplot2::aes(
+      aes(
         x = observation,
         y = auc,
         colour = model_name
       ),
       size = 2L, shape = 21L, fill = "white"
     ) +
-    ggplot2::geom_point(
+    geom_point(
       data = observation_df,
-      ggplot2::aes(
+      aes(
         x = observation,
         y = auc,
         colour = model_name
       ),
       size = 2L, shape = 16L
     ) +
-    ggplot2::labs(x = "Outcome", y = "Marginal probability") +
-    ggplot2::scale_color_manual(
+    labs(x = "Outcome", y = "Marginal probability") +
+    scale_color_manual(
       values = "black",
       name = NULL,
       labels = NULL,
       guide = "none"
     ) +
-    ggplot2::scale_linetype_manual(
+    scale_linetype_manual(
       values = 1L,
       name = NULL,
       labels = NULL,
       guide = "none"
     ) +
-    ggplot2::scale_x_continuous(
+    scale_x_continuous(
       limits = plot_range,
       breaks = integer_breaks()
     ) +
@@ -181,40 +181,41 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
     x = x, y = y, color = color, linetype = linetype
   )
 
-  ggplot2::ggplot() +
-    ggplot2::geom_function(
+  ggplot() +
+    geom_function(
       fun = suppressWarnings(model_func),
-      ggplot2::aes(colour = model_name, linetype = model_name)
+      aes(colour = model_name, linetype = model_name)
     ) +
-    ggplot2::geom_point(
+    geom_point(
       data = observation_df,
-      ggplot2::aes(
+      aes(
         x = x,
         y = y,
         colour = model_name
       ),
       size = 2L, shape = 16L
     ) +
-    ggplot2::labs(x = "Outcome", y = "Marginal probability") +
-    ggplot2::scale_color_manual(
+    labs(x = "Outcome", y = "Marginal probability") +
+    scale_color_manual(
       values = "black",
       name = NULL,
       labels = NULL,
       guide = "none"
     ) +
-    ggplot2::scale_linetype_manual(
+    scale_linetype_manual(
       values = 1L,
       name = NULL,
       labels = NULL,
       guide = "none"
     ) +
-    ggplot2::scale_x_continuous(
+    scale_x_continuous(
       limits = plot_range
     ) +
     NULL
 }
 
-
+library(ggplot2)
+library(gginnards)
 
 handle_prior_likelihood <- function(x, n) {
   if (x@dist_type == "point") {
@@ -234,40 +235,40 @@ plot_point <- function(x, n) {
     dens = dens
   )
 
-  return(ggplot2::ggplot(
+  return(ggplot(
     df,
-    ggplot2::aes(x = theta, y = dens)
+    aes(x = theta, y = dens)
   ) +
-    ggplot2::geom_point(size = 3L, shape = 16L) +
-    ggplot2::geom_linerange(ggplot2::aes(
+    geom_point(size = 3L, shape = 16L) +
+    geom_linerange(aes(
       x = theta,
       y = NULL,
       ymax = 1L,
       ymin = 0L
     )) +
-    ggplot2::xlim(x@plot[["range"]]) +
-    ggplot2::labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
-    ggplot2::expand_limits(y = 0L) +
+    xlim(x@plot[["range"]]) +
+    labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
+    expand_limits(y = 0L) +
     NULL)
 }
 
 plot_continuous <- function(x, n) {
-  return(ggplot2::ggplot() +
-    ggplot2::geom_function(
+  return(ggplot() +
+    geom_function(
       fun = Vectorize(x@func),
       colour = "black",
       na.rm = TRUE,
       n = n
     ) +
-    ggplot2::xlim(x@plot[["range"]]) +
-    ggplot2::labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
-    ggplot2::expand_limits(y = 0L) +
+    xlim(x@plot[["range"]]) +
+    labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
+    expand_limits(y = 0L) +
     NULL)
 }
 
 
 plot_weighted_likelihood <- function(x, n) {
-  if (x@approximation == TRUE) {
+  if (x@approximation) {
     stop("Marginal likelihood has been approximated; ",
       "Can't reliably output a plot.", call. = FALSE)
   }
@@ -279,18 +280,18 @@ plot_weighted_likelihood <- function(x, n) {
     plot_range <- c(0L, 1L)
   }
 
-  return(ggplot2::ggplot() +
-    ggplot2::geom_function(
+  return(ggplot() +
+    geom_function(
       fun = Vectorize(func),
       colour = "black",
       na.rm = TRUE,
       n = n
     ) +
-    ggplot2::labs(
+    labs(
       x = x@prior_obj@plot[["labs"]][["x"]],
       y = "Pr(Outcome) \u00D7 Pr(\u03F4)"
     ) +
-    ggplot2::xlim(plot_range) +
+    xlim(plot_range) +
     NULL)
 }
 
@@ -300,17 +301,17 @@ plot_posterior <- function(x, n) {
   if (x@prior_obj@dist_type == "point") {
     return(
       plot_point(x@prior_obj, n) +
-        ggplot2::labs(y = "Density")
+        labs(y = "Density")
     )
   }
-  ggplot2::ggplot() +
-    ggplot2::geom_function(
+  ggplot() +
+    geom_function(
       fun = Vectorize(x[["posterior_function"]]),
       n = n
     ) +
-    ggplot2::xlim(x@prior_obj@plot[["range"]]) +
-    ggplot2::labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
-    ggplot2::expand_limits(y = 0L) +
+    xlim(x@prior_obj@plot[["range"]]) +
+    labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
+    expand_limits(y = 0L) +
     NULL
 }
 
@@ -318,38 +319,38 @@ plot_pp <- function(x, n) {
   if (x@prior_obj@dist_type == "point") {
     theta <- unique(x@prior_obj@theta_range)
     return(
-      ggplot2::ggplot() +
-        ggplot2::geom_point(ggplot2::aes(
+      ggplot() +
+        geom_point(aes(
           x = theta,
           y = x@prior_obj[["prior_function"]](0L),
           color = "prior"
         ),
         size = 3L, shape = 16L
         ) +
-        ggplot2::geom_linerange(ggplot2::aes(
+        geom_linerange(aes(
           x = unique(x@prior_obj@theta_range),
           y = NULL,
           ymax = x@prior_obj[["prior_function"]](0L),
           ymin = 0L,
           color = "prior"
         )) +
-        ggplot2::geom_point(ggplot2::aes(
+        geom_point(aes(
           x = theta,
           y = x@prior_obj[["prior_function"]](0L),
           color = "posterior"
         ),
         size = 3L, shape = 16L
         ) +
-        ggplot2::geom_linerange(ggplot2::aes(
+        geom_linerange(aes(
           x = unique(x@prior_obj@theta_range),
           y = NULL,
           ymax = x[["posterior_function"]](0L),
           ymin = 0L,
           color = "posterior"
         )) +
-        ggplot2::xlim(x@prior_obj@plot[["range"]]) +
-        ggplot2::labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
-        ggplot2::scale_colour_manual(
+        xlim(x@prior_obj@plot[["range"]]) +
+        labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
+        scale_colour_manual(
           values = c("blue", "red"),
           labels = c("posterior", "prior"),
           name = NULL
@@ -358,28 +359,28 @@ plot_pp <- function(x, n) {
     )
   }
 
-  ggplot2::ggplot() +
-    ggplot2::geom_function(
+  ggplot() +
+    geom_function(
       fun = Vectorize(x[["posterior_function"]]),
-      ggplot2::aes(color = "blue", linetype = "blue")
+      aes(color = "blue", linetype = "blue")
     ) +
-    ggplot2::geom_function(
+    geom_function(
       fun = Vectorize(x@prior_obj@func),
-      ggplot2::aes(color = "red", linetype = "red")
+      aes(color = "red", linetype = "red")
     ) +
-    ggplot2::xlim(x@prior_obj@plot[["range"]]) +
-    ggplot2::labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
-    ggplot2::scale_colour_manual(
+    xlim(x@prior_obj@plot[["range"]]) +
+    labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
+    scale_colour_manual(
       values = c("blue", "red"),
       labels = c("posterior", "prior"),
       name = NULL
     ) +
-    ggplot2::scale_linetype_manual(
+    scale_linetype_manual(
       values = c(1L, 1L),
       labels = c("posterior", "prior"),
       name = NULL
     ) +
-    ggplot2::expand_limits(y = 0L) +
+    expand_limits(y = 0L) +
     NULL
 }
 
@@ -417,15 +418,15 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
 
   if (!ratio) {
     return(suppressMessages(
-      gginnards::append_layers(
+      append_layers(
         model1_layer,
         model2_layer[["layers"]]
       ) +
-        ggplot2::scale_colour_manual(
+        scale_colour_manual(
           values = c("red", "blue"),
           name = "Model"
         ) +
-        ggplot2::scale_linetype_manual(
+        scale_linetype_manual(
           values = c(1L, 1L),
           name = "Model"
         )
@@ -454,27 +455,27 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
       ))
       df <- data.frame(x = x, y = y)
 
-      return(ggplot2::ggplot(data = df) +
-        ggplot2::geom_point(ggplot2::aes(x = x, y = y)) +
-        ggplot2::geom_line(ggplot2::aes(x = x, y = y)) +
-        ggplot2::scale_x_continuous(
+      return(ggplot(data = df) +
+        geom_point(aes(x = x, y = y)) +
+        geom_line(aes(x = x, y = y)) +
+        scale_x_continuous(
           c(
             min(get_max_range(model1), get_max_range(model2)),
             max(get_max_range(model1), get_max_range(model2))
           ),
           breaks = integer_breaks()
         ) +
-        ggplot2::geom_hline(yintercept = 1L, linetype = 2L) +
-        ggplot2::scale_y_log10() +
-        ggplot2::labs(
+        geom_hline(yintercept = 1L, linetype = 2L) +
+        scale_y_log10() +
+        labs(
           x = "Outcome",
           y = paste0("Log 10 BF ", model_name1, " / ", model_name2)
         ))
     }
     if (model1@likelihood_obj@data[["family"]] != "binomial") {
-      return(ggplot2::ggplot() +
-        ggplot2::geom_function(fun = ratio_function, n = 101L) +
-        ggplot2::xlim(c(
+      return(ggplot() +
+        geom_function(fun = ratio_function, n = 101L) +
+        xlim(c(
           min(
             get_max_range(model1),
             get_max_range(model2)
@@ -484,9 +485,9 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
             get_max_range(model2)
           )
         )) +
-        ggplot2::geom_hline(yintercept = 1L, linetype = 2L) +
-        ggplot2::scale_y_log10() +
-        ggplot2::labs(
+        geom_hline(yintercept = 1L, linetype = 2L) +
+        scale_y_log10() +
+        labs(
           x = "Outcome",
           y = paste0("Log 10 BF ", model_name1, " / ", model_name2)
         ))

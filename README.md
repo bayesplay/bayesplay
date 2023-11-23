@@ -83,6 +83,7 @@ usage](https://bayesplay.github.io/bayesplay/articles/basic.html). Or
 for basic plot functionality see [basic
 plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 
+<!--
 ## Changelog
 
 > Breaking changes for \< v0.9.0
@@ -92,3 +93,4 @@ plotting](https://bayesplay.github.io/bayesplay/articles/plots.html)
 >
 > `noncentral_d` and `noncentral_d2` are now parametrised in terms of
 > sample size rather than df
+-->

@@ -1,4 +1,4 @@
-context("Prior families")
+# context("Prior families")
 test_that("specifying priors", {
   tol <- 0.0000005
   half_norm <- prior(
@@ -10,13 +10,13 @@ test_that("specifying priors", {
 
   testthat::expect_equal(half_norm@func(0L),
     dnorm(0L, mean = 0L, sd = 10L) * 2L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half normal (1)"
   )
 
   testthat::expect_equal(half_norm@func(-1L),
     0L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half normal (2)"
   )
 
@@ -31,13 +31,13 @@ test_that("specifying priors", {
 
   testthat::expect_equal(half_t@func(0L),
     dt(0L, df = 10L) * 2L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half t (1)"
   )
 
   testthat::expect_equal(half_t@func(-1L),
     0L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half t (2)"
   )
 
@@ -48,7 +48,7 @@ test_that("specifying priors", {
 
   testthat::expect_equal(cauchy_prior@func(0L),
     dcauchy(0L, 0L, 1L),
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "cauchy (1)"
   )
 
@@ -60,7 +60,7 @@ test_that("specifying priors", {
 
   testthat::expect_equal(cauchy_prior@func(4L),
     dcauchy(4L, 2L, 2L),
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "cauchy (2)"
   )
 
@@ -73,13 +73,13 @@ test_that("specifying priors", {
 
   testthat::expect_equal(half_cauchy@func(0L),
     dcauchy(0L, location = 0L, scale = 1L) * 2L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half cauchy (1)"
   )
 
   testthat::expect_equal(half_cauchy@func(-1L),
     0L,
-    tolerance = tol, scale = 1L,
+    tolerance = tol,
     label = "half cauchy (2)"
   )
 })

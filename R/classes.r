@@ -78,13 +78,23 @@ prediction <- setClass(
   )
 )
 
+robustness <- setClass(
+  Class = "robustness",
+  slots = list(
+    desc = "character",
+    data = "list"
+    )
+)
+
+
 
 setClassUnion("bayesplay", c(
   "likelihood",
   "prior",
   "product",
   "posterior",
-  "prediction"
+  "prediction",
+  "robustness"
 ))
 
 setMethod(

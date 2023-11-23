@@ -14,7 +14,9 @@ reference:
   - starts_with("sd_ratio")
   - starts_with("plot")
   - starts_with("visual_compare")
+  - starts_with("bfrr")
   - "summary,bf-method"
+  - "summary,robustness-method"
 - title: internal 
 - contents:
   - "names,bayesplay-method"

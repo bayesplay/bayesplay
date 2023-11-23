@@ -28,9 +28,10 @@ The following distributions families can be used for the prior
 \item \code{uniform} a uniform distribution
 \item \code{point} a point
 \item \code{beta} a beta distribution
+}
+
 The parameters that need to be specified will be dependent on the
 family
-}
 }
 
 \subsection{Normal distribution}{
