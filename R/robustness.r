@@ -291,7 +291,7 @@ describe_robustness <- function(data) {
   )
 
 
-
+  # nolint start: commented_code_linter.
   # h0_text <- support_values[["Evidence for H1"]]
   # inc_text <-support_values[["inconclusive"]]
   # consistent <- support_values[[base_support]]
@@ -321,6 +321,8 @@ describe_robustness <- function(data) {
   #   " checked priors were inconclusive.\n",
   #   "(did not find support for H1 or H0)."
   # )
+
+  # nolint end
 
   base_text <- switch(as.character(base_support),
     `Inconclusive` = "is inconclusive.",

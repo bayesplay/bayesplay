@@ -43,3 +43,5 @@ Collate:
     'utils.r'
     'robustness.r'
 Config/testthat/edition: 3
+Depends: 
+    R (>= 4.0.0)

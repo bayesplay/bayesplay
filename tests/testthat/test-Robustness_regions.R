@@ -1,5 +1,4 @@
 test_that("make bf func", {
-  # skip("temp")
   mean_diff <- 0.3526918
   tvalue <- 2.9009
   se <- mean_diff / tvalue
@@ -36,8 +35,9 @@ test_that("make bf func", {
     slot("parameters")
   values_df <- makes_values_list(parameters, precision, orginal_values)
   values_list <- unname(split(values_df, ~ row.names(values_df)))
-  bfs <- suppressWarnings(map(values_list, \(x)
-  cbind(x, data.frame(bf = bf_func(x)))))
+  bfs <- suppressWarnings(map(values_list, function(x) {
+    cbind(x, data.frame(bf = bf_func(x)))
+  }))
 
   expect_identical(
     values_list[[200L]][["mean"]],
@@ -58,8 +58,6 @@ test_that("make bf func", {
 })
 
 test_that("make values list", {
-  # skip("temp")
-
   mean_values <- c(-2L, -1L, 0L, 1L, 2L)
   sd_values <- c(0L, 0.25, 1L, 2L)
 
@@ -102,7 +100,6 @@ test_that("make values list", {
 
 
 test_that("Robustness regions", {
-  # skip("temp")
   strip <- function(x) {
     as.numeric(unclass(x))
   }
@@ -169,8 +166,8 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+            filter(mean == 0L, sd == 0.25) |>
+            pull(bf)),
     tolerance = 0L
   )
 
@@ -178,8 +175,8 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+            filter(mean == 0L, sd == 0.25) |>
+            pull(bf)),
     tolerance = 0L
   )
 
@@ -241,14 +238,13 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+            filter(mean == 0L, sd == 0.25) |>
+            pull(bf)),
     tolerance = 0L
   )
 })
 
 test_that("Robustness regions display", {
-  # skip("temp")
   mean_diff <- 0.3526918
   tvalue <- 2.9009
   se <- mean_diff / tvalue
@@ -336,6 +332,8 @@ test_that("Robustness regions display", {
       multicore = FALSE
     )
   })
+
+  # nolint start
   #
   # # H1: Normal(NormalPrior { mean: 0.0, sd: 0.25, range: (Some(0.0), Some(inf)) })
   #
@@ -377,4 +375,5 @@ test_that("Robustness regions display", {
   #     dplyr::mutate(bounds = case_when(bf < log(1/6) ~ "H0", bf > log(6) ~ "H1", TRUE ~ "Inc"))
   # ggplot(rs, aes(x = mean, y = sd, fill = bounds, color = bounds)) + geom_point()
   #
+  # nolint end
 })
