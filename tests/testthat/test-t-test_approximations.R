@@ -12,7 +12,7 @@ t_to_d2 <- function(t, df) {
 }
 
 
-## FIXME: This needs approximations for one-sample tests too!
+## FIXME: This needs approximations for one-sample tests too! # nolint
 test_that("Approximation works", {
   # note, that approximations are invoked when the t-value is very large
   # or when the prior is truncated and the t-value is in the truncated region

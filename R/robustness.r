@@ -349,9 +349,11 @@ describe_robustness <- function(data) {
 
 
 
-support_factor <- function(x) factor(x,
-  levels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
-)
+support_factor <- function(x) {
+  factor(x,
+    levels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
+  )
+}
 
 
 get_support <- Vectorize(function(x, cutoff) {

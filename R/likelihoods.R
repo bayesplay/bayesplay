@@ -486,9 +486,7 @@ make_likelihood.binomial <- function(family, successes, trials) { # nolint
 
   params <- list(successes = successes, trials = trials)
   func <- function(p) {
-    get_function(family)(p = p,
-      successes = successes,
-      trials = trials)
+    get_function(family)(p = p, successes = successes, trials = trials)
   }
 
   data <- make_likelihood_data(family = family, params = params, func = func)

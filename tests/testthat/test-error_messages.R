@@ -1,4 +1,3 @@
-# context("Error messages")
 test_that("error messages", {
   expect_error(
     prior("uniform", 0.0),
@@ -170,7 +169,7 @@ test_that("error messages", {
     )
   )
 
-  # TODO: Move these to a someting called approximation helper
+  # TODO: Move these to a someting called approximation helper #nolint
   mod1 <- suppressWarnings(
     likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L)
   )

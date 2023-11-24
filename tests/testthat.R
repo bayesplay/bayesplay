@@ -6,7 +6,7 @@
 # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
 # * https://testthat.r-lib.org/articles/special-files.html
 
-library(testthat)
-library(bayesplay)
+library(testthat) # nolint: undesirable_function_linter.
+library(bayesplay) # nolint
 
 test_check("bayesplay")
