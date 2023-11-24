@@ -34,6 +34,9 @@
     <loc>/reference/bayesplay-package.html</loc>
   </url>
   <url>
+    <loc>/reference/bfrr.html</loc>
+  </url>
+  <url>
     <loc>/reference/cash-bayesplay-method.html</loc>
   </url>
   <url>
@@ -68,6 +71,9 @@
   </url>
   <url>
     <loc>/reference/summary-bf-method.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summary-robustness-method.html</loc>
   </url>
   <url>
     <loc>/reference/visual_compare.html</loc>
