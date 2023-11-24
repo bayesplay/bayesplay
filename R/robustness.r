@@ -33,8 +33,10 @@ make_bf_rr_func <- function(data_model,
   ]
   null_value <- integral(data_model * null_prior)
   bf_func <- function(params) {
-    prior <- c(list(family = base_prior_family), c(base_defined, params)) |>
-      do.call("prior", args = _)
+    prior <- do.call(
+      "prior",
+      c(list(family = base_prior_family), c(base_defined, params))
+    )
     integral(data_model * prior) / null_value
   }
   bf_func
@@ -379,7 +381,6 @@ invert_support <- function(x) {
     "1" = "H1"
   ) |>
     factor(
-      x = _,
       levels = c("H0", "Inc", "H1"),
       labels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
     )
