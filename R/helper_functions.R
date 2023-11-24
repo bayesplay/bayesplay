@@ -71,7 +71,6 @@ integral <- function(obj) {
 
 #' @export
 `/.auc` <- function(e1, e2) {
-
   is_e1_approx <- is_approx(e1)
   is_e2_approx <- is_approx(e2)
 
@@ -259,7 +258,7 @@ sd_ratio <- function(x, point) {
 
   if (do_approximation == TRUE && likelihood_family == "noncentral_t") {
     stop(
-    "t value is large; approximation needed
+      "t value is large; approximation needed
      Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood.",
       call. = FALSE
     )
@@ -519,15 +518,15 @@ estimate_marginal <- function(n, t, df, prior) {
 
 
 
-    auc_h1_pass1 <- integrate(
-      Vectorize(\(x)  new_likelihood@func(x) * new_prior@func(x)),
-      -Inf, Inf,
-      subdivisions = 1000L, abs.tol = 1e-14
-    )
+  auc_h1_pass1 <- integrate(
+    Vectorize(\(x)  new_likelihood@func(x) * new_prior@func(x)),
+    -Inf, Inf,
+    subdivisions = 1000L, abs.tol = 1e-14
+  )
 
 
-    auc_h1 <- auc_h1_pass1
-    new_likelihood <- new_likelihood
+  auc_h1 <- auc_h1_pass1
+  new_likelihood <- new_likelihood
 
 
   auc_h1 <- auc_h1[["value"]]
@@ -549,7 +548,7 @@ is_approx <- function(e1) {
 
 is_point <- function(e1, value) {
   if (attributes(e1)[["prior"]][["family"]] == "point") {
-   return(attributes(e1)[["prior"]][["point"]] == value)
+    return(attributes(e1)[["prior"]][["point"]] == value)
   }
   FALSE
 }

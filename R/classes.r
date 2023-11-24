@@ -83,7 +83,7 @@ robustness <- setClass(
   slots = list(
     desc = "character",
     data = "list"
-    )
+  )
 )
 
 

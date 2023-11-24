@@ -1,4 +1,3 @@
-
 # set the tolerance for the tests
 tol <- 0.005
 

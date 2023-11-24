@@ -64,10 +64,10 @@ test_that("make values list", {
   sd_values <- c(0L, 0.25, 1L, 2L)
 
   expect_df_s <- expand.grid(list(mean = mean_values, sd = sd_values)) |>
-  filter(sd > 0L)
+    filter(sd > 0L)
 
   expect_df_s <- expect_df_s[
-  order(expect_df_s[["mean"]], expect_df_s[["sd"]]),
+    order(expect_df_s[["mean"]], expect_df_s[["sd"]]),
   ]
 
   row.names(expect_df_s) <- NULL
@@ -87,21 +87,14 @@ test_that("make values list", {
   attr(values_df, "out.attrs") <- NULL # nolint
   attr(expect_df_s, "out.attrs") <- NULL # nolint
 
-  values_df <- sorter(values_df) 
-  expect_df_s <- sorter(expect_df_s) 
+  values_df <- sorter(values_df)
+  expect_df_s <- sorter(expect_df_s)
 
 
   expect_identical(
     expect_df_s,
     values_df
   )
-
-
-
-
-
-
-
 })
 
 
@@ -211,7 +204,7 @@ test_that("Robustness regions", {
 
   suppressWarnings({
     rr <- bfrr(
-      data_model = data_model,
+      likelihood = data_model,
       alternative_prior = alternative_prior,
       null_prior = null_prior,
       parameters = parameters,
@@ -343,47 +336,45 @@ test_that("Robustness regions display", {
       multicore = FALSE
     )
   })
-#
-# # H1: Normal(NormalPrior { mean: 0.0, sd: 0.25, range: (Some(0.0), Some(inf)) })
-#
-# # H0: Point(PointPrior { point: 0.0 })
-#
-# # Likelihood: Normal(NormalLikelihood { mean: 0.3526918, sd: 0.121580130304388 })
-#   data_model <- likelihood("normal", mean = 0.3526918, sd = 0.121580130304388)
-#   h1 <- prior("normal", mean = 0L, sd = 0.25, c(-Inf, Inf))
-#   h0 <- prior("point", 0L)
-#   bf <- integral(data_model * h1) / integral(data_model * h0) 
-#
-#   precision <- 0.05
-#   parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
-#   suppressWarnings({
-#     rr <- bfrr(
-#       data_model = data_model,
-#       alternative_prior = h1,
-#       null_prior = h0,
-#       parameters = parameters,
-#       precision = precision,
-#       cutoff = 6L,
-#       multicore = TRUE
-#     )
-#   })
-#
-#   bp <- rr[["data"]] |> dplyr::select(mean, sd, bf) |>
-#     tibble::as_tibble() |>
-#     dplyr::arrange(mean, sd) |>
-#     dplyr::mutate(bf = as.numeric(bf))
-#
-#
-#   rs <- readr::read_csv("~/Github/bayesplay-rs/robustness.csv") |>
-#     dplyr::select(mean, sd, bf) |>
-#     dplyr::filter(sd > 0L) |>
-#     dplyr::arrange(mean, sd)
-# #   testthat::expect_equal(bp, rs, tolerance = 1e-6)
-#
-# rs <- rs |> mutate(bf = log(bf)) |>
-#     dplyr::mutate(bounds = case_when(bf < log(1/6) ~ "H0", bf > log(6) ~ "H1", TRUE ~ "Inc"))
-# ggplot(rs, aes(x = mean, y = sd, fill = bounds, color = bounds)) + geom_point()
-#
+  #
+  # # H1: Normal(NormalPrior { mean: 0.0, sd: 0.25, range: (Some(0.0), Some(inf)) })
+  #
+  # # H0: Point(PointPrior { point: 0.0 })
+  #
+  # # Likelihood: Normal(NormalLikelihood { mean: 0.3526918, sd: 0.121580130304388 })
+  #   data_model <- likelihood("normal", mean = 0.3526918, sd = 0.121580130304388)
+  #   h1 <- prior("normal", mean = 0L, sd = 0.25, c(-Inf, Inf))
+  #   h0 <- prior("point", 0L)
+  #   bf <- integral(data_model * h1) / integral(data_model * h0)
+  #
+  #   precision <- 0.05
+  #   parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
+  #   suppressWarnings({
+  #     rr <- bfrr(
+  #       data_model = data_model,
+  #       alternative_prior = h1,
+  #       null_prior = h0,
+  #       parameters = parameters,
+  #       precision = precision,
+  #       cutoff = 6L,
+  #       multicore = TRUE
+  #     )
+  #   })
+  #
+  #   bp <- rr[["data"]] |> dplyr::select(mean, sd, bf) |>
+  #     tibble::as_tibble() |>
+  #     dplyr::arrange(mean, sd) |>
+  #     dplyr::mutate(bf = as.numeric(bf))
+  #
+  #
+  #   rs <- readr::read_csv("~/Github/bayesplay-rs/robustness.csv") |>
+  #     dplyr::select(mean, sd, bf) |>
+  #     dplyr::filter(sd > 0L) |>
+  #     dplyr::arrange(mean, sd)
+  # #   testthat::expect_equal(bp, rs, tolerance = 1e-6)
+  #
+  # rs <- rs |> mutate(bf = log(bf)) |>
+  #     dplyr::mutate(bounds = case_when(bf < log(1/6) ~ "H0", bf > log(6) ~ "H1", TRUE ~ "Inc"))
+  # ggplot(rs, aes(x = mean, y = sd, fill = bounds, color = bounds)) + geom_point()
+  #
 })
-
-

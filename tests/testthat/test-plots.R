@@ -104,7 +104,8 @@ test_that("Prior plots", {
   h0_mod <- prior(family = "point", point = 0L)
   point_posterior <- plot(extract_posterior(data_mod * h0_mod))
   point_posteriora <- plot(extract_posterior(data_mod * h0_mod),
-    add_prior = TRUE)
+    add_prior = TRUE
+  )
   vdiffr::expect_doppelganger("point_posterior", point_posterior)
 
   vdiffr::expect_doppelganger("point_posterior_prior", point_posteriora)
@@ -131,8 +132,10 @@ test_that("Prior plots", {
   )
 
   # cauchy-normal-d2 prediction plot
-  data_model <- likelihood(family = "noncentral_d2", d = 0.5,
-    n1 = 10L, n2 = 10L)
+  data_model <- likelihood(
+    family = "noncentral_d2", d = 0.5,
+    n1 = 10L, n2 = 10L
+  )
 
   # define alternative prior
   alt_prior <- prior(family = "normal", mean = 0L, sd = 1L)

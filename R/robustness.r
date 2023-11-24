@@ -292,8 +292,8 @@ describe_robustness <- function(data) {
 
 
 
-  # h0_text <- support_values[["Evidence for H1"]] 
-  # inc_text <-support_values[["inconclusive"]] 
+  # h0_text <- support_values[["Evidence for H1"]]
+  # inc_text <-support_values[["inconclusive"]]
   # consistent <- support_values[[base_support]]
   # inconsistent <- support_values[[invert_support(base_support)]]
   # inconclusive <- sum(support_values) - consistent - inconsistent
@@ -347,12 +347,12 @@ describe_robustness <- function(data) {
 
 
 
-support_factor <- \(x) factor(x,
+support_factor <- function(x) factor(x,
   levels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
 )
 
 
-get_support <- Vectorize(\(x, cutoff) {
+get_support <- Vectorize(function(x, cutoff) {
   if (x <= 1L / cutoff) {
     return(support_factor("Evidence for H0"))
   }

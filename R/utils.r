@@ -34,8 +34,11 @@ par_pmap <- function(x, f, ...) {
 
 list_to_df <- function(x) {
   n <- names(x)
-  x |> matrix(nrow = length(n)) |> t() |> as.data.frame() |>
-  stats::setNames(n)
+  x |>
+    matrix(nrow = length(n)) |>
+    t() |>
+    as.data.frame() |>
+    stats::setNames(n)
 }
 
 pull <- function(.data, var) {
@@ -45,7 +48,7 @@ pull <- function(.data, var) {
 
 
 filter <- function(.data, ...) {
-  filter_pattern <-  eval(substitute(alist(...)))
+  filter_pattern <- eval(substitute(alist(...)))
   operator <- map(filter_pattern, \(f) deparse(f[[1L]]))
   variable <- map(filter_pattern, \(a) paste0("d[['", a[[2L]], "']]"))
   condition <- map(filter_pattern, \(a) a[[3L]])
@@ -69,15 +72,15 @@ slide <- function(xvar, n) {
   }
   lead <- (n - 1L) / 2L
   for (i in (1L + lead):(length(xvar) - (lead))) {
-      prev_x <- xvar[[i - 1L]]
-      next_x <- xvar[[i + 1L]]
-      if (prev_x == next_x) {
+    prev_x <- xvar[[i - 1L]]
+    next_x <- xvar[[i + 1L]]
+    if (prev_x == next_x) {
       xvar[[i]] <- prev_x
-      }
     }
+  }
   xvar
 }
 
 select <- function(.data, var) {
-    .data[var]
-  }
+  .data[var]
+}

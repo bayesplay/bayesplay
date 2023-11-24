@@ -78,7 +78,7 @@ get_plot_range <- function(family) { # nolint
     return(function(params) {
       location <- params[["d"]]
       width <- w *
-      sqrt(d2_variance(params[["d"]], params[["n1"]], params[["n2"]]))
+        sqrt(d2_variance(params[["d"]], params[["n1"]], params[["n2"]]))
       c(location - width, location + width)
     })
   }

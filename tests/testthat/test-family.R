@@ -1,6 +1,5 @@
 # context("Family attribute")
 test_that("family attribute for object", {
-
   # first we'll test the priors
   p0_mod <- prior(family = "normal", mean = 0L, sd = 1L)
   p1_mod <- prior(family = "student_t", mean = 0L, sd = 1L, df = 10L)

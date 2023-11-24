@@ -1,6 +1,5 @@
 # context("Posterior families")
 test_that("posterior", {
-
   likelihood_obj <- likelihood(family = "noncentral_d", 0.7, n = 15L)
   prior_obj <- prior(family = "cauchy", 0L, 10L)
   posterior_obj <- likelihood_obj * prior_obj

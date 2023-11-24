@@ -54,8 +54,4 @@ test_that("class methods", {
     label = "accesing with $ works",
     ignore_attr = TRUE
   )
-
-
-
-
 })

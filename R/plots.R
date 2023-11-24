@@ -125,7 +125,7 @@ handle_binomial_marginal <- function(x, model_name = "model", ...) {
       size = 2L, shape = 16L
     ) +
     labs(x = "Outcome", y = "Marginal probability") +
-    scale_color_manual(
+    scale_colour_manual(
       values = "black",
       name = NULL,
       labels = NULL,
@@ -196,7 +196,7 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
       size = 2L, shape = 16L
     ) +
     labs(x = "Outcome", y = "Marginal probability") +
-    scale_color_manual(
+    scale_colour_manual(
       values = "black",
       name = NULL,
       labels = NULL,
@@ -214,8 +214,6 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
     NULL
 }
 
-library(ggplot2)
-library(gginnards)
 
 handle_prior_likelihood <- function(x, n) {
   if (x@dist_type == "point") {
@@ -270,7 +268,9 @@ plot_continuous <- function(x, n) {
 plot_weighted_likelihood <- function(x, n) {
   if (x@approximation) {
     stop("Marginal likelihood has been approximated; ",
-      "Can't reliably output a plot.", call. = FALSE)
+      "Can't reliably output a plot.",
+      call. = FALSE
+    )
   }
 
   func <- x[["weighted_likelihood_function"]]
@@ -320,12 +320,13 @@ plot_pp <- function(x, n) {
     theta <- unique(x@prior_obj@theta_range)
     return(
       ggplot() +
-        geom_point(aes(
-          x = theta,
-          y = x@prior_obj[["prior_function"]](0L),
-          color = "prior"
-        ),
-        size = 3L, shape = 16L
+        geom_point(
+          aes(
+            x = theta,
+            y = x@prior_obj[["prior_function"]](0L),
+            color = "prior"
+          ),
+          size = 3L, shape = 16L
         ) +
         geom_linerange(aes(
           x = unique(x@prior_obj@theta_range),
@@ -334,12 +335,13 @@ plot_pp <- function(x, n) {
           ymin = 0L,
           color = "prior"
         )) +
-        geom_point(aes(
-          x = theta,
-          y = x@prior_obj[["prior_function"]](0L),
-          color = "posterior"
-        ),
-        size = 3L, shape = 16L
+        geom_point(
+          aes(
+            x = theta,
+            y = x@prior_obj[["prior_function"]](0L),
+            color = "posterior"
+          ),
+          size = 3L, shape = 16L
         ) +
         geom_linerange(aes(
           x = unique(x@prior_obj@theta_range),
@@ -413,7 +415,7 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
   })
 
   suppressWarnings({
-   model2_layer <- plot_prediction(model2, n = 101L, model_name2)
+    model2_layer <- plot_prediction(model2, n = 101L, model_name2)
   })
 
   if (!ratio) {
@@ -436,8 +438,8 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
   if (ratio) {
     ratio_function <- function(x) {
       suppressWarnings({
-      model1[["prediction_function"]](x) /
-        model2[["prediction_function"]](x)
+        model1[["prediction_function"]](x) /
+          model2[["prediction_function"]](x)
       })
     }
 
