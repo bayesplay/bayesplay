@@ -25,32 +25,33 @@ test_that("class methods", {
     )
   )
 
-  expect_equivalent(
-    likelihood("normal", 0.0, 1.0) * prior("normal", 0.0, 1.0),
-    prior("normal", 0.0, 1.0) * likelihood("normal", 0.0, 1.0),
-    "multiplication commutes"
+  expect_equal(
+    object = likelihood("normal", 0.0, 1.0) * prior("normal", 0.0, 1.0),
+    expected = prior("normal", 0.0, 1.0) * likelihood("normal", 0.0, 1.0),
+    label = "multiplication commutes",
+    ignore_attr = TRUE,
+    ignore_function_env = TRUE
   )
 
-  expect_equivalent(
+  expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf)),
     make_prior(new("cauchy"), 0.0, 1.0, c(-Inf, Inf)),
-    "contructor works"
+    label = "contructor works",
+    ignore_attr = TRUE
   )
 
-  expect_equivalent(
+  expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf))[["family"]],
     "cauchy",
-    "accesing with [[]] works"
+    label = "accesing with [[]] works",
+    ignore_attr = TRUE
   )
 
 
-  expect_equivalent(
+  expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf))$family, # nolint
     "cauchy",
-    "accesing with $ works"
+    label = "accesing with $ works",
+    ignore_attr = TRUE
   )
-
-
-
-
 })

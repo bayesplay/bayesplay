@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Lincoln J Colling \email{lincoln@colling.net.nz} (\href{https://orcid.org/0000-0002-3572-7758}{ORCID})
+\strong{Maintainer}: Lincoln John Colling \email{lincoln@colling.net.nz} (\href{https://orcid.org/0000-0002-3572-7758}{ORCID})
 
 }
 \keyword{internal}

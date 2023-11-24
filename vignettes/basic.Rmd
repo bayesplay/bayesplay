@@ -216,7 +216,7 @@ Cauchy distribution centred at 0 (location parameter) with a scale parameter of
 d <- 2.03 / sqrt(80) # convert t to d
 data_model <- likelihood(family = "noncentral_d", d, 80)
 h0_mod <- prior(family = "point", point = 0)
-h1_mod <- prior(family = "cauchy",  scale = 1)
+h1_mod <- prior(family = "cauchy", scale = 1)
 
 bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
@@ -237,7 +237,6 @@ h1_mod <- prior(family = "normal", mean = 0, sd = 1)
 
 bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
-
 ```
 
 Similarly recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the

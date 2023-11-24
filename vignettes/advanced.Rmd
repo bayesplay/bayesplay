@@ -99,7 +99,7 @@ plot(l) + labs(title = "binomial likelihood", subtitle = "2 successes out of 10 
 ```
 
 ```{r}
-plot(p) + labs(title = "beta prior", subtitle = "alpha = 2.5, beta = 3.5") 
+plot(p) + labs(title = "beta prior", subtitle = "alpha = 2.5, beta = 3.5")
 ```
 
 Finally, we can plot the product of these two plots. That is, the we simply
@@ -284,7 +284,7 @@ work this out, we first multiply our data model (that is, our likelihood were
 the observation has been left out) by each of the priors. 
 
 ```{r}
-model1 <- data_model * hypothesis1 
+model1 <- data_model * hypothesis1
 model2 <- data_model * hypothesis2
 ```
 
@@ -294,13 +294,13 @@ then plot these predictions using the `plot()` function.
 
 ```{r}
 # predictions of model 1
-model1_predictions  <- extract_predictions(model1)
+model1_predictions <- extract_predictions(model1)
 plot(model1_predictions)
 ```
 
 ```{r}
 # predictions of model 2
-model2_predictions  <- extract_predictions(model2)
+model2_predictions <- extract_predictions(model2)
 plot(model2_predictions)
 ```
 
@@ -334,7 +334,6 @@ marginal likelihoods is 1.
 
 ```{r}
 visual_compare(model1, model2, ratio = TRUE)
-
 ```
 
 We're not restricted to examining *binomial* likelihoods. We can examine any of

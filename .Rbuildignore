@@ -15,3 +15,6 @@ cran-comments.md
 CITATION.cff
 .lintr
 .git
+build.sh
+robustness_
+working_

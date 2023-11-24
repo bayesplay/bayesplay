@@ -28,7 +28,7 @@ make_likelihood_data <- function(family, params, func) {
 
 
 dt_scaled <- function(x, df, mean = 0L, sd = 1L, ncp = 0L) {
-  stats::dt((x - mean) / sd, df, ncp = ncp, log = FALSE) / sd
+  dt((x - mean) / sd, df, ncp = ncp, log = FALSE) / sd
 }
 
 d_variance <- function(d, df) {
@@ -78,7 +78,7 @@ get_plot_range <- function(family) { # nolint
     return(function(params) {
       location <- params[["d"]]
       width <- w *
-      sqrt(d2_variance(params[["d"]], params[["n1"]], params[["n2"]]))
+        sqrt(d2_variance(params[["d"]], params[["n1"]], params[["n2"]]))
       c(location - width, location + width)
     })
   }
@@ -205,7 +205,7 @@ get_plot_range <- function(family) { # nolint
 #' # specify a binomial likelihood
 #' likelihood(family = "binomial", successes = 2, trials = 10)
 likelihood <- function(family, ...) {
-  if (!methods::existsMethod(signature = family, f = "make_likelihood")) {
+  if (!existsMethod(signature = family, f = "make_likelihood")) {
     stop(family, " is not a valid distribution family")
   }
   make_likelihood(family = new(family), ...)
@@ -486,9 +486,7 @@ make_likelihood.binomial <- function(family, successes, trials) { # nolint
 
   params <- list(successes = successes, trials = trials)
   func <- function(p) {
-    get_function(family)(p = p,
-      successes = successes,
-      trials = trials)
+    get_function(family)(p = p, successes = successes, trials = trials)
   }
 
   data <- make_likelihood_data(family = family, params = params, func = func)

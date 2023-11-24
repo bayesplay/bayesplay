@@ -1,0 +1,456 @@
+
+robustness_plot_two <- function(x) {
+
+  data <- x |>
+    slot("data") |>
+    pull("data")
+
+  param <- x |>
+    slot("data") |>
+    pull("required_parameters")
+
+
+
+  set_params <- x |>
+    slot("data") |>
+    pull("input_values") |>
+    pull("alternative_prior") |>
+    pull("parameters")
+
+  base_param <- if (length(param) > 1L) {
+    set_params[param]
+  } else {
+    set_params[[param]]
+  }
+
+  base_bf <- x |>
+    slot("data") |>
+    pull("bf_value")
+
+  precision <- x |>
+    slot("data") |>
+    pull("input_values") |>
+    pull("precision")
+
+
+  cutoff <- x |>
+    slot("data") |>
+    pull("input_values") |>
+    pull("cutoff")
+
+options(include.original = FALSE) 
+data1 <- make_two_data() |> slot("data") |> pull("data")
+
+options(include.original = TRUE) 
+data2 <- make_two_data()|> slot("data") |> pull("data")
+
+nrow(data1)
+
+nrow(data2)
+
+rr2 <- make_two_data()
+
+  original_values <- rr2 |>
+  slot("data") |>
+  pull("input_values") |>
+  pull("alternative_prior") |>
+  pull("parameters")
+
+params <- rr2 |>
+  slot("data") |>
+  pull("input_values") |>
+  pull("parameters") |>
+  names()
+
+
+#TODO: Need to keep note of the varied param
+  # - need to find the one that is off on precsion
+filter_func <- function(x) {
+  v1 <- x[params]
+  v2 <- original_values |> t() |> as.data.frame()
+  v2 <- v2[params]
+  any(unlist(v1) == unlist(v2))
+}
+
+filter_func2 <- function(x) {
+  v1 <- x[params]
+  v2 <- original_values |> t() |> as.data.frame()
+  v2 <- v2[params]
+  any(unlist(v1) != unlist(v2))
+}
+
+d1 <- data2 |> (\(x) split(x, row.names(x)))() |>
+    Filter(\(x) x[["mean"]] != 0L | x[["sd"]] != 0.25, x = _) |>
+    Reduce(rbind, x = _) 
+d2 <- data2 |> (\(x) split(x, row.names(x)))() |>
+    Filter(\(x) x[["mean"]] == 0L | x[["sd"]] == 0.25, x = _) |>
+    Reduce(rbind, x = _) 
+
+d1 <- data2 |> (\(x) split(x, row.names(x)))() |>
+    Filter(\(x) x[["sd"]] != 0.25, x = _) |>
+    Reduce(rbind, x = _) 
+d2 <- data2 |> (\(x) split(x, row.names(x)))() |>
+    Filter(\(x) x[["sd"]] == 0.25, x = _) |>
+    Reduce(rbind, x = _) 
+# d1 <- data2 |> (\(x) split(x, row.names(x)))() |>
+#     Filter(filter_func, x = _) |>
+#     Reduce(rbind, x = _)
+# d2 <- data2 |> (\(x) split(x, row.names(x)))() |>
+#     Filter(filter_func2, x = _) |>
+#     Reduce(rbind, x = _)
+# d1 <- d2
+# expect_equal(d1, d4)
+# expect_equal(d2, d3)
+# d1 <- data2 |>
+  # dplyr::filter(sd != 0.25 | mean != 0)
+# d2 <- data2 |>
+  # dplyr::filter(sd == 0.25 | mean == 0)
+og <- ggplot() +
+  geom_tile(
+    data = d2,
+    ggplot2::aes(
+      x = .data[[param[[1L]]]],
+      y = .data[[param[[2L]]]],
+      fill = support
+  )) +
+  geom_tile(
+    data = d1,
+    ggplot2::aes(
+      x = .data[[param[[1L]]]],
+      y = .data[[param[[2L]]]],
+      fill = support
+  )) +
+    geom_point(
+      aes(x = base_param[[1L]], y = base_param[[2L]]),
+      show.legend = FALSE
+    ) +
+  geom_point(
+    data = data2,
+    aes(
+      x = .data[[param[[1L]]]],
+      y = .data[[param[[2L]]]],
+      color = support
+      ),
+    shape = 16
+  ) +
+    theme_minimal() +
+    scale_fill_manual(
+      name = NULL,
+      values = c(
+        "Evidence for H1" = "seagreen",
+        "Inconclusive" = "goldenrod",
+        "Evidence for H0" = "indianred"
+      )
+    ) +
+    scale_color_manual(
+      name = NULL,
+      values = c(
+        "Evidence for H1" = "seagreen",
+        "Inconclusive" = "goldenrod",
+        "Evidence for H0" = "indianred"
+      )
+    ) +
+  ylim(-.5, 3) +
+  xlim(-3, 3) +
+  # scale_y_continuous(breaks = seq(0,2, 0.5)) +
+  # scale_x_continuous(breaks = seq(-2,2, 0.5)) +
+    NULL
+ng <- ggplot() +
+  geom_tile(
+    data = data1,
+    ggplot2::aes(
+      x = .data[[param[[1L]]]],
+      y = .data[[param[[2L]]]],
+      fill = support
+  )) +
+    geom_point(
+      aes(x = base_param[[1L]], y = base_param[[2L]]),
+      show.legend = FALSE
+    ) +
+    theme_minimal() +
+    scale_fill_manual(
+      name = NULL,
+      values = c(
+        "Evidence for H1" = "seagreen",
+        "Inconclusive" = "goldenrod",
+        "Evidence for H0" = "indianred"
+      )
+    ) +
+  ylim(-1, 3) +
+  xlim(-3, 3) +
+    NULL
+p <- og + ng
+ggsave("temp.png", plot = p, device = "png")
+
+
+
+  # FIXME: I probably need to manually tile it
+  ggplot2::ggplot(
+    data = d1,
+    ggplot2::aes(
+      x = .data[[param[[1L]]]],
+      y = .data[[param[[2L]]]],
+      fill = support
+    )
+  ) +
+    geom_tile(interpolate = TRUE) +
+    NULL
+
+
+    geom_point(
+      aes(x = base_param[[1L]], y = base_param[[2L]]),
+      show.legend = FALSE
+    ) +
+    theme_minimal() +
+    scale_fill_manual(
+      name = NULL,
+      values = c(
+        "Evidence for H1" = "seagreen",
+        "Inconclusive" = "goldenrod",
+        "Evidence for H0" = "indianred"
+      )
+    ) +
+    NULL
+
+}
+
+
+
+  # params <- rr |>
+  #   slot("data") |>
+  #   pull("required_parameters")
+  #
+  # set_params <- rr |>
+  #   slot("data") |>
+  #   pull("input_values") |>
+  #   pull("alternative_prior") |>
+  #   pull("parameters")
+  #
+  # base_params <- if (length(params) > 1L) {
+  #   set_params[params]
+  # } else {
+  #   set_params[[params]]
+  # }
+  #
+  # base_bf <- rr |>
+  #   slot("data") |>
+  #   pull("bf_value")
+  #
+  # precision <- rr |>
+  #   slot("data") |>
+  #   pull("input_values") |>
+  #   pull("precision")
+  #
+
+  ## one variable version
+
+
+#   x <- slot(rr, "data")[["data"]]
+#
+#   param <- slot(rr, "data")[["required_parameters"]]
+#   base_param <- slot(rr, "data")[["input_values"]][["alternative_prior"]][["parameters"]][[param]]
+#   base_bf <- slot(rr, "data")[["bf_value"]]
+#   precision <- slot(rr, "data")[["input_values"]]$precision
+#   ggplot2::ggplot(
+#     x,
+#     ggplot2::aes(
+#       x = .data[[param]],
+#       y = bf
+#     )
+#   ) +
+#     geom_rect(
+#       aes(
+#         xmin = .data[[param]] - (precision / 2),
+#         xmax = .data[[param]] + (precision / 2),
+#         ymin = 0L,
+#         ymax = max(bf),
+#         fill = support
+#       ),
+#       linewidth = NULL, alpha = 0.5
+#     ) +
+#     geom_hline(yintercept = 1L / cutoff, alpha = .5, linetype = 2L) +
+#     geom_hline(yintercept = cutoff, alpha = .5, linetype = 2L) +
+#     geom_line() +
+#     geom_point(
+#       aes(x = base_param, y = base_bf),
+#       show.legend = FALSE
+#     ) +
+#     # ylim(c(-1L, 3L)) +
+#     # xlim(c(-3L, 3L)) +
+#     theme_minimal() +
+#     scale_fill_manual(
+#       name = NULL,
+#       values = c(
+#         "Evidence for H1" = "seagreen",
+#         "Inconclusive" = "goldenrod",
+#         "Evidence for H0" = "indianred"
+#       )
+#     ) +
+#     NULL
+# }
+
+#
+#
+#
+#   data_model <- likelihood("normal", 5.5, sd = 3.35)
+#   alternative_prior <- prior("normal", mean = 0L, sd = 5L, range = c(0L, Inf))
+#   null_prior <- prior("point", 0L)
+#   parameters <- list(sd = c(0L,50L))
+#   precision <- 0.01
+#   bf_base <- integral(data_model * alternative_prior) /
+#     integral(data_model * null_prior)
+# summary(bf_base)
+#   suppressWarnings({
+#     rr <- bfrr(
+#       data_model = data_model,
+#       alternative_prior = alternative_prior,
+#       null_prior = null_prior,
+#       parameters = parameters,
+#       precision = precision,
+#       cutoff = 2L,
+#       multicore = TRUE
+#     )
+#   })
+# plot.rr(rr)
+#
+## FIXME: The robutstness function must insert the intial values
+# df <- slot(rr, "data")[["data"]]
+# df <- df[order(df[["sd"]]),]
+#
+# param <- "sd"
+# base_param <- slot(rr, "data")[["input_values"]][["alternative_prior"]][["parameters"]][[param]]
+# limits <- find_limit(df, base_param, param)
+# limits
+
+
+find_limit_old <- function(df, base_param, param) {
+sup <- df[["support"]] |> as.character()
+f <- function(acc, cur) {
+    # browser()
+  if(acc[[1]] == cur[[1]]) {
+    return(c(cur[[1]], acc[[2]]))
+  } else {
+    return(c(cur[[1]],  as.character((acc[[2]] |> as.numeric()) + 1)))
+  }
+}
+the_breaks <- Reduce(f = f, x = sup, init = c("Inconclusive", "0"), accumulate =  TRUE)
+labelled_breaks <- map(the_breaks, \(x) data.frame(support = x[[1]],
+    secnum = x[[2]])) |> 
+  Reduce(f= \(x, y) rbind(x, y))
+df <- cbind(df, labelled_breaks[2:length(the_breaks),]["secnum"])
+# sections <- df |>
+#   split(~secnum) |>
+#   map(\(x) c(min(x[[param]]), max(x[[param]])))
+ df[["diff"]] <- abs(df[[param]] - base_param)
+base_sec <- df[which(df[["diff"]] == min(df[["diff"]])),][["secnum"]]
+consistent_range <- df |> 
+    filter(secnum == base_sec) 
+  # dplyr::filter(mean == min(mean) | mean == max(mean)) |>
+  # pull(mean)
+c(min(consistent_range[[param]]), max(consistent_range[[param]]))
+}
+
+
+
+
+find_limits_one <- function(x) {
+  data <- x |>
+    slot("data") |>
+    pull("data") |>
+    sorter()
+
+  param <- x |>
+    slot("data") |>
+    pull("required_parameters")
+
+
+
+  set_params <- x |>
+    slot("data") |>
+    pull("input_values") |>
+    pull("alternative_prior") |>
+    pull("parameters")
+
+  base_param <- if (length(param) > 1L) {
+    set_params[param]
+  } else {
+    set_params[[param]]
+  }
+
+
+support_vec <- data[["support"]] |> as.character() |>
+    slide(3L)
+
+inc <- \(x) as.character((as.numeric(x) + 1L))
+skip_n <- \(df, n) df[(1L + n):nrow(df), ]
+
+f <- function(acc, cur) {
+  if (acc[[1L]] != cur[[1L]]) {
+    acc[[2L]] <- acc[[2L]] |> inc()
+  }
+  c(cur[[1L]], acc[[2L]])
+}
+
+sections <- Reduce(f = f, x = support_vec,
+  init  = c(support_vec[[1L]], "0"),
+  accumulate = TRUE)
+
+sections_df <- map(sections, \(x)
+  data.frame(support = x[[1L]], sec = x[[2L]])) |>
+  Reduce(\(x, y) rbind(x, y), x = _)
+
+data <- cbind(data, skip_n(sections_df, 1L)["sec"]) #nolint
+
+base_row <- which(df[[param]] == base_param)
+base_sec <- data[base_row, ][["sec"]]
+consistent_range <- data |>
+  filter(sec == base_sec) #nolint
+param_range <- consistent_range[[param]]
+c(min(param_range), max(param_range))
+}
+
+# FIXME: The spacing on this plot doesn't look right
+make_two_data <- function() {
+  mean_diff <- 0.3526918
+  tvalue <- 2.9009
+  se <- mean_diff / tvalue
+  std_dev <- se * sqrt(50L)
+  simdat <- mean_diff + as.numeric(scale(rnorm(50L, 0L, 1L))) * std_dev
+  data_model <- likelihood("student_t", mean(simdat),
+    sd = sd(simdat) / sqrt(length(simdat)), df = length(simdat) - 1L
+  )
+  alternative_prior <- prior("normal", mean = 0L, sd = 0.25, range = c(0L, Inf))
+  null_prior <- prior("point", 0L)
+  parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
+  precision <- 0.05
+  bf_base1 <- integral(data_model * alternative_prior) /
+    integral(data_model * null_prior)
+
+  suppressWarnings({
+    rr <- bfrr(
+      data_model = data_model,
+      alternative_prior = alternative_prior,
+      null_prior = null_prior,
+      parameters = parameters,
+      precision = precision,
+      cutoff = 6L,
+      multicore = TRUE
+    )
+  })
+  return(rr)
+}
+
+
+# v1 <- data.frame(a = "a", b = "b", c = "c")
+# v2 <- data.frame(a = "a", b = "b")
+# all(v1[names(v2)] == v2)
+
+
+
+
+
+
+
+
+
+

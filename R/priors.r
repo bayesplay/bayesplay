@@ -60,6 +60,7 @@ prior_data_names <- c("family", "parameters", "prior_function")
 #' * \code{uniform} a uniform distribution
 #' * \code{point} a point
 #' * \code{beta} a beta distribution
+#'
 #' The parameters that need to be specified will be dependent on the
 #' family
 #'
@@ -286,7 +287,6 @@ Adjust the mean or the limits.")
 }
 
 truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
-
   unnormalised <- function(x) get_function(family)(x = x, location, scale)
 
 
@@ -315,7 +315,6 @@ truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
 
 
 truncate_normalise_beta <- function(family, range, alpha, beta, ...) {
-
   unnormalised <- function(x) get_function(family)(x = x, alpha, beta) # nolint
   ll <- min(range)
   ul <- max(range)
@@ -567,8 +566,10 @@ make_prior.beta <- function(family, alpha, beta, range = NULL) { # nolint
   }
 
 
-  func <- truncate_normalise_beta(family = family,
-    range = range, beta = beta, alpha = alpha)
+  func <- truncate_normalise_beta(
+    family = family,
+    range = range, beta = beta, alpha = alpha
+  )
   params <- list(alpha = alpha, beta = beta, range = range)
 
   desc <- describe_prior(family, params)
