@@ -1,7 +1,7 @@
 Package: bayesplay
 Type: Package
 Title: The Bayes Factor Playground 
-Version: 0.9.3
+Version: 0.9.4
 Description: A lightweight modelling syntax for defining likelihoods and priors
     and for computing Bayes factors for simple one parameter models. It includes
     functionality for computing and plotting priors, likelihoods, and model
@@ -10,20 +10,20 @@ Description: A lightweight modelling syntax for defining likelihoods and priors
 License: MIT + file LICENSE
 Encoding: UTF-8
 Suggests: 
-    testthat,
+    testthat (>= 3.0.0),
     covr,
     knitr,
     rmarkdown,
     markdown,
-    vdiffr,
-    ggplot2,
-    patrick
+    vdiffr
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports: 
     methods,
     gginnards,
-    stats
+    stats,
+    ggplot2,
+    rlang
 Authors@R: 
     person(given = c("Lincoln", "John"), 
             family = "Colling",
@@ -32,3 +32,16 @@ Authors@R:
             role = c("aut","cre"))
 URL: https://github.com/bayesplay/bayesplay
 BugReports: https://github.com/bayesplay/bayesplay/issues
+Collate: 
+    'bayesplay-package.R'
+    'classes.r'
+    'extract_functions.R'
+    'helper_functions.R'
+    'likelihoods.R'
+    'plots.R'
+    'priors.r'
+    'utils.r'
+    'robustness.r'
+Config/testthat/edition: 3
+Depends: 
+    R (>= 4.1.0)

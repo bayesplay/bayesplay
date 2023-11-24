@@ -75,14 +75,14 @@ plot(prior("cauchy", location = 0, scale = .707))
 Although scaling the prior distribution by our theoretical *predictions* makes sense, we also need to factor in another thing—sample size. Because of how the *t* statistic is calculated ($t = \frac{\mu}{\sigma/\sqrt{n}}$), we can see that *t* statistics are also dependent on sample size. That is, for any given effect size (*standardized mean difference*), the corresponding *t* value will be a function of sample size—or more, specifically, the square root of the sample size. That is, for a *given underlying true effect size*, when we have a large sample size we can expect to see larger values of *t* that if we have a small sample size. Therefore, we should also scale our prior by the square root of the sample size. In the specification below, we're specifying a *standard Cauchy*, but further scaling this by $\sqrt{n}$.
 
 ```{r}
-alt_prior <- prior("cauchy", location = 0, scale = 1 * sqrt(n)) 
+alt_prior <- prior("cauchy", location = 0, scale = 1 * sqrt(n))
 plot(alt_prior)
 ```
 
 For our *null* we'll use a point located at 0. 
 
 ```{r}
-null_prior <- prior("point", point = 0) 
+null_prior <- prior("point", point = 0)
 plot(null_prior)
 ```
 
@@ -97,7 +97,7 @@ In the preceding example, we've taken account of the fact that the *same underly
 
 ```{r}
 d <- t / sqrt(n)
-data_model2 <- likelihood("noncentral_d", d = d, n = n) 
+data_model2 <- likelihood("noncentral_d", d = d, n = n)
 plot(data_model2)
 ```
 
@@ -161,7 +161,7 @@ t
 
 ```{r}
 df <- t_result$parameter
-df 
+df
 ```
 
 With the *t*, and *df* value in hand, we can specify our likelihood using the same noncentral *t* distribution as the one sample case. 
@@ -186,7 +186,7 @@ plot(alt_prior3)
 We'll use the same point null prior as before, and then compute the Bayes factor in the usual way. 
 
 ```{r}
-bf_independent_1 <- integral(data_model3 * alt_prior3) / integral(data_model3 * null_prior) 
+bf_independent_1 <- integral(data_model3 * alt_prior3) / integral(data_model3 * null_prior)
 summary(bf_independent_1)
 ```
 

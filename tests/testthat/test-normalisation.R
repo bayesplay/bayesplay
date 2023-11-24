@@ -1,6 +1,4 @@
-context("Normalising priors")
 test_that("Normalising warnings", {
-
   expect_warning(
     prior(
       family = "normal",
@@ -20,7 +18,6 @@ test_that("Normalising warnings", {
       range = c(1000L, Inf)
     ), "mean"
   )
-
 })
 
 test_that("Results with normalising errors", {
@@ -330,7 +327,7 @@ test_that("Normalisation method", {
   ul <- max(tmp)
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
   k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
-  k2 <- (1L - pcauchy(ll, location,  scale, lower.tail = TRUE)) -
+  k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
     (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
   expect_equal(k1, k2, tolerance = 1e-09)
   k3 <- range_area_cauchy(location, scale, ll, ul)
@@ -348,7 +345,7 @@ test_that("Normalisation method", {
   f <- \(x) dcauchy(x = x, location = location, scale = scale)
   k1 <- stats::integrate(Vectorize(f), ll, ul)[["value"]]
   k2 <- (1L - pcauchy(ll, location, scale, lower.tail = TRUE)) -
-    (1L - pcauchy(ul, location, scale,  lower.tail = TRUE))
+    (1L - pcauchy(ul, location, scale, lower.tail = TRUE))
   expect_equal(k1, k2, tolerance = 1e-09)
   k3 <- range_area_cauchy(location, scale, ll, ul)
   expect_equal(k1, k3, tolerance = 1e-09)

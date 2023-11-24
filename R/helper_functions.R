@@ -71,7 +71,6 @@ integral <- function(obj) {
 
 #' @export
 `/.auc` <- function(e1, e2) {
-
   is_e1_approx <- is_approx(e1)
   is_e2_approx <- is_approx(e2)
 
@@ -87,7 +86,7 @@ integral <- function(obj) {
   # if one of the objects is an approximation
   # then one of the them must also be a point null
 
-  if (has_approximation == TRUE && one_is_point == FALSE) {
+  if (has_approximation  && !one_is_point) {
     stop("Marginal likelihood is a approximation. One prior must ",
       "be a point prior at 0",
       call. = FALSE
@@ -249,7 +248,7 @@ sd_ratio <- function(x, point) {
 
   approx <- check_approximation(likelihood, prior)
   do_approximation <- approx[["approximation"]]
-  if (do_approximation == TRUE) {
+  if (do_approximation) {
     supported_prior <- approx[["supported_prior"]]
     approximation_params <- approx[c("n", "t", "df")]
   }
@@ -257,21 +256,21 @@ sd_ratio <- function(x, point) {
   approximation_params <- approx[c("n", "t", "df")]
 
 
-  if (do_approximation == TRUE && likelihood_family == "noncentral_t") {
+  if (do_approximation && likelihood_family == "noncentral_t") {
     stop(
-    "t value is large; approximation needed
+      "t value is large; approximation needed
      Reparameterize using a `noncentral_d` of `noncentral_d2` likelihood.",
       call. = FALSE
     )
   }
 
 
-  if (do_approximation == TRUE && supported_prior == FALSE) {
+  if (do_approximation && !supported_prior) {
     warning("Observation is large; approximation needed.")
     stop("Approximations are only supported with cauchy priors.", call. = FALSE)
   }
 
-  if (do_approximation == TRUE) {
+  if (do_approximation) {
     n <- approximation_params[["n"]]
     t <- approximation_params[["t"]]
     df <- approximation_params[["df"]]
@@ -416,7 +415,7 @@ check_approximation <- function(likelihood_obj, prior_obj) {
   priors_approx <- "cauchy"
 
   # don't perform approximation if the likelihoods or priors are not supported
-  if (likelihood_family %in% likelihods_approx == FALSE) {
+  if (!(likelihood_family %in% likelihods_approx)) {
     return(list(approximation = FALSE, is_large = FALSE, not_in_prior = FALSE))
   }
 
@@ -446,13 +445,13 @@ check_approximation <- function(likelihood_obj, prior_obj) {
   more_than_5 <- abs(parameters[["t"]]) > 5L
   in_range <- prior_in_range(prior_obj, likelihood_obj)
 
-  if (more_than_15 == TRUE) {
+  if (more_than_15) {
     approximation <- TRUE
-  } else if (more_than_5 == TRUE) {
-    if (in_range == FALSE) {
-      approximation <- TRUE
-    } else {
+  } else if (more_than_5) {
+    if (in_range) {
       approximation <- FALSE
+    } else {
+      approximation <- TRUE
     }
   } else {
     approximation <- FALSE
@@ -519,15 +518,15 @@ estimate_marginal <- function(n, t, df, prior) {
 
 
 
-    auc_h1_pass1 <- integrate(
-      Vectorize(\(x)  new_likelihood@func(x) * new_prior@func(x)),
-      -Inf, Inf,
-      subdivisions = 1000L, abs.tol = 1e-14
-    )
+  auc_h1_pass1 <- integrate(
+    Vectorize(function(x)  new_likelihood@func(x) * new_prior@func(x)),
+    -Inf, Inf,
+    subdivisions = 1000L, abs.tol = 1e-14
+  )
 
 
-    auc_h1 <- auc_h1_pass1
-    new_likelihood <- new_likelihood
+  auc_h1 <- auc_h1_pass1
+  new_likelihood <- new_likelihood
 
 
   auc_h1 <- auc_h1[["value"]]
@@ -549,7 +548,7 @@ is_approx <- function(e1) {
 
 is_point <- function(e1, value) {
   if (attributes(e1)[["prior"]][["family"]] == "point") {
-   return(attributes(e1)[["prior"]][["point"]] == value)
+    return(attributes(e1)[["prior"]][["point"]] == value)
   }
   FALSE
 }
