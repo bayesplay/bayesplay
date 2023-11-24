@@ -30,23 +30,20 @@
             sd: 0.121580130304388
             df: 49
       
-       2 parameters of the alternative prior were
-       varied for the robutness analysis:
+       The original parameters gave a Bayes factor of 20.56.
+      Using the cutoff value of 6, this result provides evidence for H1.
+      
+      2 parameters of the alternative prior were varied for the robutness analysis:
         The mean was varied from -2 to 2 (step size: 0.5)
         The sd was varied from 0 to 2 (step size: 0.5)
       
       Outcome
       -----------------
-      27 of 45 (0.6) checked priors were consistent
-      with the orignal conclusision.
-      (drew the same conclusion).
+      3 of 45 (0.07) tested priors provided evidence for H0 (BF < 0.17)
       
-      3 of 45 (0.07) checked priors were inconsistent
-      with the orignal conclusision.
-      (drew the opposite conclusion).
+      27 of 45 (0.6) tested priors provided evidence for H1 (BF > 6)
       
-      15 of 45 (0.33) checked priors were inconclusive.
-      (did not find support for H1 or H0).
+      15 of 45 (0.33) tested priors were inconclusive (0.17 < BF < 6)
       
        
 

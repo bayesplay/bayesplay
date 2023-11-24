@@ -294,7 +294,7 @@ test_that("Robustness regions display", {
 
   suppressWarnings({
     rr <- bfrr(
-      data_model = data_model,
+      likelihood = data_model,
       alternative_prior = alternative_prior,
       null_prior = null_prior,
       parameters = parameters,
@@ -323,7 +323,7 @@ test_that("Robustness regions display", {
 
   suppressWarnings({
     rr <- bfrr(
-      data_model = data_model,
+      likelihood = data_model,
       alternative_prior = alternative_prior,
       null_prior = null_prior,
       parameters = parameters,

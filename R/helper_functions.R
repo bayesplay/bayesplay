@@ -448,10 +448,10 @@ check_approximation <- function(likelihood_obj, prior_obj) {
   if (more_than_15) {
     approximation <- TRUE
   } else if (more_than_5) {
-    if (!in_range) {
-      approximation <- TRUE
-    } else {
+    if (in_range) {
       approximation <- FALSE
+    } else {
+      approximation <- TRUE
     }
   } else {
     approximation <- FALSE

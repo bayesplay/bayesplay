@@ -67,7 +67,7 @@ test_that("Needs approximation", {
   approx <- check_approximation(l, p1)
   check_field_names(approx, "noncentral t")
 
-  approx_without_n <- approx[which(!(names(approx) %in% "n"))]
+  approx_without_n <- approx[which(!(names(approx) %in% "n"))] # nolint
   check_all_valid(approx_without_n, "noncentral t")
 
   testthat::expect_true(is.na(approx[["n"]]), label = "noncentral t (n)")
@@ -78,7 +78,7 @@ test_that("Needs approximation", {
   approx <- check_approximation(l, p1)
   check_field_names(approx, "noncentral t")
 
-  approx_without_n <- approx[which(!(names(approx) %in% "n"))]
+  approx_without_n <- approx[which(!(names(approx) %in% "n"))] # nolint
   check_all_valid(approx_without_n, "noncentral t")
 
   testthat::expect_true(is.na(approx[["n"]]), label = "noncentral t (n)")
@@ -89,7 +89,7 @@ test_that("Needs approximation", {
   approx <- check_approximation(l, p1)
   check_field_names(approx, "noncentral t")
 
-  approx_without_n <- approx[which(!(names(approx) %in% "n"))]
+  approx_without_n <- approx[which(!(names(approx) %in% "n"))] # nolint
   check_all_valid(approx_without_n, "noncentral t")
 
   testthat::expect_true(is.na(approx[["n"]]), label = "noncentral t (n)")

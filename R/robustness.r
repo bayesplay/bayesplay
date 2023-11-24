@@ -255,12 +255,13 @@ describe_robustness <- function(data) {
   )
 
   varied_text <- names(parameters) |>
-    map(\(x)
-    paste0(
-      "  The ", x, " was varied from ", parameters[[x]][[1L]],
-      " to ", parameters[[x]][[2L]],
-      " (step size: ", data[["input_values"]][["precision"]], ")"
-    )) |>
+    map(function(x) {
+      paste0(
+        "  The ", x, " was varied from ", parameters[[x]][[1L]],
+        " to ", parameters[[x]][[2L]],
+        " (step size: ", data[["input_values"]][["precision"]], ")"
+      )
+    }) |>
     paste0(collapse = "\n")
 
 
@@ -327,7 +328,7 @@ describe_robustness <- function(data) {
   # nolint end
 
   base_text <- switch(as.character(base_support),
-    `Inconclusive` = "is inconclusive.",
+    Inconclusive = "is inconclusive.",
     `Evidence for H0` = "provides evidence for H0.",
     `Evidence for H1` = "provides evidence for H1."
   )
@@ -419,9 +420,9 @@ get_precision <- function(x) get_l2(x, "input_values", "precision")
 get_cutoff <- function(x) get_l2(x, "input_values", "cutoff")
 
 color_palette <- c(
-  "H1" = "#2a9d8f",
-  "In" = "#e9c46a",
-  "H0" = "#e76f51"
+  H1 = "#2a9d8f",
+  In = "#e9c46a",
+  H0 = "#e76f51"
 )
 
 #' @name plot
@@ -489,7 +490,7 @@ robustness_plot_one <- function(x) {
       name = NULL,
       values = c(
         "Evidence for H1" = color_palette[["H1"]],
-        "Inconclusive" = color_palette[["In"]],
+        Inconclusive = color_palette[["In"]],
         "Evidence for H0" = color_palette[["H0"]]
       )
     ) +
@@ -528,7 +529,7 @@ robustness_plot_two <- function(x) {
       name = NULL,
       values = c(
         "Evidence for H1" = color_palette[["H1"]],
-        "Inconclusive" = color_palette[["In"]],
+        Inconclusive = color_palette[["In"]],
         "Evidence for H0" = color_palette[["H0"]]
       )
     ) +
