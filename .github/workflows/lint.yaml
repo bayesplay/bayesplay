@@ -26,7 +26,8 @@ jobs:
           needs: lint
 
       - name: Lint
-        run: lintr::lint_package(exclusions = list.files("vignettes", full.names = TRUE))
+        run: |
+          lintr::lint_package(exclusions = list.files('vignettes', full.names = TRUE), linters=lintr::all_linters(indentation_linter=NULL))
         shell: Rscript {0}
         env:
           LINTR_ERROR_ON_LINT: true
