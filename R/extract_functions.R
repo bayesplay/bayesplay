@@ -23,14 +23,14 @@ extract_posterior <- function(x) {
         pattern = "  Family\n  ", replacement = "",
         x = x@likelihood_obj@desc, fixed = TRUE
       ),
-      pattern = "\n  Parameters", replacement = ""
+      pattern = "\n  Parameters", replacement = "", fixed = TRUE
     ),
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
         x = x@prior_obj@desc, fixed = TRUE
-      ), pattern = "\n  Parameters",
-      replacement = ""
+      ),
+      pattern = "\n  Parameters", replacement = "", fixed = TRUE
     ),
     "\nNormalising constant: ", round(x[["integral"]], 4L)
   )
@@ -65,14 +65,14 @@ extract_predictions <- function(x) {
       x = sub(
         pattern = "  Family\n  ", replacement = "",
         x = x@likelihood_obj@desc, fixed = TRUE
-      ), pattern = "\n  Parameters",
+      ), pattern = "\n  Parameters", fixed = TRUE,
       replacement = ""
     ),
     sub(
       x = sub(
         pattern = "  Family\n  ", replacement = "",
         x = x@prior_obj@desc, fixed = TRUE
-      ), pattern = "\n  Parameters",
+      ), pattern = "\n  Parameters", fixed = TRUE,
       replacement = ""
     ),
     "\nPrediction range: X = ", range_as_text(get_max_range(x)), "\n",

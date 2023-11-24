@@ -58,7 +58,7 @@ filter <- function(.data, ...) {
   filter_function_text <- paste(variable, operator, condition,
     collapse = " && "
   )
-  filter_function <- paste0("\\(d) ", filter_function_text) |> parse(text = _)
+  filter_function <- parse(text = paste0("\\(d) ", filter_function_text))
   data_out_list <- Filter(eval(filter_function), df_list)
   data_out <- Reduce(function(x, y) rbind(x, y), data_out_list)
   row.names(data_out) <- NULL
