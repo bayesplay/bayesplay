@@ -27,8 +27,8 @@ make_likelihood_data <- function(family, params, func) {
 
 
 
-dt_scaled <- function(x, df, mean = 0L, sd = 1L, ncp = 0L) {
-  dt((x - mean) / sd, df, ncp = ncp, log = FALSE) / sd
+dt_scaled <- function(x, df, mean = 0L, sd = 1L, ncp = 0L, log = FALSE) {
+  dt((x - mean) / sd, df, ncp = ncp, log = log) / sd
 }
 
 d_variance <- function(d, df) {
