@@ -206,7 +206,9 @@ setMethod(
 
 
 pt_scaled <- function(q, df, mean = 0L, sd = 1L, ncp = 0L, lower.tail = TRUE) { # nolint
-  stats::pt((q - mean) / sd, df, ncp = ncp, log.p = FALSE, lower.tail = lower.tail)
+  stats::pt((q - mean) / sd, df,
+    ncp = ncp, log.p = FALSE, lower.tail = lower.tail
+  )
 }
 
 range_area_normal <- function(mean, sd, ll, ul) {

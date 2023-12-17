@@ -1,9 +1,3 @@
-## TODO: # nolint: todo_comment_linter.
-## - define robust region object
-## - define summary and display for this
-## - define plot function for this
-
-
 #' @include utils.r
 
 make_bf_rr_func <- function(data_model,
@@ -42,23 +36,17 @@ make_bf_rr_func <- function(data_model,
   bf_func
 }
 
-#
-# TODO: I think when varying 2 or more params there should be a function that # nolint: todo_comment_linter, line_length_linter.
-# generates values list for each param while the others are held constant
-# for the RR it should also try and find the boundaries between changes of
-# support
-# Binary search is probably the best way to find these boundaries
-#
 
-makes_values_list <- function(parameters, precision, original_values) {
-  raw_values <- lapply(parameters, function(x) {
-    do.call("seq", as.list(c(x, precision)))
+
+
+makes_values_list <- function(parameters, steps = 100L) {
+  values <- lapply(parameters, function(x) {
+    do.call(
+      what = "seq",
+      args = list(from = x[[1L]], to = x[[2L]], length.out = steps + 1L)
+    )
   })
 
-
-  values <- lapply(names(raw_values), function(x) {
-    unique(sort(c(raw_values[[x]], original_values[[x]])))
-  }) |> setNames(names(raw_values))
 
 
   if ("sd" %in% names(parameters)) {
@@ -69,26 +57,19 @@ makes_values_list <- function(parameters, precision, original_values) {
     values[["df"]] <- values[["df"]][values[["df"]] > 0L]
   }
 
+  values <- lapply(values, function(x) {
+    x[1L:steps]
+  })
 
   n_values <- prod(unlist(map(values, length)))
-  if (n_values > 10000L) {
+  if (n_values > (101L * 101L)) {
     warning("Number of values to evaluate is large. Consider using a smaller
 range.")
   }
 
-  return_values <- expand.grid(values, KEEP.OUT.ATTRS = FALSE)
-  # NOTE: Is sorter necessary
-  # sorter(return_values) # nolint: commented_code_linter.
-  return_values
+  expand.grid(values, KEEP.OUT.ATTRS = FALSE)
 }
 
-sorter <- function(df) {
-  df[["dummy"]] <- 0L
-  sorted_df <- df[do.call("order", df |> as.list()), ]
-  sorted_df[["dummy"]] <- NULL
-  row.names(sorted_df) <- NULL
-  return(sorted_df)
-}
 
 allowed_parameters <- list(
   normal = c("mean", "sd", "range"),
@@ -107,12 +88,14 @@ allowed_parameters <- list(
 #' @param likelihood \code{likelihood} object representing the data
 #' @param alternative_prior \code{prior} object for the alternative prior
 #' @param null_prior \code{prior} object for the null prior
-#' @param parameters \code{list} of min and max values for the parameters to
-#' vary
-#' @param precision \code{numeric} step size for varied parameter range
-#' (Default: precision is set so that each parameter is varied in 100 steps)
+#' @param parameters \code{list} of min and max values for each parameter to
+#' vary over.
+#' @param steps \code{numeric} the number of steps each parameter is varied
+#' over. (Default: 100 steps)
 #' @param cutoff Minimum Bayes factor value for evidence for the hypothesis
+#' (Default: 3)
 #' @param multicore Run robustness analysis across multiple cores
+#' (Default: TRUE if available)
 #' @return A \code{robustness} object
 #'
 #' @examples
@@ -131,13 +114,10 @@ allowed_parameters <- list(
 #' # vary the sd from 1 to 5
 #' parameters <- list(mean = c(-10, 5), sd = c(1, 5))
 #'
-#' # vary the parameters in steps of 0.5
-#' precision <- 0.5
-#'
 #' # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 #' # alternative / null
 #' cutoff <- 3
-#' bfrr(data_model, alternative_prior, null_prior, parameters, precision,
+#' bfrr(data_model, alternative_prior, null_prior, parameters, steps,
 #'   cutoff,
 #'   multicore = FALSE
 #' )
@@ -146,9 +126,16 @@ bfrr <- function(likelihood,
                  alternative_prior,
                  null_prior,
                  parameters,
-                 precision = NULL,
+                 steps = 100L,
                  cutoff = 3L,
-                 multicore = FALSE) {
+                 multicore = TRUE) {
+  # check whether multicore is available
+  if (multicore && (parallel::detectCores() == 1L)) {
+    multicore <- FALSE
+    message("Multicore is not available, running on a single core")
+  }
+
+
   bf_func <- make_bf_rr_func(
     likelihood,
     alternative_prior,
@@ -165,7 +152,7 @@ bfrr <- function(likelihood,
     alternative_prior = alternative_prior,
     null_prior = null_prior,
     parameters = parameters,
-    precision = precision,
+    steps = steps,
     cutoff = cutoff
   )
 
@@ -173,10 +160,30 @@ bfrr <- function(likelihood,
     integral(likelihood * null_prior)
 
 
+
   original_values <- alternative_prior |>
     slot("parameters")
 
-  values_df <- makes_values_list(parameters, precision, original_values)
+
+  # check if the original values are in the range of the parameters
+  lapply(names(parameters), FUN = function(x) {
+    if (original_values[[x]] < parameters[[x]][[1L]]) {
+      stop(
+        "The original value for ", x, " (", original_values[[x]],
+        ") is less than the minimum value for ",
+        x, " (", parameters[[x]][[1L]], ")"
+      )
+    }
+    if (original_values[[x]] > parameters[[x]][[2L]]) {
+      stop(
+        "The original value for ", x, " (", original_values[[x]],
+        ") is greater than the maximum value for ",
+        x, " (", parameters[[x]][[2L]], ")"
+      )
+    }
+  })
+
+  values_df <- makes_values_list(parameters, steps)
 
 
   if (multicore) {
@@ -218,8 +225,10 @@ bfrr <- function(likelihood,
   )
 }
 
-# TODO: This is not correct!  #nolint
+
 describe_robustness <- function(data) {
+  step_size <- get_precision(data)
+
   alternative_prior <- describe_prior(
     new(data[["input_values"]][["alternative_prior"]][["family"]]),
     data[["input_values"]][["alternative_prior"]][["parameters"]]
@@ -259,7 +268,7 @@ describe_robustness <- function(data) {
       paste0(
         "  The ", x, " was varied from ", parameters[[x]][[1L]],
         " to ", parameters[[x]][[2L]],
-        " (step size: ", data[["input_values"]][["precision"]], ")"
+        " (step size: ", signif(step_size[[x]], 3L), ")"
       )
     }) |>
     paste0(collapse = "\n")
@@ -293,39 +302,36 @@ describe_robustness <- function(data) {
     round(1L / cutoff, 2L), " < BF < ", round(cutoff, 2L), ")"
   )
 
+  robust_regions <- round(mean(output_values[["support"]] == base_support), 2L)
 
-  # nolint start: commented_code_linter.
-  # h0_text <- support_values[["Evidence for H1"]]
-  # inc_text <-support_values[["inconclusive"]]
-  # consistent <- support_values[[base_support]]
-  # inconsistent <- support_values[[invert_support(base_support)]]
-  # inconclusive <- sum(support_values) - consistent - inconsistent
-  #
-  #
-  # consistent_text <- paste0(
-  #   consistent, " of ", sum(support_values),
-  #   # " (", round(consistent / sum(support_values), 2L), ")",
-  #   " checked priors were consistent\nwith the original conclusion\n",
-  #   "(drew the same conclusion)."
-  # )
-  #
-  # inconsistent_text <- paste0(
-  #   inconsistent, " of ", sum(support_values),
-  #   # " (", round(inconsistent / sum(support_values), 2L), ")",
-  #   " checked priors were inconsistent\nwith the original conclusion\n",
-  #   "(drew the opposite conclusion)."
-  # )
-  #
-  #
-  #
-  # inconclusive_text <- paste0(
-  #   inconclusive, " of ", sum(support_values),
-  #   # " (", round(inconclusive / sum(support_values), 2L), ")",
-  #   " checked priors were inconclusive.\n",
-  #   "(did not find support for H1 or H0)."
-  # )
+  robust_text <- paste0(
+    "The conclusion of '", base_support, "' was robust over ",
+    robust_regions, " tested priors"
+  )
 
-  # nolint end
+  if (base_support != "Inconclusive") {
+    reverse_region <- mean(
+      output_values[["support"]] == invert_support(base_support)
+    )
+
+    if (reverse_region > 0L) {
+      robust_text <- paste0(
+        robust_text,
+        "\n\n",
+        round(reverse_region, 2L),
+        " of tested priors gave the opposite conclusion of '",
+        invert_support(base_support), "' "
+      )
+    } else {
+      robust_text <- paste0(
+        robust_text,
+        "\n\n",
+        "No tested priors gave the opposite conclusion"
+      )
+    }
+  }
+
+
 
   base_text <- switch(as.character(base_support),
     Inconclusive = "is inconclusive.",
@@ -346,7 +352,8 @@ describe_robustness <- function(data) {
     "Outcome\n-----------------\n",
     h0_text, "\n\n",
     h1_text, "\n\n",
-    inc_text, "\n\n"
+    inc_text, "\n\n",
+    robust_text, "\n"
   )
 }
 
@@ -396,7 +403,7 @@ setMethod(
   "summary",
   "robustness",
   function(object) {
-    cat(object[["desc"]])
+    cat(slot(object, "desc"))
   }
 )
 
@@ -416,7 +423,18 @@ get_set_params <- function(x) {
   )
 }
 
-get_precision <- function(x) get_l2(x, "input_values", "precision")
+get_precision <- function(x) {
+  input_values <- x[["input_values"]]
+  steps <- input_values[["steps"]]
+  step_size <- unlist(lapply(names(input_values[["parameters"]]), function(x) {
+    input_values[["parameters"]][[x]][[3L]] <- diff(
+      input_values[["parameters"]][[x]][1L:2L]
+    ) / steps
+  }))
+  names(step_size) <- names(input_values[["parameters"]])
+  step_size
+}
+
 get_cutoff <- function(x) get_l2(x, "input_values", "cutoff")
 
 color_palette <- c(
@@ -512,11 +530,14 @@ robustness_plot_two <- function(x) {
   }
 
 
+  param1 <- param[[1L]]
+  param2 <- param[[2L]]
+
   ggplot2::ggplot(
     data = data,
     ggplot2::aes(
-      x = .data[[param[[1L]]]], # nolint: object_usage_linter.
-      y = .data[[param[[2L]]]],
+      x = .data[[param1]], # nolint: object_usage_linter.
+      y = .data[[param2]],
       fill = .data[["support"]]
     )
   ) +

@@ -166,8 +166,8 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-            filter(mean == 0L, sd == 0.25) |>
-            pull(bf)),
+      filter(mean == 0L, sd == 0.25) |>
+      pull(bf)),
     tolerance = 0L
   )
 
@@ -175,8 +175,8 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-            filter(mean == 0L, sd == 0.25) |>
-            pull(bf)),
+      filter(mean == 0L, sd == 0.25) |>
+      pull(bf)),
     tolerance = 0L
   )
 
@@ -238,8 +238,8 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-            filter(mean == 0L, sd == 0.25) |>
-            pull(bf)),
+      filter(mean == 0L, sd == 0.25) |>
+      pull(bf)),
     tolerance = 0L
   )
 })

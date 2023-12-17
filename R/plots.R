@@ -208,7 +208,7 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
       labels = NULL,
       guide = "none"
     ) +
-    scale_x_continuous( #nolint
+    scale_x_continuous( # nolint
       limits = plot_range
     ) +
     NULL
@@ -238,7 +238,7 @@ plot_point <- function(x, n) {
     aes(x = theta, y = dens)
   ) +
     geom_point(size = 3L, shape = 16L) +
-    geom_linerange(aes( #nolint
+    geom_linerange(aes( # nolint
       x = theta,
       y = NULL,
       ymax = 1L,
@@ -328,7 +328,7 @@ plot_pp <- function(x, n) {
           ),
           size = 3L, shape = 16L
         ) +
-        geom_linerange(aes( #nolint
+        geom_linerange(aes( # nolint
           x = unique(x@prior_obj@theta_range),
           y = NULL,
           ymax = x@prior_obj[["prior_function"]](0L),
@@ -460,7 +460,7 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
       return(ggplot(data = df) +
         geom_point(aes(x = x, y = y)) +
         geom_line(aes(x = x, y = y)) +
-        scale_x_continuous( #nolint
+        scale_x_continuous( # nolint
           c(
             min(get_max_range(model1), get_max_range(model2)),
             max(get_max_range(model1), get_max_range(model2))
