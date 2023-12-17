@@ -49,6 +49,8 @@ makes_values_list <- function(parameters, steps = 100L) {
 
 
 
+
+
   if ("sd" %in% names(parameters)) {
     values[["sd"]] <- values[["sd"]][values[["sd"]] > 0L]
   }
@@ -56,6 +58,7 @@ makes_values_list <- function(parameters, steps = 100L) {
   if ("df" %in% names(parameters)) {
     values[["df"]] <- values[["df"]][values[["df"]] > 0L]
   }
+
 
   values <- lapply(values, function(x) {
     x[1L:steps]
@@ -67,8 +70,10 @@ makes_values_list <- function(parameters, steps = 100L) {
 range.")
   }
 
+
   expand.grid(values, KEEP.OUT.ATTRS = FALSE)
 }
+
 
 
 allowed_parameters <- list(
@@ -160,7 +165,6 @@ bfrr <- function(likelihood,
     integral(likelihood * null_prior)
 
 
-
   original_values <- alternative_prior |>
     slot("parameters")
 
@@ -228,7 +232,6 @@ bfrr <- function(likelihood,
 
 describe_robustness <- function(data) {
   step_size <- get_precision(data)
-
   alternative_prior <- describe_prior(
     new(data[["input_values"]][["alternative_prior"]][["family"]]),
     data[["input_values"]][["alternative_prior"]][["parameters"]]
