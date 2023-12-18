@@ -20,7 +20,7 @@ par_map <- function(x, f, ...) {
   # mclapply doesn't work on windows?
   # dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...) # nolint
   cl <- parallel::makeCluster(parallel::detectCores())
-  dout <- parallel::parLapply(cl, x = x, fun = f, ...)
+  dout <- parallel::parLapply(cl, x, f, ...)
   parallel::stopCluster(cl)
   row.names(dout) <- NULL
   dout
@@ -34,7 +34,7 @@ par_pmap <- function(x, f, ...) {
   # )
 
   cl <- parallel::makeCluster(parallel::detectCores())
-  dout <- parallel::parLapply(cl, x = x_list, fun = f, ...)
+  dout <- parallel::parLapply(cl, x_list, f, ...)
   parallel::stopCluster(cl)
   row.names(dout) <- NULL
   Reduce(f = rbind, dout)
