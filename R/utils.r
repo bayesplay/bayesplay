@@ -19,7 +19,7 @@ par_map <- function(x, f, ...) {
   f <- match.fun(f)
   # mclapply doesn't work on windows?
   # dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...) # nolint
-  dout <- parallel::parLapply(x, f, ...)
+  dout <- parallel::parLapply(x = x, fun = f, ...)
   row.names(dout) <- NULL
   dout
 }
@@ -31,7 +31,7 @@ par_pmap <- function(x, f, ...) {
   #   mc.cores = parallel::detectCores(), ...
   # )
 
-  dout <- parallel::parLapply(x_list, f, ...)
+  dout <- parallel::parLapply(x = x_list, fun = f, ...)
 
   row.names(dout) <- NULL
   Reduce(f = rbind, dout)
