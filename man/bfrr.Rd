@@ -9,9 +9,9 @@ bfrr(
   alternative_prior,
   null_prior,
   parameters,
-  precision = NULL,
+  steps = 100L,
   cutoff = 3L,
-  multicore = FALSE
+  multicore = TRUE
 )
 }
 \arguments{
@@ -21,15 +21,17 @@ bfrr(
 
 \item{null_prior}{\code{prior} object for the null prior}
 
-\item{parameters}{\code{list} of min and max values for the parameters to
-vary}
+\item{parameters}{\code{list} of min and max values for each parameter to
+vary over.}
 
-\item{precision}{\code{numeric} step size for varied parameter range
-(Default: precision is set so that each parameter is varied in 100 steps)}
+\item{steps}{\code{numeric} the number of steps each parameter is varied
+over. (Default: 100 steps)}
 
-\item{cutoff}{Minimum Bayes factor value for evidence for the hypothesis}
+\item{cutoff}{Minimum Bayes factor value for evidence for the hypothesis
+(Default: 3)}
 
-\item{multicore}{Run robustness analysis across multiple cores}
+\item{multicore}{Run robustness analysis across multiple cores
+(Default: TRUE if available)}
 }
 \value{
 A \code{robustness} object
@@ -54,13 +56,10 @@ null_prior <- prior(family = "point", point = 0L)
 # vary the sd from 1 to 5
 parameters <- list(mean = c(-10, 5), sd = c(1, 5))
 
-# vary the parameters in steps of 0.5
-precision <- 0.5
-
 # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 # alternative / null
 cutoff <- 3
-bfrr(data_model, alternative_prior, null_prior, parameters, precision,
+bfrr(data_model, alternative_prior, null_prior, parameters, steps = 10,
   cutoff,
   multicore = FALSE
 )

@@ -65,8 +65,7 @@ rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(sd = c(1, 50)), # vary sd from 1 to 20
-  precision = 1
+  parameters = list(sd = c(1, 50)) # vary sd from 1 to 20
 )
 ```
 
@@ -92,8 +91,7 @@ rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(scale = c(0.1, 100)),
-  precision = 1
+  parameters = list(scale = c(0.1, 2))
 )
 rr
 ```
@@ -109,9 +107,8 @@ rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(scale = c(0, 100), location = c(-1, 1)),
-  precision = 100,
-  multicore = TRUE
+  parameters = list(scale = c(0, 2), location = c(-1, 1)),
+  steps = 32
 )
 rr
 ```

@@ -55,6 +55,11 @@ makes_values_list <- function(parameters, steps = 100L) {
     values[["sd"]] <- values[["sd"]][values[["sd"]] > 0L]
   }
 
+
+  if ("scale" %in% names(parameters)) {
+    values[["scale"]] <- values[["scale"]][values[["scale"]] > 0L]
+  }
+
   if ("df" %in% names(parameters)) {
     values[["df"]] <- values[["df"]][values[["df"]] > 0L]
   }
@@ -122,7 +127,7 @@ allowed_parameters <- list(
 #' # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 #' # alternative / null
 #' cutoff <- 3
-#' bfrr(data_model, alternative_prior, null_prior, parameters, steps,
+#' bfrr(data_model, alternative_prior, null_prior, parameters, steps = 10,
 #'   cutoff,
 #'   multicore = FALSE
 #' )
@@ -483,6 +488,8 @@ robustness_plot_one <- function(x) {
 
   cutoff <- get_cutoff(x)
 
+  height <- max(c(max(data[["bf"]]), cutoff))
+
   ggplot(
     data,
     aes(
@@ -495,7 +502,7 @@ robustness_plot_one <- function(x) {
         xmin = .data[[param]] - (precision / 2L),
         xmax = .data[[param]] + (precision / 2L),
         ymin = 0L,
-        ymax = max(bf),
+        ymax = height,
         fill = .data[["support"]]
       ),
       linewidth = NULL
