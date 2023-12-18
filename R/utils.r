@@ -17,7 +17,9 @@ pmap <- function(x, f, ...) {
 
 par_map <- function(x, f, ...) {
   f <- match.fun(f)
-  dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...)
+  # mclapply doesn't work on windows?
+  # dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...) # nolint
+  dout <- parallel::parLapply(x, f, ...)
   row.names(dout) <- NULL
   dout
 }
