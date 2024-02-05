@@ -42,14 +42,29 @@ library(bayesplay)
 ```
 
 
-In this vignette we'll cover how to replicate the results of the *default* *t*-tests developed @rouderbf. We'll cover both one-sample/paired *t*-tests and independent samples *t*-tests, and we'll cover how specify the models both in terms of the *t* statistic and in terms of Cohen's *d*.
+In this vignette we'll cover how to replicate the results of the *default*
+*t*-tests developed @rouderbf. We'll cover both one-sample/paired *t*-tests and
+independent samples *t*-tests, and we'll cover how specify the models both in
+terms of the *t* statistic and in terms of Cohen's *d*.
 
 
 ## One-sample/paired *t*-tests
 
-One-sample *t*-tests are already covered in the [basic usage vignette](https://bayesplay.github.io/bayesplay/articles/basic.html), so the example presented here is simply a repeat of that example. However, we'll change the order of presentation around a bit so that the relationship between the one-sample and independent samples models are a little clearer. 
+One-sample *t*-tests are already covered in the [basic usage
+vignette](https://bayesplay.github.io/bayesplay/articles/basic.html), so the
+example presented here is simply a repeat of that example. However, we'll change
+the order of presentation around a bit so that the relationship between the
+one-sample and independent samples models are a little clearer. 
 
-We'll start with an example from @rouderbf, in which they analyse the results if a one sample *t*-test. @rouderbf report a *t* statistic of 2.03, from a sample size of 80. The sampling distribution of the *t* statistic, when the null hypothesis is false is the [noncentral *t*-distribution](https://en.wikipedia.org/wiki/Noncentral_t-distribution) distribution. Therefore, we can use this fact to construct a *likelihood function* for our *t* value from the noncentral *t*-distribution. For this, we'll need two parameters—the *t* value itself, and the *degrees of freedom*. In the one-sample case, the *degrees of freedom* will just be N - 1.
+We'll start with an example from @rouderbf, in which they analyse the results if
+a one sample *t*-test. @rouderbf report a *t* statistic of 2.03, from a sample
+size of 80. The sampling distribution of the *t* statistic, when the null
+hypothesis is false is the [noncentral
+*t*-distribution](https://en.wikipedia.org/wiki/Noncentral_t-distribution)
+distribution. Therefore, we can use this fact to construct a *likelihood
+function* for our *t* value from the noncentral *t*-distribution. For this,
+we'll need two parameters—the *t* value itself, and the *degrees of freedom*. In
+the one-sample case, the *degrees of freedom* will just be N - 1.
 
 ```{r}
 t <- 2.03
@@ -58,21 +73,42 @@ data_model <- likelihood("noncentral_t", t = t, df = n - 1)
 plot(data_model)
 ```
 
-From plotting our *likelihood* function we can see that values of *t* at our observation (*t* = 2.03) and most consistent without our observation while more extreme values of *t* (e.g., *t* = -2, or *t* = 6) are less consistent without our observed data. This is of course, as we would expect.
+From plotting our *likelihood* function we can see that values of *t* at our
+observation (*t* = 2.03) and most consistent without our observation while more
+extreme values of *t* (e.g., *t* = -2, or *t* = 6) are less consistent without
+our observed data. This is of course, as we would expect.
 
-Now that we've defined our likelihood, the next thing to think about is the *prior*. @rouderbf provide a more detailed justification for their prior, so we won't go into that here; however, their prior is based on the *Cauchy* distribution. A Cauchy distribution is like a very fat tailed *t* distribution (in fact, it **is** a very fat tailed *t* distribution). We can see an example of a *standard Cauchy* distribution below. 
+Now that we've defined our likelihood, the next thing to think about is the
+*prior*. @rouderbf provide a more detailed justification for their prior, so we
+won't go into that here; however, their prior is based on the *Cauchy*
+distribution. A Cauchy distribution is like a very fat tailed *t* distribution
+(in fact, it **is** a very fat tailed *t* distribution). We can see an example
+of a *standard Cauchy* distribution below. 
 
 ```{r}
 plot(prior("cauchy", location = 0, scale = 1))
 ```
 
-The *Cauchy* distribution can be *scaled* so that it is wider or narrow. You might want to choose a `scale` parameter based on the range of *t* values that your theory prediction. For example, here is a slightly *narrower* *Cauchy* distribution.
+The *Cauchy* distribution can be *scaled* so that it is wider or narrow. You
+might want to choose a `scale` parameter based on the range of *t* values that
+your theory prediction. For example, here is a slightly *narrower* *Cauchy*
+distribution.
 
 ```{r}
 plot(prior("cauchy", location = 0, scale = .707))
 ```
 
-Although scaling the prior distribution by our theoretical *predictions* makes sense, we also need to factor in another thing—sample size. Because of how the *t* statistic is calculated ($t = \frac{\mu}{\sigma/\sqrt{n}}$), we can see that *t* statistics are also dependent on sample size. That is, for any given effect size (*standardized mean difference*), the corresponding *t* value will be a function of sample size—or more, specifically, the square root of the sample size. That is, for a *given underlying true effect size*, when we have a large sample size we can expect to see larger values of *t* that if we have a small sample size. Therefore, we should also scale our prior by the square root of the sample size. In the specification below, we're specifying a *standard Cauchy*, but further scaling this by $\sqrt{n}$.
+Although scaling the prior distribution by our theoretical *predictions* makes
+sense, we also need to factor in another thing—sample size. Because of how the
+*t* statistic is calculated ($t = \frac{\mu}{\sigma/\sqrt{n}}$), we can see that
+*t* statistics are also dependent on sample size. That is, for any given effect
+size (*standardized mean difference*), the corresponding *t* value will be a
+function of sample size—or more, specifically, the square root of the sample
+size. That is, for a *given underlying true effect size*, when we have a large
+sample size we can expect to see larger values of *t* that if we have a small
+sample size. Therefore, we should also scale our prior by the square root of the
+sample size. In the specification below, we're specifying a *standard Cauchy*,
+but further scaling this by $\sqrt{n}$.
 
 ```{r}
 alt_prior <- prior("cauchy", location = 0, scale = 1 * sqrt(n))
@@ -93,7 +129,17 @@ bf_onesample_1 <- integral(data_model * alt_prior) / integral(data_model * null_
 summary(bf_onesample_1)
 ```
 
-In the preceding example, we've taken account of the fact that the *same underlying effect size* will produce different values of *t* depending on the sample, and we've scaled our *prior* accordingly. However, we could also apply the scaling at the other end by re-scaling our *likelihood*. The `bayesplay` package contains two additional noncentral *t* likelihoods that have been rescaled. The first of the these is the `noncentral_d` likelihood. This is a likelihood based on the sample distribution of the *one-sample/paired samples Cohen's d*. This is calculated simply as $d = \frac{\mu_{\mathrm{diff}}}{\sigma_{\mathrm{diff}}}$. Alternatively, we can conver the observed *t* value by dividing it by $\sqrt{n}$. The `noncentral_d` likelihood just takes this effect size and the sample size are parameters. 
+In the preceding example, we've taken account of the fact that the *same
+underlying effect size* will produce different values of *t* depending on the
+sample, and we've scaled our *prior* accordingly. However, we could also apply
+the scaling at the other end by re-scaling our *likelihood*. The `bayesplay`
+package contains two additional noncentral *t* likelihoods that have been
+rescaled. The first of the these is the `noncentral_d` likelihood. This is a
+likelihood based on the sample distribution of the *one-sample/paired samples
+Cohen's d*. This is calculated simply as $d =
+\frac{\mu_{\mathrm{diff}}}{\sigma_{\mathrm{diff}}}$. Alternatively, we can
+conver the observed *t* value by dividing it by $\sqrt{n}$. The `noncentral_d`
+likelihood just takes this effect size and the sample size are parameters. 
 
 ```{r}
 d <- t / sqrt(n)
@@ -101,14 +147,18 @@ data_model2 <- likelihood("noncentral_d", d = d, n = n)
 plot(data_model2)
 ```
 
-Now that we've applied our scaling to the *likelihood*, we don't need to apply this scaling to the *prior*. Therefore, if we wanted to use the same prior as the preceding example, we'll have a `scale` value of `1`, rather than `1 * sqrt(n)`.
+Now that we've applied our scaling to the *likelihood*, we don't need to apply
+this scaling to the *prior*. Therefore, if we wanted to use the same prior as
+the preceding example, we'll have a `scale` value of `1`, rather than `1 *
+sqrt(n)`.
 
 ```{r}
 alt_prior2 <- prior("cauchy", location = 0, scale = 1)
 plot(alt_prior2)
 ```
 
-We can re-use our null prior from before and calculate the Bayes factor the same way as before. 
+We can re-use our null prior from before and calculate the Bayes factor the same
+way as before. 
 
 ```{r}
 bf_onesample_2 <- integral(data_model2 * alt_prior2) / integral(data_model2 * null_prior)
@@ -119,9 +169,14 @@ As expected, the two results are identical.
 
 ## Independent samples *t*-tests
 
-@rouderbf also provide an extension of their method to the two sample case, although they do not provide a worked example. Instead, we can generate our own example and directly compare the results from the `bayesplay` package with the results from the [`BayesFactor`](https://CRAN.R-Project.org/package=BayesFactor) package.
+@rouderbf also provide an extension of their method to the two sample case,
+although they do not provide a worked example. Instead, we can generate our own
+example and directly compare the results from the `bayesplay` package with the
+results from the [`BayesFactor`](https://CRAN.R-Project.org/package=BayesFactor)
+package.
 
-For this example, we'll start by generating some data from an independent samples design. 
+For this example, we'll start by generating some data from an independent
+samples design. 
 
 ```{r}
 set.seed(2125519)
@@ -145,7 +200,10 @@ Against denominator:
 Bayes factor type: BFindepSample, JZS
 ```
 
-As with the one-sample case, we can run the analysis in the `bayesplay` package using either the *t* statistic or the *Cohen's d*. We'll start by running the analysis using the *t* statistic. The easiest way to do this, is to simply use the `t.test()` function in R. 
+As with the one-sample case, we can run the analysis in the `bayesplay` package
+using either the *t* statistic or the *Cohen's d*. We'll start by running the
+analysis using the *t* statistic. The easiest way to do this, is to simply use
+the `t.test()` function in R. 
 
 ```{r}
 t_result <- t.test(x = group1, y = group2, paired = FALSE, var.equal = TRUE)
@@ -164,13 +222,17 @@ df <- t_result$parameter
 df
 ```
 
-With the *t*, and *df* value in hand, we can specify our likelihood using the same noncentral *t* distribution as the one sample case. 
+With the *t*, and *df* value in hand, we can specify our likelihood using the
+same noncentral *t* distribution as the one sample case. 
 
 ```{r}
 data_model3 <- likelihood("noncentral_t", t = t, df = df)
 ```
 
-As with the one-sample case, a *Cauchy* prior is used for the alternative hypothesis. Again, this will need to be appropriately scaled. In one sample case we scaled it by $\sqrt{n}$. In the two-sample case, however, we'll scale it by $\sqrt{\frac{n_1 \times n_2}{n_1 + n_2}}$
+As with the one-sample case, a *Cauchy* prior is used for the alternative
+hypothesis. Again, this will need to be appropriately scaled. In one sample case
+we scaled it by $\sqrt{n}$. In the two-sample case, however, we'll scale it by
+$\sqrt{\frac{n_1 \times n_2}{n_1 + n_2}}$
 
 
 ```{r}
@@ -183,17 +245,21 @@ alt_prior3 <- prior("cauchy", location = 0, scale = 1 * sqrt((n1 * n2) / (n1 + n
 plot(alt_prior3)
 ```
 
-We'll use the same point null prior as before, and then compute the Bayes factor in the usual way. 
+We'll use the same point null prior as before, and then compute the Bayes factor
+in the usual way. 
 
 ```{r}
 bf_independent_1 <- integral(data_model3 * alt_prior3) / integral(data_model3 * null_prior)
 summary(bf_independent_1)
 ```
 
-Appropriately scaling our *Cauchy* prior can be tricky, so an alternative is instead, as before, to scale our likelihood. The `bayesplay` package contains a likelihood that is appropriate for independent samples *Cohen's d*, the `noncentral_d2` likelihood. To use this, we'll need the *Cohen's d* value, and the two sample sizes. 
+Appropriately scaling our *Cauchy* prior can be tricky, so an alternative is
+instead, as before, to scale our likelihood. The `bayesplay` package contains a
+likelihood that is appropriate for independent samples *Cohen's d*, the
+`noncentral_d2` likelihood. To use this, we'll need the *Cohen's d* value, and
+the two sample sizes. 
 
-For independent samples designs the *Cohen's d* is calculated
- as follows:
+For independent samples designs the *Cohen's d* is calculated as follows:
 
  $$d = \frac{m_1 - m2}{s_\mathrm{pooled}},$$
 
@@ -214,7 +280,8 @@ d <- md_diff / sd_pooled
 d
 ```
 
-However, it can also be obtained from the `effsize` package using the following syntax.
+However, it can also be obtained from the `effsize` package using the following
+syntax.
 
 ```r
 effsize::cohen.d(group1, group2, paired = FALSE, hedged.correction = FALSE)
@@ -231,7 +298,8 @@ data_model4
 plot(data_model4)
 ```
 
-Because we've used the appropriately scaled noncentral *t* likelihood, the `noncentral_d2`, we no longer need to scale the *Cauchy* prior.
+Because we've used the appropriately scaled noncentral *t* likelihood, the
+`noncentral_d2`, we no longer need to scale the *Cauchy* prior.
 
 ```{r}
 alt_prior4 <- prior("cauchy", location = 0, scale = 1)

@@ -17,7 +17,7 @@ pmap <- function(x, f, ...) {
 
 par_map <- function(x, f, ...) {
   f <- match.fun(f)
-  dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...)
+  dout <- future.apply::future_lapply(x, f, ...)
   row.names(dout) <- NULL
   dout
 }
@@ -25,9 +25,7 @@ par_map <- function(x, f, ...) {
 par_pmap <- function(x, f, ...) {
   x_list <- unname(split(x, ~ row.names(x)))
   f <- match.fun(f)
-  dout <- parallel::mclapply(x_list, f,
-    mc.cores = parallel::detectCores(), ...
-  )
+  dout <- future.apply::future_lapply(x_list, f, ...)
   row.names(dout) <- NULL
   Reduce(f = rbind, dout)
 }

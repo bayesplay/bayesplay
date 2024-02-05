@@ -208,7 +208,7 @@ handle_other_marginal <- function(x, model_name = "model", ...) {
       labels = NULL,
       guide = "none"
     ) +
-    scale_x_continuous( #nolint
+    scale_x_continuous( # nolint
       limits = plot_range
     ) +
     NULL
@@ -328,7 +328,7 @@ plot_pp <- function(x, n) {
           ),
           size = 3L, shape = 16L
         ) +
-        geom_linerange(aes( #nolint
+        geom_linerange(aes( # nolint
           x = unique(x@prior_obj@theta_range),
           y = NULL,
           ymax = x@prior_obj[["prior_function"]](0L),

@@ -86,7 +86,7 @@ integral <- function(obj) {
   # if one of the objects is an approximation
   # then one of the them must also be a point null
 
-  if (has_approximation  && !one_is_point) {
+  if (has_approximation && !one_is_point) {
     stop("Marginal likelihood is a approximation. One prior must ",
       "be a point prior at 0",
       call. = FALSE
@@ -519,7 +519,7 @@ estimate_marginal <- function(n, t, df, prior) {
 
 
   auc_h1_pass1 <- integrate(
-    Vectorize(function(x)  new_likelihood@func(x) * new_prior@func(x)),
+    Vectorize(function(x) new_likelihood@func(x) * new_prior@func(x)),
     -Inf, Inf,
     subdivisions = 1000L, abs.tol = 1e-14
   )

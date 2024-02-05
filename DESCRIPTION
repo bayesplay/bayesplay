@@ -23,7 +23,8 @@ Imports:
     gginnards,
     stats,
     ggplot2,
-    rlang
+    rlang,
+    future.apply
 Authors@R: 
     person(given = c("Lincoln", "John"), 
             family = "Colling",

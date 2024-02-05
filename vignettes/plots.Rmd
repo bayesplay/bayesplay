@@ -19,15 +19,22 @@ knitr::opts_chunk$set(
 library(bayesplay)
 ```
 
-The `bayesplay` package includes functionality for basic plotting of prior and likelihood objects. These plots are all generated with the generic `plot()` function. The `plot()` function returns a `ggplot2` object. These plots are styled with sensible defaults; however, they can be further styled using standard `ggplot2` syntax. 
+The `bayesplay` package includes functionality for basic plotting of prior and
+likelihood objects. These plots are all generated with the generic `plot()`
+function. The `plot()` function returns a `ggplot2` object. These plots are
+styled with sensible defaults; however, they can be further styled using
+standard `ggplot2` syntax. 
 
 ## Examples 
 
 ### Plotting likelihoods
 
-To plot a likelihood, you first need to define a likelihood using the standard syntax (see [basic usage](https://bayesplay.github.io/bayesplay/articles/basic.html)).
+To plot a likelihood, you first need to define a likelihood using the standard
+syntax (see [basic
+usage](https://bayesplay.github.io/bayesplay/articles/basic.html)).
 
-In the example below, we define normal likelihood with a mean of 5.5 and a standard error of 32.35.
+In the example below, we define normal likelihood with a mean of 5.5 and a
+standard error of 32.35.
 
 ```{r}
 norm_mod <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
@@ -40,9 +47,12 @@ To plot this object we just use it as the input to the `plot()` function.
 plot(norm_mod)
 ```
 
-As shown above, default axis labels are applied to the x and y axis. The x-axis limits are also automatically set to so that the full shape of the likelihood is visible.
+As shown above, default axis labels are applied to the x and y axis. The x-axis
+limits are also automatically set to so that the full shape of the likelihood
+is visible.
 
-An identical approach can also be used for plotting *t* likelihoods. First we define the likelihood.
+An identical approach can also be used for plotting *t* likelihoods. First we
+define the likelihood.
 
 ```{r}
 t_mod <- likelihood(family = "student_t", mean = 10, sd = 5, df = 15)
@@ -58,7 +68,9 @@ plot(t_mod)
 
 ### Plotting priors 
 
-The process for plotting priors is identical to plotting likelihoods. First we define the prior, and then we plot it. Sensible axis labels are applied to plots of priors. 
+The process for plotting priors is identical to plotting likelihoods. First we
+define the prior, and then we plot it. Sensible axis labels are applied to
+plots of priors. 
 
 For example, we can plot a point prior, typically used for a null model. 
 
@@ -81,7 +93,9 @@ normal_prior <- prior(family = "normal", mean = 10, sd = 10)
 plot(normal_prior)
 ```
 
-The `plot()` function also behaves sensibly with, for example, half-normal priors. The height of the plot is scaled appropriately, and the plot is only show over the appropriate parameter range. 
+The `plot()` function also behaves sensibly with, for example, half-normal
+priors. The height of the plot is scaled appropriately, and the plot is only
+show over the appropriate parameter range. 
 
 ```{r}
 half_normal_prior <- prior(family = "normal", mean = 10, sd = 10, range = c(10, Inf))
@@ -91,7 +105,8 @@ plot(half_normal_prior)
 
 ### Styling plots
 
-The plots produced by the `plot()` function are standard `ggplot2` objects and, therefore, they can be styled using the standard `ggplot2` syntax. 
+The plots produced by the `plot()` function are standard `ggplot2` objects and,
+therefore, they can be styled using the standard `ggplot2` syntax. 
 
 First, we load the `ggplot2` package to gain access to it's styling functions.
 
@@ -99,13 +114,17 @@ First, we load the `ggplot2` package to gain access to it's styling functions.
 library(ggplot2)
 ```
 
-The functions than then we used to modify the output for the `plot()` function. For example, axis labels can be changed with `ggplot2::labs()`
+The functions than then we used to modify the output for the `plot()` function.
+For example, axis labels can be changed with `ggplot2::labs()`
 
 ```{r}
 plot(t_mod) + labs(x = "data", y = "likelihood", title = "t likelihood")
 ```
 
-or axis limits can be changed using, for example, `ggplot2::xlim()`. Note that because scales have already been set by the `plot()` function, a warning message will be produced. This however, this message can be suppressed using standard `R` methods.
+or axis limits can be changed using, for example, `ggplot2::xlim()`. Note that
+because scales have already been set by the `plot()` function, a warning
+message will be produced. This however, this message can be suppressed using
+standard `R` methods.
 
 ```{r}
 plot(uniform_prior) + xlim(-100, 100)
