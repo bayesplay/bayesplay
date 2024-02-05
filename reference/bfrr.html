@@ -44,6 +44,9 @@ values of the alternative prior"><!-- mathjax --><script src="https://cdnjs.clou
     <li>
       <a href="../articles/plots.html">Basic plotting</a>
     </li>
+    <li>
+      <a href="../articles/robustness.html">Robustness regions</a>
+    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/bayesplay/bayesplay/" class="external-link">
@@ -76,9 +79,9 @@ values of the alternative prior</p>
 <span>  <span class="va">alternative_prior</span>,</span>
 <span>  <span class="va">null_prior</span>,</span>
 <span>  <span class="va">parameters</span>,</span>
-<span>  precision <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  steps <span class="op">=</span> <span class="fl">100L</span>,</span>
 <span>  cutoff <span class="op">=</span> <span class="fl">3L</span>,</span>
-<span>  multicore <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  multicore <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -97,21 +100,23 @@ values of the alternative prior</p>
 
 
 <dt>parameters</dt>
-<dd><p><code>list</code> of min and max values for the parameters to
-vary</p></dd>
+<dd><p><code>list</code> of min and max values for each parameter to
+vary over.</p></dd>
 
 
-<dt>precision</dt>
-<dd><p><code>numeric</code> step size for varied parameter range
-(Default: precision is set so that each parameter is varied in 100 steps)</p></dd>
+<dt>steps</dt>
+<dd><p><code>numeric</code> the number of steps each parameter is varied
+over. (Default: 100 steps)</p></dd>
 
 
 <dt>cutoff</dt>
-<dd><p>Minimum Bayes factor value for evidence for the hypothesis</p></dd>
+<dd><p>Minimum Bayes factor value for evidence for the hypothesis
+(Default: 3)</p></dd>
 
 
 <dt>multicore</dt>
-<dd><p>Run robustness analysis across multiple cores</p></dd>
+<dd><p>Run robustness analysis across multiple cores
+(Default: TRUE if available)</p></dd>
 
 </dl></div>
     <div id="value">
@@ -138,13 +143,10 @@ vary</p></dd>
 <span class="r-in"><span><span class="co"># vary the sd from 1 to 5</span></span></span>
 <span class="r-in"><span><span class="va">parameters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># vary the parameters in steps of 0.5</span></span></span>
-<span class="r-in"><span><span class="va">precision</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># mark all Bayes factors larger/smaller than 3/.3 as evidence for the</span></span></span>
 <span class="r-in"><span><span class="co"># alternative / null</span></span></span>
 <span class="r-in"><span><span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span><span class="fu">bfrr</span><span class="op">(</span><span class="va">data_model</span>, <span class="va">alternative_prior</span>, <span class="va">null_prior</span>, <span class="va">parameters</span>, <span class="va">precision</span>,</span></span>
+<span class="r-in"><span><span class="fu">bfrr</span><span class="op">(</span><span class="va">data_model</span>, <span class="va">alternative_prior</span>, <span class="va">null_prior</span>, <span class="va">parameters</span>, steps <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  <span class="va">cutoff</span>,</span></span>
 <span class="r-in"><span>  multicore <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -177,17 +179,18 @@ vary</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using the cutoff value of 3, this result is inconclusive.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 parameters of the alternative prior were varied for the robutness analysis:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The mean was varied from -10 to 5 (step size: 0.5)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The sd was varied from 1 to 5 (step size: 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   The mean was varied from -10 to 5 (step size: 1.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   The sd was varied from 1 to 5 (step size: 0.4)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -----------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56 of 279 (0.2) tested priors provided evidence for H0 (BF &lt; 0.33)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 of 100 (0.25) tested priors provided evidence for H0 (BF &lt; 0.33)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0 of 279 (0) tested priors provided evidence for H1 (BF &gt; 3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0 of 100 (0) tested priors provided evidence for H1 (BF &gt; 3)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 223 of 279 (0.8) tested priors were inconclusive (0.33 &lt; BF &lt; 3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75 of 100 (0.75) tested priors were inconclusive (0.33 &lt; BF &lt; 3)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The conclusion of 'Inconclusive' was robust over 0.75 tested priors</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 </code></pre></div>
     </div>
