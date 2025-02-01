@@ -1,3 +1,5 @@
+# TODO: Lets chcck the function text for priors with limits
+# And let's add a function text slot for the likelihood too
 test_that("function_text slot for prior", {
   p0_mod <- prior(family = "normal", mean = 0L, sd = 1L)
   p1_mod <- prior(family = "student_t", mean = 0L, sd = 1L, df = 10L)

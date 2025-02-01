@@ -9,6 +9,8 @@ test_that("binomial likelihood", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
+
   testthat::expect_equal(as.numeric(unclass(b)),
     1L / 0.4887695,
     label = "binomial likelihood, beta prior",
@@ -18,10 +20,11 @@ test_that("binomial likelihood", {
   l <- likelihood(family = "binomial", 3L, 12L)
   p1 <- prior(family = "uniform", min = 0L, max = 1L)
   p0 <- prior(family = "point", point = 0.5)
-  p0 <- prior(family = "point", point = 0.5)
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
   b <- m1 / m0
+
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     1L / 0.6982422,
     label = "binomial likelihood, uniform prior",
@@ -35,6 +38,9 @@ test_that("binomial likelihood", {
   m1 <- data_model * alt_prior
   m0 <- data_model * null_prior
   b1 <- integral(m1) / integral(m0)
+  
+  write_out_json(b1)
+
   b2 <- 1L / 0.6982422
   testthat::expect_equal(as.numeric(unclass(b1)),
     unclass(unname(b2)),
@@ -49,6 +55,8 @@ test_that("binomial likelihood", {
   m1 <- data_model * alt_prior
   m0 <- data_model * null_prior
   b1 <- integral(m1) / integral(m0)
+
+  write_out_json(b1)
   b2 <- 3.3921325
   testthat::expect_equal(as.numeric(unclass(b1)),
     unclass(unname(b2)),
@@ -66,6 +74,7 @@ test_that("noncentral_d likelhood", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     0.64207642378841778275,
     tolerance = tol,
@@ -81,6 +90,7 @@ test_that("noncentral_d likelhood", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     1.25399711580663364430,
     tolerance = tol,
@@ -94,6 +104,8 @@ test_that("noncentral_d likelhood", {
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
   b <- m1 / m0
+
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     460.2497,
     label = "previously anomalous t test v2 (as d)",
@@ -106,6 +118,7 @@ test_that("noncentral_d likelhood", {
   p0 <- prior("point", 0L)
   b <- suppressWarnings(integral(l * p1) / integral(l * p0))
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     0.006772853,
     label = "previously anomalous t test v2 (as t)",
@@ -124,6 +137,7 @@ test_that("noncentral_d2 likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     0.274111,
     tolerance = tol,
@@ -141,6 +155,7 @@ test_that("noncentral_d2 likelihoods", {
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
   b <- m1 / m0
+  write_out_json(b)
 
   testthat::expect_equal(as.numeric(unclass(b)),
     0.274111,
@@ -156,6 +171,7 @@ test_that("noncentral_d2 likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     42.44814,
     tolerance = tol,
@@ -170,6 +186,7 @@ test_that("noncentral_d2 likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     0.64207642378841778275,
     label = "default bayes t (t version)",
@@ -183,6 +200,7 @@ test_that("noncentral_d2 likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     403.35222779080226018777,
     label = "anomalous t test v1 (as t)",
@@ -197,6 +215,7 @@ test_that("noncentral_d2 likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
 
   testthat::expect_equal(as.numeric(unclass(b)),
     460.2497,
@@ -214,6 +233,7 @@ test_that("student_t likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
 
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.97),
@@ -230,6 +250,7 @@ test_that("normal likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.89),
     tolerance = tol,
@@ -247,6 +268,7 @@ test_that("normal likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.97),
     tolerance = tol,
@@ -264,6 +286,7 @@ test_that("normal likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.83),
     tolerance = tol,
@@ -278,6 +301,7 @@ test_that("normal likelihoods", {
   m0 <- integral(l * p0)
   b <- m1 / m0
 
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     unclass(0.247),
     tolerance = tol,
@@ -293,6 +317,7 @@ test_that("noncentral_d likelihoods", {
   m1 <- integral(l * p1)
   m0 <- integral(l * p0)
   b <- m1 / m0
+  write_out_json(b)
   testthat::expect_equal(as.numeric(unclass(b)),
     42.44814,
     tolerance = tol,

@@ -1,3 +1,14 @@
+# TODO:
+# Final BF object should contain
+# 1. The alt_prior
+# 2. The null_prior
+# 3. The likelihood
+
+
+
+
+
+
 is_empty <- function(x) {
   length(x) == 0L
 }
@@ -66,6 +77,12 @@ integral <- function(obj) {
   p_desc <- p[["parameters"]]
   p_desc[["family"]] <- p[["family"]]
   attr(rv, "prior") <- p_desc
+  model <- list(
+    likelihood_obj = obj@likelihood_obj,
+    prior_obj = obj@prior_obj
+  )
+  attr(rv, "model") <- model
+
   return(rv)
 }
 
@@ -92,8 +109,13 @@ integral <- function(obj) {
       call. = FALSE
     )
   }
+  bf <- unclass(e1) / unclass(e2)
+  attr(bf, "model1") <- attr(e1, "model")
+  attr(bf, "model2") <- attr(e2, "model")
 
-  new("bf", unclass(e1) / unclass(e2))
+  # write_out_json(bf)
+  
+  new("bf", bf)
 }
 
 get_ev_level <- function(bf) { # nolint
@@ -215,6 +237,11 @@ integer_breaks <- function(n = 5L, ...) {
 #' sd_ratio(model, 0)
 #' @export
 sd_ratio <- function(x, point) {
+
+  m1 <- x
+  m0 <- x@likelihood_obj * prior("point", point)
+  b <<-  integral(m0) / integral(m1)
+
   is_estimated <- x@approximation %||% FALSE
   if (is_estimated && point != 0L) {
     stop("point must be 0 if the marginal likelihood is an approximation",
@@ -226,6 +253,7 @@ sd_ratio <- function(x, point) {
   }
 
   bf <- x@prior_obj@func(point) / x[["posterior_function"]](point)
+
   new("bf", bf)
 }
 
@@ -551,4 +579,114 @@ is_point <- function(e1, value) {
     return(attributes(e1)[["prior"]][["point"]] == value)
   }
   FALSE
+}
+
+result_to_testname <- function(bf) {
+  model1 <- attr(bf, "model1")
+  model2 <- attr(bf, "model2")
+  glue::glue('{model1[["likelihood_obj"]][["family"]]}_likelihood_{model1[["prior_obj"]][["family"]]}_and_{model2[["prior_obj"]][["family"]]}_prior') # nolint
+}
+
+result_to_json <- function(bf) {
+  model1 <- attr(bf, "model1")
+  model2 <- attr(bf, "model2")
+
+
+  likelihood_to_json <- function(model) {
+    names <- model[["likelihood_obj"]][["parameters"]] |> names()
+    values <- model[["likelihood_obj"]][["parameters"]] |> as.numeric()
+    family <- model[["likelihood_obj"]][["family"]]
+
+
+    paste0('{"family": "', family, '", "params": [', paste0(
+      glue::glue('{{"name": "{names}", "value": {values}}}'),
+      collapse = ","
+    ), "]}")
+  }
+
+
+  prior_to_json <- function(model) {
+    family <- model[["prior_obj"]][["family"]]
+    if (family == "point") {
+      point <- model[["prior_obj"]][["parameters"]][["point"]]
+      return(glue::glue(
+        '{{
+          "family": "point",
+          "params": [{{"name": "point", "value": {point}}}]
+        }}')) }
+
+    if (family == "uniform") {
+      min <- model[["prior_obj"]][["parameters"]][[1L]]
+      max <- model[["prior_obj"]][["parameters"]][[2L]]
+
+      return(glue::glue(
+        '{{
+          "family": "point",
+          "params": [
+              {{"name": "min", "value": {min}}},
+              {{"name": "max", "value": {max}}}
+        ]
+        }}'))
+    }
+
+
+
+    
+    get_default_range <- function(family) {
+      slot(new(family), "default_range")
+    }
+
+    range_element <- which(
+      names(model[["prior_obj"]][["parameters"]]) == "range"
+    )
+    range_params <- model[["prior_obj"]][["parameters"]][[range_element]]
+    non_range_params <- model[["prior_obj"]][["parameters"]][-range_element]
+    names <- non_range_params |> names()
+    values <- non_range_params |> as.numeric() |> sprintf(fmt = "%.25f")
+
+
+    ll <- range_params[[1L]]
+    if (ll != get_default_range(family)[[1L]]) {
+      names <- c(names, "ll")
+      values <- c(values, range_params[[1L]])
+    }
+
+    ul <- range_params[[2L]]
+    if (ul != get_default_range(family)[[2L]]) {
+      names <- c(names, "ul")
+      values <- c(values, range_params[[2L]])
+    }
+
+
+    paste0('{"family": "', family, '", "params": [', paste0(
+      glue::glue('{{"name": "{names}", "value": {values}}}'),
+      collapse = ","
+    ), "]}")
+  }
+
+  glue::glue('
+    {{"likelihood": {likelihood_to_json(model1)},
+    "alternative": {prior_to_json(model1)},
+    "null": {prior_to_json(model2)}}}
+    ')
+}
+
+
+write_out_json <- function(b, bres=NULL) {
+  if (is.null(bres)) {
+    bres <- b
+  }
+  py <- reticulate::import("jsonconcat")
+
+  test_name_str <- glue::glue('{{"name": "{result_to_testname(b)}"}}')
+  json_str <- bayesplay:::result_to_json(b)
+
+  result_json_str <- glue::glue('{{"result": {sprintf(bres, fmt="%.25f")}}}')
+
+
+  py$concat_json(json_str, "tests.json")
+  py$concat_json(test_name_str, "test_names.json")
+  py$concat_json(result_json_str, "results.json")
+
+
 }

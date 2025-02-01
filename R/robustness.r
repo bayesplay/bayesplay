@@ -106,6 +106,9 @@ allowed_parameters <- list(
 #' (Default: 3)
 #' @param multicore Run robustness analysis across multiple cores
 #' (Default: TRUE if available)
+#' @param .method Multicore strategy. Set to "multisession" for Windows,
+#' "multicore" for windows or unix-like systems, and NULL to use the default
+#' strategy for the platform
 #' @return A \code{robustness} object
 #'
 #' @examples
@@ -127,7 +130,8 @@ allowed_parameters <- list(
 #' # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 #' # alternative / null
 #' cutoff <- 3
-#' bfrr(data_model, alternative_prior, null_prior, parameters, steps = 10,
+#' bfrr(data_model, alternative_prior, null_prior, parameters,
+#'   steps = 10,
 #'   cutoff,
 #'   multicore = FALSE
 #' )
@@ -138,13 +142,16 @@ bfrr <- function(likelihood,
                  parameters,
                  steps = 100L,
                  cutoff = 3L,
-                 multicore = TRUE) {
+                 multicore = TRUE,
+                 .method = NULL) {
   # check whether multicore is available
   if (multicore && (parallel::detectCores() == 1L)) {
     multicore <- FALSE
     message("Multicore is not available, running on a single core")
   }
 
+  # set up the plan
+  .method <- set_method(.method)
 
   bf_func <- make_bf_rr_func(
     likelihood,
@@ -196,6 +203,7 @@ bfrr <- function(likelihood,
 
 
   if (multicore) {
+    future::plan(.method)
     suppressMessages({
       bfs <- par_pmap(values_df, \(x) cbind(x, data.frame(bf = bf_func(x))))
     })
@@ -566,4 +574,37 @@ robustness_plot_two <- function(x) {
     ) +
     expand_limits(y = 0L) +
     NULL
+}
+
+
+
+set_method <- function(.method) {
+  os <- .Platform[["OS.type"]]
+  if (os == "windows" && .method == "multicore") {
+    warning(
+      "`multicore` is no supported on Windows. ",
+      "Use `multisession` instead."
+    )
+  }
+
+  if (os == "windows" && is.null(.method)) {
+    .method <- "multisession"
+  }
+  if (os == "unix" && is.null(.method)) {
+    .method <- "multicore"
+  }
+
+  if (!(os %in% c("windows", "unix"))) {
+    warning("Can't determine platform. Running in sequential mode.")
+    .method <- "sequential"
+  }
+
+
+  if (!(.method %in% c("multicore", "multisession"))) {
+    stop(
+      'Valid values for `.method` are `"multisession"` and `"multicore"`. ',
+      "`Set to `NULL` to use default value for platform"
+    )
+  }
+  .method
 }

@@ -30,6 +30,23 @@ par_pmap <- function(x, f, ...) {
   Reduce(f = rbind, dout)
 }
 
+
+mc_map <- function(x, f, ...) {
+  f <- match.fun(f)
+  dout <- parallel::mclapply(x, f, mc.cores = parallel::detectCores(), ...)
+  row.names(dout) <- NULL
+  dout
+}
+
+mc_pmap <- function(x, f, ...) {
+  x_list <- unname(split(x, ~ row.names(x)))
+  f <- match.fun(f)
+  dout <- parallel::mclapply(x_list, f, mc.cores = parallel::detectCores(), ...)
+  row.names(dout) <- NULL
+  row.names(dout) <- NULL
+  Reduce(f = rbind, dout)
+}
+
 list_to_df <- function(x) {
   n <- names(x)
   x |>

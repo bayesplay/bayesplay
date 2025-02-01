@@ -1,4 +1,3 @@
-testthat::skip()
 test_that("make bf func", {
   mean_diff <- 0.3526918
   tvalue <- 2.9009
@@ -30,78 +29,35 @@ test_that("make bf func", {
     bf_func(list(mean = 0L, sd = 0.25))
   )
 
-  precision <- 0.05
+  steps <- 10L
 
   orginal_values <- alternative_prior |>
     slot("parameters")
-  values_df <- makes_values_list(parameters, precision, orginal_values)
+  values_df <- makes_values_list(parameters, steps)
   values_list <- unname(split(values_df, ~ row.names(values_df)))
   bfs <- suppressWarnings(map(values_list, function(x) {
     cbind(x, data.frame(bf = bf_func(x)))
   }))
 
   expect_identical(
-    values_list[[200L]][["mean"]],
-    bfs[[200L]][["mean"]]
+    values_list[[2L]][["mean"]],
+    bfs[[2L]][["mean"]]
   )
 
 
   expect_identical(
-    values_list[[200L]][["sd"]],
-    bfs[[200L]][["sd"]]
+    values_list[[2L]][["sd"]],
+    bfs[[2L]][["sd"]]
   )
 
 
   expect_identical(
-    bfs[[200L]][c("mean", "sd")] |> bf_func(),
-    bfs[[200L]][["bf"]]
-  )
-})
-
-testthat::skip()
-test_that("make values list", {
-  mean_values <- c(-2L, -1L, 0L, 1L, 2L)
-  sd_values <- c(0L, 0.25, 1L, 2L)
-
-  expect_df_s <- expand.grid(list(mean = mean_values, sd = sd_values)) |>
-    filter(sd > 0L)
-
-  expect_df_s <- expect_df_s[
-    order(expect_df_s[["mean"]], expect_df_s[["sd"]]),
-  ]
-
-  row.names(expect_df_s) <- NULL
-
-
-  data_model <- likelihood("student_t", 0.3526918, sd = 0.1215801, df = 49L)
-  alternative_prior <- prior("normal", mean = 0L, sd = 0.25, range = c(0L, Inf))
-  null_prior <- prior("point", 0L)
-  parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
-  precision <- 1L
-  orginal_values <- alternative_prior |>
-    slot("parameters")
-  values_df <- makes_values_list(parameters, precision, orginal_values)
-
-
-  # strip the attributes
-  attr(values_df, "out.attrs") <- NULL # nolint
-  attr(expect_df_s, "out.attrs") <- NULL # nolint
-
-  values_df <- sorter(values_df)
-  expect_df_s <- sorter(expect_df_s)
-
-
-  expect_identical(
-    expect_df_s,
-    values_df
+    bfs[[2L]][c("mean", "sd")] |> bf_func(),
+    bfs[[2L]][["bf"]]
   )
 })
 
 
-
-
-
-testthat::skip()
 test_that("Robustness regions", {
   strip <- function(x) {
     as.numeric(unclass(x))
@@ -118,10 +74,10 @@ test_that("Robustness regions", {
     sd = sd(simdat) / sqrt(length(simdat)), df = length(simdat) - 1L
   )
 
-  alternative_prior <- prior("normal", mean = 0L, sd = 0.25, range = c(0L, Inf))
+  alternative_prior <- prior("normal", mean = 0L, sd = 0.2, range = c(0L, Inf))
   null_prior <- prior("point", 0L)
   parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
-  precision <- 0.05
+  steps <- 10L
 
   bf_base1 <- integral(data_model * alternative_prior) /
     integral(data_model * null_prior)
@@ -132,13 +88,13 @@ test_that("Robustness regions", {
       alternative_prior = alternative_prior,
       null_prior = null_prior,
       parameters = parameters,
-      precision = precision,
+      steps = steps,
       cutoff = 6L,
       multicore = FALSE
     )
   })
 
-  item <- rr[["data"]][200L, ]
+  item <- rr[["data"]][10L, ]
   prior_mean <- item[["mean"]]
   prior_sd <- item[["sd"]]
   prior_range <- item[["range"]][[1L]] |> unlist()
@@ -169,7 +125,7 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
+      filter(mean == 0L, sd == 0.2) |>
       pull(bf)),
     tolerance = 0L
   )
@@ -178,7 +134,7 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
+      filter(mean == 0L, sd == 0.2) |>
       pull(bf)),
     tolerance = 0L
   )
@@ -194,10 +150,10 @@ test_that("Robustness regions", {
   data_model <- likelihood("student_t", mean(simdat),
     sd = sd(simdat) / sqrt(length(simdat)), df = length(simdat) - 1L
   )
-  alternative_prior <- prior("normal", mean = 0L, sd = 0.25, range = c(0L, Inf))
+  alternative_prior <- prior("normal", mean = 0L, sd = 0.2, range = c(0L, Inf))
   null_prior <- prior("point", 0L)
   parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
-  precision <- 0.05
+  steps <- 10L
 
   bf_base1 <- integral(data_model * alternative_prior) /
     integral(data_model * null_prior)
@@ -208,13 +164,13 @@ test_that("Robustness regions", {
       alternative_prior = alternative_prior,
       null_prior = null_prior,
       parameters = parameters,
-      precision = precision,
+      steps = steps,
       cutoff = 6L,
       multicore = FALSE
     )
   })
 
-  item <- rr[["data"]][100L, ]
+  item <- rr[["data"]][10L, ]
   prior_mean <- item[["mean"]]
   prior_sd <- item[["sd"]]
   prior_range <- item[["range"]] |> unlist()
@@ -241,7 +197,7 @@ test_that("Robustness regions", {
   testthat::expect_equal(
     strip(bf_base1),
     strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
+      filter(mean == 0L, sd == 0.2) |>
       pull(bf)),
     tolerance = 0L
   )

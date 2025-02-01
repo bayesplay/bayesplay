@@ -28,6 +28,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 16.8045514199822
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -43,6 +44,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 57.9851200108064
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -58,6 +60,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 538.691408434198
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -73,6 +76,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 302479507.020976
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -90,6 +94,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 25655644599.9737
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -106,6 +111,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 81407502464.5156
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -121,6 +127,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 7727336038836.84
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -139,6 +146,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0748129841998264
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -155,6 +163,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0677364571619135
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -173,6 +182,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0216306847663303
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -188,6 +198,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.00514506391415391
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -203,6 +214,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.00154498566424772
   testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
@@ -218,6 +230,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.00415484006186442
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -235,6 +248,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0728303285761128
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -250,6 +264,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0436725327106835
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -266,6 +281,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.0160479382778689
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -281,6 +297,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.00903123730304949
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -296,6 +313,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.00034618370689802
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -313,6 +331,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.000245186701573274
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
@@ -329,6 +348,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.000588357441164805
   testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
@@ -344,6 +364,7 @@ test_that("Approximation works", {
     })() |>
     sd_ratio(point = 0L) |>
     as.numeric()
+  write_out_json(b, bp)
   bf <- 0.000588357441164805
   testthat::expect_equal(bp, bf, tolerance = 1e-5)
 })
