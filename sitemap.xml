@@ -1,84 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/advanced.html</loc>
-  </url>
-  <url>
-    <loc>/articles/basic.html</loc>
-  </url>
-  <url>
-    <loc>/articles/default_ttests.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/plots.html</loc>
-  </url>
-  <url>
-    <loc>/articles/robustness.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bayesplay-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bfrr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cash-bayesplay-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_posterior.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extract_predictions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/integral.html</loc>
-  </url>
-  <url>
-    <loc>/reference/likelihood.html</loc>
-  </url>
-  <url>
-    <loc>/reference/names-bayesplay-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prior.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sd_ratio.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sub-sub-bayesplay-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary-bf-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary-robustness-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/visual_compare.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/advanced.html</loc></url>
+<url><loc>/articles/basic.html</loc></url>
+<url><loc>/articles/default_ttests.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/plots.html</loc></url>
+<url><loc>/articles/robustness.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/bayesplay-package.html</loc></url>
+<url><loc>/reference/bfrr.html</loc></url>
+<url><loc>/reference/cash-bayesplay-method.html</loc></url>
+<url><loc>/reference/extract_posterior.html</loc></url>
+<url><loc>/reference/extract_predictions.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/integral.html</loc></url>
+<url><loc>/reference/likelihood.html</loc></url>
+<url><loc>/reference/names-bayesplay-method.html</loc></url>
+<url><loc>/reference/plot.html</loc></url>
+<url><loc>/reference/prior.html</loc></url>
+<url><loc>/reference/sd_ratio.html</loc></url>
+<url><loc>/reference/sub-sub-bayesplay-method.html</loc></url>
+<url><loc>/reference/summary-bf-method.html</loc></url>
+<url><loc>/reference/summary-robustness-method.html</loc></url>
+<url><loc>/reference/visual_compare.html</loc></url>
 </urlset>
+
