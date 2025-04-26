@@ -347,6 +347,16 @@ describe_robustness <- function(data) {
     `Evidence for H1` = "provides evidence for H1."
   )
 
+  could_not_compute <- "\n"
+  if (support_values[["None"]]) {
+    could_not_compute <- paste0(
+      "\n\n",
+      "BFs could not be computed for ", support_values[["None"]], " of ",
+      sum(support_values), " (", round(support_values[["None"]] /
+        sum(support_values), 2L),
+      ") tested priors\n"
+    )
+  }
 
   paste0(
     "Prior robustness analysis:\n\n  ",
@@ -355,13 +365,14 @@ describe_robustness <- function(data) {
     likelihood_desc, "\n\n ",
     "The original parameters gave a Bayes factor of ", round(bf_base, 2L),
     ".\nUsing the cutoff value of ", cutoff, ", this result ", base_text,
-    "\n\n", n_varied, n_varied_text, "varied for the robutness analysis:\n",
+    "\n\n", n_varied, n_varied_text, "varied for the robustness analysis:\n",
     varied_text, "\n\n",
     "Outcome\n-----------------\n",
     h0_text, "\n\n",
     h1_text, "\n\n",
     inc_text, "\n\n",
-    robust_text, "\n"
+    robust_text,
+    could_not_compute
   )
 }
 
@@ -369,12 +380,15 @@ describe_robustness <- function(data) {
 
 support_factor <- function(x) {
   factor(x,
-    levels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
+    levels = c("Evidence for H0", "Inconclusive", "Evidence for H1", "None")
   )
 }
 
 
 get_support <- Vectorize(function(x, cutoff) {
+  if (is.nan(x)) {
+    return(support_factor("None"))
+  }
   if (x <= 1L / cutoff) {
     return(support_factor("Evidence for H0"))
   }
@@ -389,16 +403,18 @@ invert_support <- function(x) {
   support_value <- switch(as.numeric(x),
     -1L,
     0L,
-    1L
+    1L,
+    NaN
   ) * -1L
   switch(as.character(support_value),
     "-1" = "H0",
     "0" = "Inc",
-    "1" = "H1"
+    "1" = "H1",
+    "NaN" = "None"
   ) |>
     factor(
-      levels = c("H0", "Inc", "H1"),
-      labels = c("Evidence for H0", "Inconclusive", "Evidence for H1")
+      levels = c("H0", "Inc", "H1", "None"),
+      labels = c("Evidence for H0", "Inconclusive", "Evidence for H1", "None")
     )
 }
 
