@@ -1,4 +1,3 @@
-testthat::skip()
 test_that("Prior plots", {
   skip_on_cran()
 
