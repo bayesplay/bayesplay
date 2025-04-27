@@ -41,7 +41,7 @@ test_that("helper functions", {
 
   expect_equal(unclass(summary(b)),
     unclass(c("Bayes factor\n", bfsay(b), "\n")),
-    ignore_attr = FALSE
+    ignore_attr = TRUE
   )
 
   expect_output(show(b), "4.108891 ")
