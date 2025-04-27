@@ -142,7 +142,7 @@ setMethod(
 setMethod("names",
   signature = "bayesplay",
   function(x) {
-    return(names(x@data))
+    names(x@data)
   }
 )
 

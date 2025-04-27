@@ -40,8 +40,8 @@ test_that("helper functions", {
   b <- m1 / m0
 
   expect_equal(unclass(summary(b)),
-    c("Bayes factor\n", bfsay(b), "\n"),
-    ignore_attr = FALSE
+    unclass(c("Bayes factor\n", bfsay(b), "\n")),
+    ignore_attr = TRUE
   )
 
   expect_output(show(b), "4.108891 ")

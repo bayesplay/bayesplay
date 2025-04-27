@@ -1,7 +1,7 @@
 describe_likelihood <- function(family, parameters) {
   parameter_names <- names(parameters)
   parameter_values <- unname(parameters)
-  return(paste0(
+  paste0(
     "Likelihood\n",
     "  Family\n    ", class(family), "\n",
     "  Parameters\n",
@@ -9,7 +9,7 @@ describe_likelihood <- function(family, parameters) {
       parameter_values,
       collapse = "\n"
     ), "\n"
-  ))
+  )
 }
 
 get_function <- function(x) x@fun
@@ -102,11 +102,11 @@ get_plot_range <- function(family) { # nolint
   }
 
   if (inherits(family, "cauchy")) {
-    return(function(params) {
+    function(params) {
       location <- params[["location"]]
       width <- params[["scale"]] * w
       c(location - width, location + width)
-    })
+    }
   }
 }
 
@@ -206,7 +206,7 @@ get_plot_range <- function(family) { # nolint
 #' likelihood(family = "binomial", successes = 2, trials = 10)
 likelihood <- function(family, ...) {
   if (!existsMethod(signature = family, f = "make_likelihood")) {
-    stop(family, " is not a valid distribution family")
+    stop(family, " is not a valid distribution family", call. = FALSE)
   }
   make_likelihood(family = new(family), ...)
 }
@@ -287,7 +287,7 @@ make_likelihood.normal <- function(family, mean, sd) { # nolint
   }
 
   if (sd <= 0L) {
-    stop("`sd` must be greater than 0")
+    stop("`sd` must be greater than 0", call. = FALSE)
   }
 
   params <- list(mean = mean, sd = sd)
@@ -297,13 +297,13 @@ make_likelihood.normal <- function(family, mean, sd) { # nolint
 
 
 
-  data <- make_likelihood_data(family, params, func)
+  obj_data <- make_likelihood_data(family, params, func)
 
   desc <- describe_likelihood(family, params)
   new(
     Class = "likelihood",
     func = func,
-    data = data,
+    data = obj_data,
     marginal = paste0(
       "likelihood(family = \"normal\", mean = x, sd = ",
       sd, ")"
@@ -334,12 +334,12 @@ make_likelihood.student_t <- function(family, mean, sd, df) { # nolint
   }
 
   if (sd <= 0L) {
-    stop("`sd` must be greater than 0")
+    stop("`sd` must be greater than 0", call. = FALSE)
   }
 
 
   if (df <= 0L) {
-    stop("`df` must be greater than 0")
+    stop("`df` must be greater than 0", call. = FALSE)
   }
 
   params <- list(mean = mean, sd = sd, df = df)
@@ -350,12 +350,15 @@ make_likelihood.student_t <- function(family, mean, sd, df) { # nolint
 
   func <- function(x) get_function(family)(x = x, mean = mean, sd = sd, df = df)
 
-  data <- make_likelihood_data(family = family, params = params, func = func)
+  obj_data <- make_likelihood_data(
+    family = family,
+    params = params, func = func
+  )
   desc <- describe_likelihood(family, params)
 
   new(
     Class = "likelihood",
-    data = data,
+    data = obj_data,
     func = func,
     marginal = paste0(
       "likelihood(family = \"student_t\", mean = x, sd = ",
@@ -393,12 +396,15 @@ make_likelihood.noncentral_d <- function(family, d, n) { # nolint
 
   params <- list(d = d, n = n)
   func <- function(x) get_function(family)(x = x, d = d, n = n)
-  data <- make_likelihood_data(family = family, params = params, func = func)
+  obj_data <- make_likelihood_data(
+    family = family,
+    params = params, func = func
+  )
   desc <- describe_likelihood(family, params)
 
   new(
     Class = "likelihood",
-    data = data,
+    data = obj_data,
     func = func,
     marginal = paste0(
       "likelihood(family = \"noncentral_d\", d = x, n = ",
@@ -434,12 +440,15 @@ make_likelihood.noncentral_t <- function(family, t, df) { # nolint
 
   params <- list(t = t, df = df)
   func <- function(x) get_function(family)(x = x, t = t, df = df)
-  data <- make_likelihood_data(family = family, params = params, func = func)
+  obj_data <- make_likelihood_data(
+    family = family,
+    params = params, func = func
+  )
   desc <- describe_likelihood(family, params)
 
   new(
     Class = "likelihood",
-    data = data,
+    data = obj_data,
     func = func,
     marginal = paste0(
       "likelihood(family = \"noncentral_t\", t = x, df = ",
@@ -489,13 +498,16 @@ make_likelihood.binomial <- function(family, successes, trials) { # nolint
     get_function(family)(p = p, successes = successes, trials = trials)
   }
 
-  data <- make_likelihood_data(family = family, params = params, func = func)
+  obj_data <- make_likelihood_data(
+    family = family,
+    params = params, func = func
+  )
   desc <- describe_likelihood(family, params)
 
   new(
     Class = "likelihood",
     func = func,
-    data = data,
+    data = obj_data,
     marginal = paste0(
       "likelihood(family = \"binomial\", successes = x, trials = ", trials, ")"
     ),
@@ -532,12 +544,15 @@ make_likelihood.noncentral_d2 <- function(family, d, n1, n2) { # nolint
 
   params <- list(d = d, n1 = n1, n2 = n2)
   func <- function(x) get_function(family)(x = x, d = d, n1 = n1, n2 = n2)
-  data <- make_likelihood_data(family = family, params = params, func = func)
+  obj_data <- make_likelihood_data(
+    family = family,
+    params = params, func = func
+  )
   desc <- describe_likelihood(family, params)
 
   new(
     Class = "likelihood",
-    data = data,
+    data = obj_data,
     func = func,
     marginal = paste0(
       "likelihood(family = \"noncentral_d2\", d = x,  n1 = ",

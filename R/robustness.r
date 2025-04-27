@@ -17,7 +17,8 @@ make_bf_rr_func <- function(data_model,
 
     stop(
       warning_msg,
-      "\nValid parameters are: ", toString(allowed)
+      "\nValid parameters are: ", toString(allowed),
+      call. = FALSE
     )
   }
 
@@ -72,7 +73,7 @@ makes_values_list <- function(parameters, steps = 100L) {
   n_values <- prod(unlist(map(values, length)))
   if (n_values > (101L * 101L)) {
     warning("Number of values to evaluate is large. Consider using a smaller
-range.")
+range.", call. = FALSE)
   }
 
 
@@ -127,7 +128,8 @@ allowed_parameters <- list(
 #' # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 #' # alternative / null
 #' cutoff <- 3
-#' bfrr(data_model, alternative_prior, null_prior, parameters, steps = 10,
+#' bfrr(data_model, alternative_prior, null_prior, parameters,
+#'   steps = 10,
 #'   cutoff,
 #'   multicore = FALSE
 #' )
@@ -170,8 +172,7 @@ bfrr <- function(likelihood,
     integral(likelihood * null_prior)
 
 
-  original_values <- alternative_prior |>
-    slot("parameters")
+  original_values <- slot(alternative_prior, "parameters")
 
 
   # check if the original values are in the range of the parameters
@@ -180,14 +181,14 @@ bfrr <- function(likelihood,
       stop(
         "The original value for ", x, " (", original_values[[x]],
         ") is less than the minimum value for ",
-        x, " (", parameters[[x]][[1L]], ")"
+        x, " (", parameters[[x]][[1L]], ")", call. = FALSE
       )
     }
     if (original_values[[x]] > parameters[[x]][[2L]]) {
       stop(
         "The original value for ", x, " (", original_values[[x]],
         ") is greater than the maximum value for ",
-        x, " (", parameters[[x]][[2L]], ")"
+        x, " (", parameters[[x]][[2L]], ")", call. = FALSE
       )
     }
   })
@@ -217,7 +218,7 @@ bfrr <- function(likelihood,
   output_values[["support"]] <- get_support(bfs[["bf"]], cutoff)
 
 
-  data <- list(
+  obj_data <- list(
     data = output_values,
     required_parameters = instance_defined,
     cutoff = cutoff,
@@ -225,11 +226,11 @@ bfrr <- function(likelihood,
     bf_value = bf_value
   )
 
-  desc <- describe_robustness(data)
+  desc <- describe_robustness(obj_data)
 
   new(
     Class = "robustness",
-    data = data,
+    data = obj_data,
     desc = desc
   )
 }
@@ -246,7 +247,7 @@ describe_robustness <- function(data) {
     fixed = TRUE
   )[[1L]]
   alternative_prior_desc[[1L]] <- "Alternative prior\n  -----------------"
-  alternative_prior_desc <- paste0(alternative_prior_desc, collapse = "\n  ")
+  alternative_prior_desc <- paste(alternative_prior_desc, collapse = "\n  ")
 
 
   null_prior <- describe_prior(
@@ -255,7 +256,7 @@ describe_robustness <- function(data) {
   )
   null_prior_desc <- strsplit(null_prior, "\n", fixed = TRUE)[[1L]]
   null_prior_desc[[1L]] <- "Null prior\n  -----------------"
-  null_prior_desc <- paste0(null_prior_desc, collapse = "\n  ")
+  null_prior_desc <- paste(null_prior_desc, collapse = "\n  ")
 
   likelihood <- describe_likelihood(
     new(data[["input_values"]][["likelihood"]][["family"]]),
@@ -263,7 +264,7 @@ describe_robustness <- function(data) {
   )
   likelihood_desc <- strsplit(likelihood, "\n", fixed = TRUE)[[1L]]
   likelihood_desc[[1L]] <- "Likelihood\n  -----------------"
-  likelihood_desc <- paste0(likelihood_desc, collapse = "\n  ")
+  likelihood_desc <- paste(likelihood_desc, collapse = "\n  ")
   parameters <- data[["input_values"]][["parameters"]]
   n_varied <- length(parameters)
   n_varied_text <- ifelse(n_varied == 1L,
@@ -279,7 +280,7 @@ describe_robustness <- function(data) {
         " (step size: ", signif(step_size[[x]], 3L), ")"
       )
     }) |>
-    paste0(collapse = "\n")
+    paste(collapse = "\n")
 
 
   bf_base <- data[["bf_value"]]
@@ -480,13 +481,13 @@ plot.robustness <- function(x, ...) {
     return(robustness_plot_one(x))
   }
   if (n_params == 2L) {
-    return(robustness_plot_two(x))
+    robustness_plot_two(x)
   }
 }
 
 
 robustness_plot_one <- function(x) {
-  data <- get_data(x)
+  obj_data <- get_data(x)
 
   param <- get_required_param(x)
 
@@ -504,10 +505,10 @@ robustness_plot_one <- function(x) {
 
   cutoff <- get_cutoff(x)
 
-  height <- max(c(max(data[["bf"]]), cutoff))
+  height <- max(c(max(obj_data[["bf"]]), cutoff))
 
   ggplot(
-    data,
+    obj_data,
     aes(
       x = .data[[param]], # nolint: object_usage_linter.
       y = bf
@@ -543,7 +544,7 @@ robustness_plot_one <- function(x) {
 }
 
 robustness_plot_two <- function(x) {
-  data <- get_data(x)
+  obj_data <- get_data(x)
 
   param <- get_required_param(x)
 
@@ -560,7 +561,7 @@ robustness_plot_two <- function(x) {
   param2 <- param[[2L]]
 
   ggplot2::ggplot(
-    data = data,
+    data = obj_data,
     ggplot2::aes(
       x = .data[[param1]], # nolint: object_usage_linter.
       y = .data[[param2]],
