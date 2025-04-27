@@ -220,7 +220,7 @@ handle_prior_likelihood <- function(x, n) {
     return(plot_point(x, n))
   }
   if (x@dist_type == "continuous") {
-    return(plot_continuous(x, n))
+    plot_continuous(x, n)
   }
 }
 
@@ -228,13 +228,13 @@ plot_point <- function(x, n) {
   dens <- 1L
   theta <- x@parameters[["point"]]
 
-  df <- data.frame(
+  df_value <- data.frame(
     theta = theta,
     dens = dens
   )
 
-  return(ggplot(
-    df,
+  ggplot(
+    df_value,
     aes(x = theta, y = dens)
   ) +
     geom_point(size = 3L, shape = 16L) +
@@ -247,11 +247,11 @@ plot_point <- function(x, n) {
     xlim(x@plot[["range"]]) +
     labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
     expand_limits(y = 0L) +
-    NULL)
+    NULL
 }
 
 plot_continuous <- function(x, n) {
-  return(ggplot() +
+  ggplot() +
     geom_function(
       fun = Vectorize(x@func),
       colour = "black",
@@ -261,7 +261,7 @@ plot_continuous <- function(x, n) {
     xlim(x@plot[["range"]]) +
     labs(x = x@plot[["labs"]][["x"]], y = x@plot[["labs"]][["y"]]) +
     expand_limits(y = 0L) +
-    NULL)
+    NULL
 }
 
 
@@ -280,7 +280,7 @@ plot_weighted_likelihood <- function(x, n) {
     plot_range <- c(0L, 1L)
   }
 
-  return(ggplot() +
+  ggplot() +
     geom_function(
       fun = Vectorize(func),
       colour = "black",
@@ -292,7 +292,7 @@ plot_weighted_likelihood <- function(x, n) {
       y = "Pr(Outcome) \u00D7 Pr(\u03F4)"
     ) +
     xlim(plot_range) +
-    NULL)
+    NULL
 }
 
 
@@ -455,9 +455,9 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
           get_max_range(model1)[[2L]], 1L
         )
       ))
-      df <- data.frame(x = x, y = y)
+      df_value <- data.frame(x = x, y = y)
 
-      return(ggplot(data = df) +
+      return(ggplot(data = df_value) +
         geom_point(aes(x = x, y = y)) +
         geom_line(aes(x = x, y = y)) +
         scale_x_continuous( #nolint

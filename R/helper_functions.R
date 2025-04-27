@@ -430,11 +430,10 @@ check_approximation <- function(likelihood_obj, prior_obj) {
     supported_prior <- FALSE
   }
 
-  # FIXME : Replace with switch statement
-  if (likelihood_family == "noncentral_t") {
-    t <- likelihood_obj[["parameters"]][["t"]]
-    df <- likelihood_obj[["parameters"]][["df"]]
-    parameters <- list(n = NA, t = t, df = df)
+  if (likelihood_family == "noncentral_t") { # nolint
+    t_value <- likelihood_obj[["parameters"]][["t"]]
+    df_value <- likelihood_obj[["parameters"]][["df"]]
+    parameters <- list(n = NA, t = t_value, df = df_value)
   } else if (likelihood_family == "noncentral_d") {
     parameters <- reparameterise_d_to_t(likelihood_obj)
   } else if (likelihood_family == "noncentral_d2") {
