@@ -12,9 +12,9 @@ in_range <- function(x, range) {
   max_value <- range[[2L]]
 
   if (all(c(x >= min_value, x <= max_value))) {
-    return(TRUE)
+    TRUE
   } else {
-    return(FALSE)
+    FALSE
   }
 }
 
@@ -66,7 +66,7 @@ integral <- function(obj) {
   p_desc <- p[["parameters"]]
   p_desc[["family"]] <- p[["family"]]
   attr(rv, "prior") <- p_desc
-  return(rv)
+  rv
 }
 
 #' @export
@@ -113,7 +113,7 @@ get_ev_level <- function(bf) { # nolint
     return("Very strong evidence")
   }
   if (bf > 100L) {
-    return("Extreme evidence")
+    "Extreme evidence"
   }
 }
 
@@ -246,14 +246,14 @@ sd_ratio <- function(x, point) {
   likelihood_family <- likelihood[["family"]]
 
 
-  approx <- check_approximation(likelihood, prior)
-  do_approximation <- approx[["approximation"]]
+  bf_approx <- check_approximation(likelihood, prior)
+  do_approximation <- bf_approx[["approximation"]]
   if (do_approximation) {
-    supported_prior <- approx[["supported_prior"]]
-    approximation_params <- approx[c("n", "t", "df")]
+    supported_prior <- bf_approx[["supported_prior"]]
+    approximation_params <- bf_approx[c("n", "t", "df")]
   }
-  supported_prior <- approx[["supported_prior"]]
-  approximation_params <- approx[c("n", "t", "df")]
+  supported_prior <- bf_approx[["supported_prior"]]
+  approximation_params <- bf_approx[c("n", "t", "df")]
 
 
   if (do_approximation && likelihood_family == "noncentral_t") {
@@ -266,15 +266,15 @@ sd_ratio <- function(x, point) {
 
 
   if (do_approximation && !supported_prior) {
-    warning("Observation is large; approximation needed.")
+    warning("Observation is large; approximation needed.", call. = FALSE)
     stop("Approximations are only supported with cauchy priors.", call. = FALSE)
   }
 
   if (do_approximation) {
     n <- approximation_params[["n"]]
-    t <- approximation_params[["t"]]
-    df <- approximation_params[["df"]]
-    approximation <- estimate_marginal(n, t, df, prior)
+    t_value <- approximation_params[["t"]]
+    df_value <- approximation_params[["df"]]
+    approximation <- estimate_marginal(n, t_value, df_value, prior)
     marginal_likelihood_approx <- approximation[["marginal"]]
 
 
@@ -314,7 +314,7 @@ sd_ratio <- function(x, point) {
   make_predict <- function(data_model, prior_model) {
     marginal_func <- function(x) eval(parse(text = data_model@marginal))
     predictive_func <- function(x) integral(marginal_func(x) * prior_model)
-    return(Vectorize(predictive_func))
+    Vectorize(predictive_func)
   }
 
   posterior_func <- function(x) product_function(x) / marginal_likelihood
@@ -333,19 +333,19 @@ sd_ratio <- function(x, point) {
     bf_against_point <- marginal_likelihood / likelihood_func(0L)
   }
 
-
+  desc_text <- ""
   if (do_approximation) {
     auc <- marginal_likelihood_approx
-    text <- paste0(
+    desc_text <- paste0(
       "  Area under curve: ", round(auc, 4L),
       " (approximation)"
     )
   } else {
     auc <- marginal_likelihood
-    text <- paste0("  Area under curve: ", round(auc, 4L))
+    desc_text <- paste0("  Area under curve: ", round(auc, 4L))
   }
 
-  data <- list(
+  obj_data <- list(
     integral = auc,
     marginal_function = marginal_func,
     evidence_function = evidence_func,
@@ -359,7 +359,7 @@ sd_ratio <- function(x, point) {
     "Product\n",
     "  Likelihood family: ", likelihood[["family"]], "\n",
     "  Prior family: ", prior[["family"]], "\n",
-    text
+    desc_text
     # "  Area under curve: ", round(data[["integral"]], 4L)
   )
 
@@ -367,7 +367,7 @@ sd_ratio <- function(x, point) {
   new(
     Class = "product",
     desc = desc,
-    data = data,
+    data = obj_data,
     K = 1L,
     lik = likelihood_func,
     prior = prior_func,
@@ -384,10 +384,10 @@ sd_ratio <- function(x, point) {
 reparameterise_d_to_t <- function(likelihood_obj) {
   n <- likelihood_obj[["parameters"]][["n"]]
   d <- likelihood_obj[["parameters"]][["d"]]
-  t <- d * sqrt(n)
-  df <- n - 1L
+  t_value <- d * sqrt(n)
+  df_value <- n - 1L
 
-  list(n = n, t = t, df = df)
+  list(n = n, t = t_value, df = df_value)
 }
 
 reparameterise_d2_to_t <- function(likelihood_obj) {
@@ -395,9 +395,9 @@ reparameterise_d2_to_t <- function(likelihood_obj) {
   n2 <- likelihood_obj[["parameters"]][["n2"]]
   d <- likelihood_obj[["parameters"]][["d"]]
   n <- n1 * n2 / (n1 + n2)
-  t <- d * sqrt(n)
-  df <- n1 + n2 - 2L
-  list(n = n, t = t, df = df)
+  t_value <- d * sqrt(n)
+  df_value <- n1 + n2 - 2L
+  list(n = n, t = t_value, df = df_value)
 }
 
 prior_in_range <- function(prior_obj, likelihood_obj) {
@@ -430,7 +430,7 @@ check_approximation <- function(likelihood_obj, prior_obj) {
     supported_prior <- FALSE
   }
 
-
+  # FIXME : Replace with switch statement
   if (likelihood_family == "noncentral_t") {
     t <- likelihood_obj[["parameters"]][["t"]]
     df <- likelihood_obj[["parameters"]][["df"]]
@@ -484,8 +484,7 @@ estimate_marginal <- function(n, t, df, prior) {
   )
 
   location <- prior[["parameters"]][["location"]]
-  scale <- prior[["parameters"]][["scale"]]
-  rscale <- scale * sqrt(n)
+  rscale <- prior[["parameters"]][["scale"]] * sqrt(n)
   log_prior_probs <- c(
     pcauchy(lower, location, rscale, TRUE, TRUE),
     pcauchy(upper, location, rscale, TRUE, TRUE)

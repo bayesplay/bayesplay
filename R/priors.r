@@ -7,13 +7,13 @@ make_prior_data <- function(family, params, func) {
 }
 
 describe_prior <- function(family, parameters) {
-  range <- parameters[["range"]]
+  prior_range <- parameters[["range"]]
   parameters <- parameters[!grepl("range", names(parameters), fixed = TRUE)]
-  if (!is.null(range)) {
-    range_text <- paste0("\n    range: ", range_as_text(range), "\n")
+  if (!is.null(prior_range)) {
+    range_text <- paste0("\n    range: ", range_as_text(prior_range), "\n")
   }
 
-  if (all(range == c(-Inf, Inf))) {
+  if (all(prior_range == c(-Inf, Inf))) {
     range_text <- "\n"
   }
 
@@ -24,13 +24,13 @@ describe_prior <- function(family, parameters) {
 
   parameter_names <- names(parameters)
   parameter_values <- unname(parameters)
-  return(paste0(
+  paste0(
     "Prior\n",
     "  Family\n    ", class(family), "\n",
     "  Parameters\n",
     paste0("    ", parameter_names, ": ", parameter_values, collapse = "\n"),
     range_text
-  ))
+  )
 }
 
 range_as_text <- function(range) {
@@ -137,7 +137,7 @@ prior_data_names <- c("family", "parameters", "prior_function")
 #' prior(family = "beta", alpha = 2.5, beta = 3.8)
 prior <- function(family, ...) {
   if (!methods::existsMethod(signature = family, f = "make_prior")) {
-    stop(family, " is not a valid distribution family")
+    stop(family, " is not a valid distribution family", call. = FALSE)
   }
   make_prior(family = new(family), ...)
 }
@@ -251,13 +251,13 @@ truncate_normalise_normal <- function(family, range, mean, sd) {
     constant <- 1L / k
   } else {
     warning("Could not normalise the truncated prior.
-Adjust the mean or the limits.")
+Adjust the mean or the limits.", call. = FALSE)
     constant <- 0L
   }
 
 
   normalised <- function(x) truncated_function(x) * constant
-  return(normalised)
+  normalised
 }
 
 truncate_normalise_student_t <- function(family, range, mean, sd, df) {
@@ -279,13 +279,13 @@ truncate_normalise_student_t <- function(family, range, mean, sd, df) {
     constant <- 1L / k
   } else {
     warning("Could not normalise the truncated prior.
-Adjust the mean or the limits.")
+Adjust the mean or the limits.", call. = FALSE)
     constant <- 0L
   }
 
 
   normalised <- function(x) truncated_function(x) * constant
-  return(normalised)
+  normalised
 }
 
 truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
@@ -310,7 +310,7 @@ truncate_normalise_cauchy <- function(family, range, location, scale, ...) {
 
 
   normalised <- function(x) truncated_function(x) * constant
-  return(normalised)
+  normalised
 }
 
 
@@ -333,7 +333,7 @@ truncate_normalise_beta <- function(family, range, alpha, beta, ...) {
 
 
   normalised <- function(x) truncated_function(x) * constant
-  return(normalised)
+  normalised
 }
 
 
@@ -349,7 +349,7 @@ make_prior.normal <- function(family, mean, sd, range = NULL) { # nolint
   }
 
   if (sd <= 0L) {
-    stop("`sd` must be greater than 0")
+    stop("`sd` must be greater than 0", call. = FALSE)
   }
 
   if (missing(range)) {
@@ -367,11 +367,11 @@ make_prior.normal <- function(family, mean, sd, range = NULL) { # nolint
   )
 
   desc <- describe_prior(family, params)
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
 
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = params[["range"]],
     type = "normal",
     func = func,
@@ -401,10 +401,10 @@ make_prior.point <- function(family, point = 0L) { # nolint
 
   desc <- describe_prior(family, params)
 
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = c(point, point),
     func = func,
     type = "point",
@@ -435,11 +435,11 @@ make_prior.uniform <- function(family, min, max) { # nolint
 
   desc <- describe_prior(family, params)
 
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
 
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = c(min, max),
     func = func,
     type = "normal",
@@ -488,11 +488,11 @@ make_prior.student_t <- function(family, mean, sd, df, range = NULL) { # nolint
 
   desc <- describe_prior(family, params)
 
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
 
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = range,
     func = func,
     type = "normal",
@@ -530,13 +530,13 @@ make_prior.cauchy <- function(family, location = 0, scale, range = NULL) { # nol
   params <- list(location = location, scale = scale, range = range)
   desc <- describe_prior(family, params)
 
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
 
 
 
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = params[["range"]],
     func = func,
     type = "normal",
@@ -576,11 +576,11 @@ make_prior.beta <- function(family, alpha, beta, range = NULL) { # nolint
 
   desc <- describe_prior(family, params)
 
-  data <- make_prior_data(family, params, func)
+  obj_data <- make_prior_data(family, params, func)
 
   new(
     Class = "prior",
-    data = data,
+    data = obj_data,
     theta_range = params[["range"]],
     func = func,
     type = "normal",
