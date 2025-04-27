@@ -15,7 +15,7 @@ NULL
 #' @rdname plot
 #' @exportS3Method plot prior
 plot.prior <- function(x, ...) {
-  return(handle_prior_likelihood(x, n = 101L))
+  handle_prior_likelihood(x, n = 101L)
 }
 
 
@@ -41,7 +41,7 @@ plot.posterior <- function(x, add_prior = FALSE, ...) {
 #' @rdname plot
 #' @exportS3Method plot likelihood
 plot.likelihood <- function(x, ...) {
-  return(handle_prior_likelihood(x, n = 101L))
+  handle_prior_likelihood(x, n = 101L)
 }
 
 
@@ -52,7 +52,7 @@ plot.likelihood <- function(x, ...) {
 #' @rdname plot
 #' @exportS3Method plot product
 plot.product <- function(x, ...) {
-  return(plot_weighted_likelihood(x, n = 101L))
+  plot_weighted_likelihood(x, n = 101L)
 }
 
 
@@ -163,7 +163,7 @@ get_max_range <- function(x) {
 
   min_value <- min(c(pr, lk))
   max_value <- max(c(pr, lk))
-  return(c(min_value, max_value))
+  c(min_value, max_value)
 }
 
 
@@ -238,7 +238,7 @@ plot_point <- function(x, n) {
     aes(x = theta, y = dens)
   ) +
     geom_point(size = 3L, shape = 16L) +
-    geom_linerange(aes( #nolint
+    geom_linerange(aes( # nolint
       x = theta,
       y = NULL,
       ymax = 1L,
@@ -318,47 +318,46 @@ plot_posterior <- function(x, n) {
 plot_pp <- function(x, n) {
   if (x@prior_obj@dist_type == "point") {
     theta <- unique(x@prior_obj@theta_range)
-    return(
-      ggplot() +
-        geom_point(
-          aes(
-            x = theta,
-            y = x@prior_obj[["prior_function"]](0L),
-            color = "prior"
-          ),
-          size = 3L, shape = 16L
-        ) +
-        geom_linerange(aes( # nolint
-          x = unique(x@prior_obj@theta_range),
-          y = NULL,
-          ymax = x@prior_obj[["prior_function"]](0L),
-          ymin = 0L,
+
+    ggplot() +
+      geom_point(
+        aes(
+          x = theta,
+          y = x@prior_obj[["prior_function"]](0L),
           color = "prior"
-        )) +
-        geom_point(
-          aes(
-            x = theta,
-            y = x@prior_obj[["prior_function"]](0L),
-            color = "posterior"
-          ),
-          size = 3L, shape = 16L
-        ) +
-        geom_linerange(aes(
-          x = unique(x@prior_obj@theta_range),
-          y = NULL,
-          ymax = x[["posterior_function"]](0L),
-          ymin = 0L,
+        ),
+        size = 3L, shape = 16L
+      ) +
+      geom_linerange(aes( # nolint
+        x = unique(x@prior_obj@theta_range),
+        y = NULL,
+        ymax = x@prior_obj[["prior_function"]](0L),
+        ymin = 0L,
+        color = "prior"
+      )) +
+      geom_point(
+        aes(
+          x = theta,
+          y = x@prior_obj[["prior_function"]](0L),
           color = "posterior"
-        )) +
-        xlim(x@prior_obj@plot[["range"]]) +
-        labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
-        scale_colour_manual(
-          values = c("blue", "red"),
-          labels = c("posterior", "prior"),
-          name = NULL
-        ) +
-        NULL
-    )
+        ),
+        size = 3L, shape = 16L
+      ) +
+      geom_linerange(aes(
+        x = unique(x@prior_obj@theta_range),
+        y = NULL,
+        ymax = x[["posterior_function"]](0L),
+        ymin = 0L,
+        color = "posterior"
+      )) +
+      xlim(x@prior_obj@plot[["range"]]) +
+      labs(x = posterior_labs[["x"]], y = posterior_labs[["y"]]) +
+      scale_colour_manual(
+        values = c("blue", "red"),
+        labels = c("posterior", "prior"),
+        name = NULL
+      ) +
+      NULL
   }
 
   ggplot() +
@@ -460,7 +459,7 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
       return(ggplot(data = df_value) +
         geom_point(aes(x = x, y = y)) +
         geom_line(aes(x = x, y = y)) +
-        scale_x_continuous( #nolint
+        scale_x_continuous( # nolint
           c(
             min(get_max_range(model1), get_max_range(model2)),
             max(get_max_range(model1), get_max_range(model2))

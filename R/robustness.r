@@ -544,7 +544,7 @@ robustness_plot_one <- function(x) {
 }
 
 robustness_plot_two <- function(x) {
-  data <- get_data(x)
+  obj_data <- get_data(x)
 
   param <- get_required_param(x)
 
@@ -561,7 +561,7 @@ robustness_plot_two <- function(x) {
   param2 <- param[[2L]]
 
   ggplot2::ggplot(
-    data = data,
+    data = obj_data,
     ggplot2::aes(
       x = .data[[param1]], # nolint: object_usage_linter.
       y = .data[[param2]],
