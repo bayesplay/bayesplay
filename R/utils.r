@@ -66,7 +66,7 @@ filter <- function(.data, ...) {
 
 slide <- function(xvar, n) {
   if ((n %% 2L == 0L)) {
-    stop("n must be odd")
+    stop("n must be odd", call. = FALSE)
   }
   lead <- (n - 1L) / 2L
   for (i in (1L + lead):(length(xvar) - (lead))) {

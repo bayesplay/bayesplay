@@ -32,9 +32,8 @@ test_that("make bf func", {
 
   precision <- 0.05
 
-  orginal_values <- alternative_prior |>
-    slot("parameters")
-  values_df <- makes_values_list(parameters, precision, orginal_values)
+  original_values <- slot(alternative_prior, "parameters")
+  values_df <- makes_values_list(parameters, precision, original_values)
   values_list <- unname(split(values_df, ~ row.names(values_df)))
   bfs <- suppressWarnings(map(values_list, function(x) {
     cbind(x, data.frame(bf = bf_func(x)))
@@ -78,8 +77,7 @@ test_that("make values list", {
   null_prior <- prior("point", 0L)
   parameters <- list(mean = c(-2L, 2L), sd = c(0L, 2L))
   precision <- 1L
-  orginal_values <- alternative_prior |>
-    slot("parameters")
+  original_values <- slot(alternative_prior, "parameters")
   values_df <- makes_values_list(parameters, precision, orginal_values)
 
 
@@ -141,7 +139,7 @@ test_that("Robustness regions", {
   item <- rr[["data"]][200L, ]
   prior_mean <- item[["mean"]]
   prior_sd <- item[["sd"]]
-  prior_range <- item[["range"]][[1L]] |> unlist()
+  prior_range <- unlist(item[["range"]][[1L]])
 
 
   data_model <- likelihood("student_t", mean(simdat),
@@ -166,20 +164,23 @@ test_that("Robustness regions", {
   )
 
 
+  expected_value <- rr[["data"]] |>
+    filter(mean == 0L, sd == 0.25) |>
+    pull(bf)
+
   testthat::expect_equal(
     strip(bf_base1),
-    strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+    strip(expected_value),
     tolerance = 0L
   )
 
+  expected_value <- rr[["data"]] |>
+    filter(mean == 0L, sd == 0.25) |>
+    pull(bf)
 
   testthat::expect_equal(
     strip(bf_base1),
-    strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+    strip(expected_value),
     tolerance = 0L
   )
 
@@ -217,7 +218,7 @@ test_that("Robustness regions", {
   item <- rr[["data"]][100L, ]
   prior_mean <- item[["mean"]]
   prior_sd <- item[["sd"]]
-  prior_range <- item[["range"]] |> unlist()
+  prior_range <- unlist(item[["range"]])
 
 
   data_model <- likelihood("student_t", mean(simdat),
@@ -238,11 +239,12 @@ test_that("Robustness regions", {
     tolerance = 0L
   )
 
+  expected_value <- rr[["data"]] |>
+      filter(mean == 0L, sd == 0.25) |>
+      pull(bf)
   testthat::expect_equal(
     strip(bf_base1),
-    strip(rr[["data"]] |>
-      filter(mean == 0L, sd == 0.25) |>
-      pull(bf)),
+    strip(expected_value),
     tolerance = 0L
   )
 })
