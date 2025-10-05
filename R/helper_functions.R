@@ -61,7 +61,7 @@ integral <- function(obj, lower = NULL, upper = NULL) {
   if (!inherits(obj, c("product", "posterior"))) {
     stop("obj must be of class product or posterior", call. = FALSE)
   }
-  if(inherits(obj, "posterior")) {
+  if (inherits(obj, "posterior")) {
     if(is.null(lower) && is.null(upper)) { # nolint
       return(1L)
     } else {
