@@ -38,7 +38,7 @@ summary.bf <- setClass("summary.bf", contains = "vector")
 #' Computes the definite integral of a \code{product} object over the range
 #' of the parameter
 #'
-#' @param obj a \code{product} object
+#' @param obj a \code{product} or \code{posterior} object
 #'
 #' @return A numeric of the marginal likelihood
 #' @export
@@ -55,9 +55,21 @@ summary.bf <- setClass("summary.bf", contains = "vector")
 #'
 #' # take the integral
 #' integral(model)
-integral <- function(obj) {
-  if (!inherits(obj, "product")) {
-    stop("obj must be of class product", call. = FALSE)
+#' # or optionally over a range
+#' integral(model, lower = -10, upper = 10)
+integral <- function(obj, lower = NULL, upper = NULL) {
+  if (!inherits(obj, c("product", "posterior"))) {
+    stop("obj must be of class product or posterior", call. = FALSE)
+  }
+  if(inherits(obj, "posterior")) {
+    if(is.null(lower) && is.null(upper)) { # nolint
+      return(1L)
+    } else {
+      integrate_func <- obj@data[["posterior_function"]]
+      integrate_func <- Vectorize(integrate_func)
+      return(integrate(\(x) integrate_func(x), lower, upper)[["value"]])
+    }
+
   }
   rv <- new("auc", obj[["integral"]])
   attr(rv, "approximate") <- slot(obj, "approximation")
