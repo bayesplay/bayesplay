@@ -39,6 +39,8 @@ summary.bf <- setClass("summary.bf", contains = "vector")
 #' of the parameter
 #'
 #' @param obj a \code{product} or \code{posterior} object
+#' @param lower the lower bound of the integral (optional)
+#' @param upper the upper bound of the integral (optional)
 #'
 #' @return A numeric of the marginal likelihood
 #' @export
