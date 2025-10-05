@@ -146,7 +146,8 @@ over. (Default: 100 steps)</p></dd>
 <span class="r-in"><span><span class="co"># mark all Bayes factors larger/smaller than 3/.3 as evidence for the</span></span></span>
 <span class="r-in"><span><span class="co"># alternative / null</span></span></span>
 <span class="r-in"><span><span class="va">cutoff</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span><span class="fu">bfrr</span><span class="op">(</span><span class="va">data_model</span>, <span class="va">alternative_prior</span>, <span class="va">null_prior</span>, <span class="va">parameters</span>, steps <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span><span class="fu">bfrr</span><span class="op">(</span><span class="va">data_model</span>, <span class="va">alternative_prior</span>, <span class="va">null_prior</span>, <span class="va">parameters</span>,</span></span>
+<span class="r-in"><span>  steps <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  <span class="va">cutoff</span>,</span></span>
 <span class="r-in"><span>  multicore <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

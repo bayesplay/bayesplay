@@ -74,7 +74,7 @@ of the parameter</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">integral</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">integral</span><span class="op">(</span><span class="va">obj</span>, lower <span class="op">=</span> <span class="cn">NULL</span>, upper <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,7 +82,15 @@ of the parameter</p>
 
 
 <dl><dt id="arg-obj">obj<a class="anchor" aria-label="anchor" href="#arg-obj"></a></dt>
-<dd><p>a <code>product</code> object</p></dd>
+<dd><p>a <code>product</code> or <code>posterior</code> object</p></dd>
+
+
+<dt id="arg-lower">lower<a class="anchor" aria-label="anchor" href="#arg-lower"></a></dt>
+<dd><p>the lower bound of the integral (optional)</p></dd>
+
+
+<dt id="arg-upper">upper<a class="anchor" aria-label="anchor" href="#arg-upper"></a></dt>
+<dd><p>the upper bound of the integral (optional)</p></dd>
 
 </dl></div>
     <div id="value">
@@ -103,6 +111,9 @@ of the parameter</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># take the integral</span></span></span>
 <span class="r-in"><span><span class="fu">integral</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.01140574 </span>
+<span class="r-in"><span><span class="co"># or optionally over a range</span></span></span>
+<span class="r-in"><span><span class="fu">integral</span><span class="op">(</span><span class="va">model</span>, lower <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, upper <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.01140574 </span>
 </code></pre></div>
     </div>
