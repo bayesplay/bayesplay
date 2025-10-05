@@ -59,7 +59,8 @@ parameters <- list(mean = c(-10, 5), sd = c(1, 5))
 # mark all Bayes factors larger/smaller than 3/.3 as evidence for the
 # alternative / null
 cutoff <- 3
-bfrr(data_model, alternative_prior, null_prior, parameters, steps = 10,
+bfrr(data_model, alternative_prior, null_prior, parameters,
+  steps = 10,
   cutoff,
   multicore = FALSE
 )

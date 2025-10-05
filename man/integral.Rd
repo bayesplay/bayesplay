@@ -4,10 +4,14 @@
 \alias{integral}
 \title{Compute integral}
 \usage{
-integral(obj)
+integral(obj, lower = NULL, upper = NULL)
 }
 \arguments{
-\item{obj}{a \code{product} object}
+\item{obj}{a \code{product} or \code{posterior} object}
+
+\item{lower}{the lower bound of the integral (optional)}
+
+\item{upper}{the upper bound of the integral (optional)}
 }
 \value{
 A numeric of the marginal likelihood
@@ -28,4 +32,6 @@ model <- data_model * prior_model
 
 # take the integral
 integral(model)
+# or optionally over a range
+integral(model, lower = -10, upper = 10)
 }
