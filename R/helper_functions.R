@@ -603,11 +603,14 @@ is_point <- function(e1, value) {
 #' post <- extract_posterior(data_model * prior_model)
 #'
 #' # Draw 1000 samples from the posterior
-#' posterior_samples(model, n = 1000, lower = 0 upper = 1)
+#' posterior_samples(model, n = 1000, lower = 0, upper = 1)
 posterior_samples <- function(posterior_obj, n, lower, upper) {
   pdf_func <- \(x) posterior_obj@data[["posterior_function"]](x)
 
-  opt_result <- stats::optimize(pdf_func, interval = c(lower, upper), maximum = TRUE)
+  opt_result <- stats::optimize(pdf_func,
+    interval = c(lower, upper),
+    maximum = TRUE
+  )
   m <- opt_result$objective * 1.05
 
   samples <- numeric(n)
@@ -616,8 +619,8 @@ posterior_samples <- function(posterior_obj, n, lower, upper) {
 
   while (i <= n) {
     attempts <- attempts + 1L
-    x <- runif(1L, lower, upper)
-    u <- runif(1L, 0L, m)
+    x <- stats::runif(1L, lower, upper)
+    u <- stats::runif(1L, 0L, m)
 
     if (u <= pdf_func(x)) {
       samples[i] <- x

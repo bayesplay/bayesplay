@@ -25,7 +25,8 @@ Imports:
     ggplot2,
     rlang,
     future.apply,
-    VGAM
+    VGAM,
+    patchwork
 Authors@R: 
     person(given = c("Lincoln", "John"), 
             family = "Colling",
