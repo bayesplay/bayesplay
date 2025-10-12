@@ -17,6 +17,7 @@ reference:
   - starts_with("bfrr")
   - "summary,bf-method"
   - "summary,robustness-method"
+  - starts_with("posterior_")
 - title: internal 
 - contents:
   - "names,bayesplay-method"
