@@ -24,7 +24,8 @@ Imports:
     stats,
     ggplot2,
     rlang,
-    future.apply
+    future.apply,
+    VGAM
 Authors@R: 
     person(given = c("Lincoln", "John"), 
             family = "Colling",

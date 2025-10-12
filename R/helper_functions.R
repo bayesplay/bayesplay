@@ -60,19 +60,29 @@ summary.bf <- setClass("summary.bf", contains = "vector")
 #' # or optionally over a range
 #' integral(model, lower = -10, upper = 10)
 integral <- function(obj, lower = NULL, upper = NULL) {
-  if (!inherits(obj, c("product", "posterior"))) {
+  if (!inherits(obj, c("product", "posterior", "prior"))) {
     stop("obj must be of class product or posterior", call. = FALSE)
   }
   if (inherits(obj, "posterior")) {
-    if(is.null(lower) && is.null(upper)) { # nolint
+    if (is.null(lower) && is.null(upper)) { # nolint
       return(1L)
     } else {
       integrate_func <- obj@data[["posterior_function"]]
       integrate_func <- Vectorize(integrate_func)
       return(integrate(\(x) integrate_func(x), lower, upper)[["value"]])
     }
-
   }
+
+  if (inherits(obj, "prior")) {
+    if (is.null(lower) && is.null(upper)) { # nolint
+      return(1L)
+    } else {
+      integrate_func <- obj@data[["prior_function"]]
+      integrate_func <- Vectorize(integrate_func)
+      return(integrate(\(x) integrate_func(x), lower, upper)[["value"]])
+    }
+  }
+
   rv <- new("auc", obj[["integral"]])
   attr(rv, "approximate") <- slot(obj, "approximation")
   ## prior description
@@ -85,6 +95,10 @@ integral <- function(obj, lower = NULL, upper = NULL) {
 
 #' @export
 `/.auc` <- function(e1, e2) {
+  if (!inherits(e1, "auc") || !inherits(e2, "auc")) {
+    return(as.numeric(e1) / as.numeric(e2))
+  }
+
   is_e1_approx <- is_approx(e1)
   is_e2_approx <- is_approx(e2)
 
@@ -563,4 +577,53 @@ is_point <- function(e1, value) {
     return(attributes(e1)[["prior"]][["point"]] == value)
   }
   FALSE
+}
+
+#' Draw samples from a posterior distribution
+#'
+#' Draw samples from a \code{posterior} object using
+#' rejection sampling
+#'
+#' @param posterior_obj a \code{posterior} object
+#' @param n the number of samples to draw
+#' @param lower the lower bound of the posterior distribution
+#' @param upper the upper bound of the posterior distribution
+#'
+#' @return A vector of samples from the posterior distribution
+#' @export
+#'
+#' @examples
+#' # define a likelihood
+#' data_model <- likelihood(family = "binomial", 10, 20)
+#'
+#' # define a prior
+#' prior_model <- prior(family = "beta", 10, 10)
+#'
+#' # compute a posterior
+#' post <- extract_posterior(data_model * prior_model)
+#'
+#' # Draw 1000 samples from the posterior
+#' posterior_samples(model, n = 1000, lower = 0 upper = 1)
+posterior_samples <- function(posterior_obj, n, lower, upper) {
+  pdf_func <- \(x) posterior_obj@data[["posterior_function"]](x)
+
+  opt_result <- stats::optimize(pdf_func, interval = c(lower, upper), maximum = TRUE)
+  m <- opt_result$objective * 1.05
+
+  samples <- numeric(n)
+  i <- 1L
+  attempts <- 0L
+
+  while (i <= n) {
+    attempts <- attempts + 1L
+    x <- runif(1L, lower, upper)
+    u <- runif(1L, 0L, m)
+
+    if (u <= pdf_func(x)) {
+      samples[i] <- x
+      i <- i + 1L
+    }
+  }
+
+  samples
 }

@@ -146,10 +146,6 @@ test_that("error messages", {
   )
 
 
-  expect_error(
-    integral(prior("normal", 0.0, 1.0)),
-    "obj must be of class product"
-  )
 
   expect_error(
     suppressWarnings(
