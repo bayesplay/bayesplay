@@ -33,5 +33,5 @@ prior_model <- prior(family = "beta", 10, 10)
 post <- extract_posterior(data_model * prior_model)
 
 # Draw 1000 samples from the posterior
-posterior_samples(model, n = 1000, lower = 0, upper = 1)
+posterior_samples(post, n = 1000, lower = 0, upper = 1)
 }

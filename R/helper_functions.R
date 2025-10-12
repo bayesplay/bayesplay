@@ -603,7 +603,7 @@ is_point <- function(e1, value) {
 #' post <- extract_posterior(data_model * prior_model)
 #'
 #' # Draw 1000 samples from the posterior
-#' posterior_samples(model, n = 1000, lower = 0, upper = 1)
+#' posterior_samples(post, n = 1000, lower = 0, upper = 1)
 posterior_samples <- function(posterior_obj, n, lower, upper) {
   pdf_func <- \(x) posterior_obj@data[["posterior_function"]](x)
 
