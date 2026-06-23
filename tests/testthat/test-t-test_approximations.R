@@ -77,7 +77,7 @@ test_that("Approximation works", {
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
 
-  # approximations are invokved at this point
+  # approximations are invoked at this point
 
   t_value <- 15.1
   df <- 23L
@@ -254,7 +254,7 @@ test_that("Approximation works", {
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
 
-  # approximations are invokved at this point
+  # approximations are invoked at this point
   t_value <- -5.5
   df <- 45L
   bp <- t_to_d2(t_value, df) |>
@@ -316,21 +316,6 @@ test_that("Approximation works", {
   bf <- 0.000245186701573274
   testthat::expect_equal(bp, bf, tolerance = 1e-6)
 
-
-
-  t_value <- -94L
-  df <- 20L
-  bp <- t_to_d2(t_value, df) |>
-    (function(x) {
-      suppressWarnings(
-        likelihood("noncentral_d2", x[["d"]], x[["n1"]], x[["n2"]]) *
-          prior("cauchy", 0L, 0.707, c(0L, Inf))
-      )
-    })() |>
-    sd_ratio(point = 0L) |>
-    as.numeric()
-  bf <- 0.000588357441164805
-  testthat::expect_equal(bp, bf, tolerance = 1e-5)
 
 
   t_value <- -94L
