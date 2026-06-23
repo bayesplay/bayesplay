@@ -165,7 +165,6 @@ test_that("error messages", {
     )
   )
 
-  # TODO: Move these to something called approximation helper #nolint
   mod1 <- suppressWarnings(
     likelihood("noncentral_d", 20.0, 20L) * prior("cauchy", 0L, 1L)
   )
