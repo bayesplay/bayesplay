@@ -110,14 +110,14 @@ the second model to be compared.</p></li>
 <p>The Bayes factor is defined as the ratio of two (weighted) average
 likelihoods where the prior provides the weights. Mathematically, the
 weighted average likelihood is given by the following integral</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℳ</mi><mi>H</mi></msub><mo>=</mo><msub><mo>∫</mo><mrow><mi>θ</mi><mo>∈</mo><msub><mi>Θ</mi><mi>H</mi></msub></mrow></msub><msub><mi>𝓁</mi><mi>H</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>d</mi><mi>θ</mi></mrow><annotation encoding="application/x-tex">\mathcal{M}_H = \int_{\theta\in\Theta_H}\mathcal{l}_H(\theta|\mathbf{y})p(\theta)d\theta</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ℳ</mi><mi>H</mi></msub><mo>=</mo><msub><mo>∫</mo><mrow><mi>θ</mi><mo>∈</mo><msub><mi mathvariant="normal">Θ</mi><mi>H</mi></msub></mrow></msub><msub><mi>𝓁</mi><mi>H</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>𝐲</mi><mo stretchy="false" form="postfix">)</mo><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mi>d</mi><mi>θ</mi></mrow><annotation encoding="application/x-tex">\mathcal{M}_H = \int_{\theta\in\Theta_H}\mathcal{l}_H(\theta|\mathbf{y})p(\theta)d\theta</annotation></semantics></math></p>
 <p>Where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝓁</mi><mi>H</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{l}_H(\theta|\mathbf{y})</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝓁</mi><mi>H</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>𝐲</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{l}_H(\theta|\mathbf{y})</annotation></semantics></math>
 represents the likelihood function,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p(\theta)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p(\theta)</annotation></semantics></math>
 represents the prior on the parameter, with the integral defined over
 the parameter space of the hypothesis
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Θ</mi><mi>H</mi></msub><annotation encoding="application/x-tex">\Theta_H</annotation></semantics></math>).</p>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Θ</mi><mi>H</mi></msub><annotation encoding="application/x-tex">\Theta_H</annotation></semantics></math>).</p>
 <p>To demonstrate how to calculate Bayes factors using
 <code>bayesplay</code>, we can reproduce examples from <span class="citation">Dienes &amp; Mclatchie (2018)</span>, <span class="citation">Dienes (2014)</span>, and from <span class="citation">Rouder, Speckman, Sun, &amp; Morey (2009)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -315,7 +315,7 @@ Bayesian t tests for accepting and rejecting the null hypothesis.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

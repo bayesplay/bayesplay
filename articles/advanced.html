@@ -117,28 +117,28 @@ predictions for different priors</a></p></li>
 </h2>
 <p>Bayes theorem defines a posterior distribution according to the
 follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">P(\theta|X) = \frac{P(X|\theta)\cdot{}P(\theta)}{P(X)},</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mrow></mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">P(\theta|X) = \frac{P(X|\theta)\cdot{}P(\theta)}{P(X)},</annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(X|\theta)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X|\theta)</annotation></semantics></math>
 is the likelihood (the conditional probability of the data given the
 parameter value) and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(\theta)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(\theta)</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>
 are the (unconditional) <em>prior</em> probability of the parameter and
 marginal likelihood, respectively.</p>
 <p>Often in presentations of Bayes theorem, the marginal likelihood,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>,
 is omitted and Bayes theorem is given as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>∝</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mrow></mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).</annotation></semantics></math></p>
 <p>One reason for this may be that the concept of the marginal
 likelihood is a tricky concept to grasp. However, the <em>law of total
 probability</em> give the marginal likelihood as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>∫</mo><mrow></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>d</mi><mi>θ</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">P(X)= \int{}P(X|\theta)\cdot{}P(\theta)d\theta,</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo>∫</mo><mrow></mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mrow></mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mi>d</mi><mi>θ</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">P(X)= \int{}P(X|\theta)\cdot{}P(\theta)d\theta,</annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(X|\theta)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="prefix">|</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X|\theta)</annotation></semantics></math>,
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X)</annotation></semantics></math>
 are again the likelihood and the prior, respectively. This should be
 familiar from the computation of the Bayes factor. Simply put, the
 marginal likelihood is the <em>weighted average</em> of the likelihood
@@ -187,10 +187,10 @@ simply multiply the two together.</p>
 <p>Let us draw a few plots of the objects that we’ve just created.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">l</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"binomial likelihood"</span>, subtitle <span class="op">=</span> <span class="st">"2 successes out of 10 trials"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"beta prior"</span>, subtitle <span class="op">=</span> <span class="st">"alpha = 2.5, beta = 3.5"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <p>Finally, we can plot the product of these two plots. That is, the we
 simply multiply together the two
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
@@ -199,7 +199,7 @@ values (from the plots above) for each value of
 This give the following:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">prod</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"product of the likelihood and prior"</span>, subtitle <span class="op">=</span> <span class="st">"for a binomial likelihood and beta prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 <p>The product of the prior and the likelihood is <em>proportional</em>
 to the posterior distribution, but it is <em>not</em> the posterior
 distribution. In fact, it is not a <em>proper probability
@@ -232,7 +232,7 @@ package by using the <code><a href="../reference/extract_posterior.html">extract
 <p>Now we can plot the posterior distribution:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"for a binomial likelihood and beta prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="normal-likelihood-and-uniform-prior">Normal likelihood and uniform prior<a class="anchor" aria-label="anchor" href="#normal-likelihood-and-uniform-prior"></a>
@@ -242,7 +242,7 @@ We can compute the posterior and plot it in just two steps.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">posterior2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_posterior.html">extract_posterior</a></span><span class="op">(</span><span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span><span class="st">"normal"</span>, <span class="fl">10</span>, <span class="fl">14</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"uniform"</span>, <span class="op">-</span><span class="fl">30</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"normal likelihood and uniform prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="noncentral-d-likelihood-and-cauchy-prior">Noncentral ‘d’ likelihood and Cauchy prior<a class="anchor" aria-label="anchor" href="#noncentral-d-likelihood-and-cauchy-prior"></a>
@@ -253,7 +253,7 @@ a Cauchy prior.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">posterior3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_posterior.html">extract_posterior</a></span><span class="op">(</span><span class="fu"><a href="../reference/likelihood.html">likelihood</a></span><span class="op">(</span><span class="st">"noncentral_d"</span>, <span class="fl">.8</span>, <span class="fl">25</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"cauchy"</span>, <span class="fl">0</span>, <span class="fl">.707</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"noncentral 'd' likelihood and cauchy prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -270,13 +270,13 @@ a second argument to indicate that the prior should be included in the
 plot.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior1</span>, add_prior <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"prior and posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"for a binomial likelihood and beta prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior2</span>, add_prior <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"prior and posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"normal likelihood and uniform prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">posterior3</span>, add_prior <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"prior posterior distribution"</span>, subtitle <span class="op">=</span> <span class="st">"noncentral 'd' likelihood and cauchy prior"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="the-savage-dickey-density-ratio">The Savage-Dickey density ratio<a class="anchor" aria-label="anchor" href="#the-savage-dickey-density-ratio"></a>
@@ -372,11 +372,11 @@ probability weight to a single bias value.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prior for model 1</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">hypothesis1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prior for model 2</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">hypothesis2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="700"></p>
 <p>We, however, what to know the <em>observations</em> that each model
 predictions. To work this out, we first multiply our data model (that
 is, our likelihood were the observation has been left out) by each of
@@ -392,12 +392,12 @@ likelihood and the prior. We can then plot these predictions using the
 <code class="sourceCode R"><span><span class="co"># predictions of model 1</span></span>
 <span><span class="va">model1_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model1_predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predictions of model 2</span></span>
 <span><span class="va">model2_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">model2_predictions</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="700"></p>
 <p>What we see in each of these plots is marginal probability of
 <em>each observation</em> for our given data model and prior. That is,
 we see the <em>predictions</em> in terms of <em>observations</em> for
@@ -413,7 +413,7 @@ model are see how the predicted observations for each model differs.</p>
 <p>To this, we can use the <code><a href="../reference/visual_compare.html">visual_compare()</a></code> function.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visual_compare.html">visual_compare</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">model2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="700"></p>
 <p>Since these plots show the <em>marginal probability</em> of different
 observation over prior, the values in the plots are related to the Bayes
 factor. In fact, the ratio of the two plots <em>at a particular
@@ -428,7 +428,7 @@ is, the marginal likelihoods are the same and the ratio of the marginal
 likelihoods is 1.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visual_compare.html">visual_compare</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">model2</span>, ratio <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="700"></p>
 <p>We’re not restricted to examining <em>binomial</em> likelihoods. We
 can examine any of the likelihoods and priors available in the
 <code>bayesplay</code> package. For example, we can examine the
@@ -445,16 +445,16 @@ prior and multiply them by the likelihood.</p>
 <span><span class="va">d_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_predictions.html">extract_predictions</a></span><span class="op">(</span><span class="va">data_model2</span> <span class="op">*</span> <span class="fu"><a href="../reference/prior.html">prior</a></span><span class="op">(</span><span class="st">"point"</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">d_model2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visual_compare.html">visual_compare</a></span><span class="op">(</span><span class="va">d_model1</span>, <span class="va">d_model2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-34-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visual_compare.html">visual_compare</a></span><span class="op">(</span><span class="va">d_model1</span>, <span class="va">d_model2</span>, ratio <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="advanced_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<p><img src="advanced_files/figure-html/unnamed-chunk-35-1.png" class="r-plt" alt="" width="700"></p>
 </div>
   </div>
 
@@ -473,7 +473,7 @@ prior and multiply them by the likelihood.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
