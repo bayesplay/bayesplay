@@ -1,5 +1,6 @@
 test_that("Prior plots", {
   skip_on_cran()
+  skip_if_not_installed("vdiffr")
 
   # Half normal prior
   half_normal <- prior("normal", 0L, 45L, range = c(0L, Inf))
@@ -41,7 +42,7 @@ test_that("Prior plots", {
 
 
   comparison_plot1a <- visual_compare(m0, m1, ratio = TRUE)
-  vdiffr::expect_doppelganger("discrete visual compare", comparison_plot1)
+  vdiffr::expect_doppelganger("discrete visual compare ratio", comparison_plot1a)
 
 
 

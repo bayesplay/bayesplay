@@ -36,14 +36,14 @@ test_that("class methods", {
   expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf)),
     make_prior(new("cauchy"), 0.0, 1.0, c(-Inf, Inf)),
-    label = "contructor works",
+    label = "constructor works",
     ignore_attr = TRUE
   )
 
   expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf))[["family"]],
     "cauchy",
-    label = "accesing with [[]] works",
+    label = "accessing with [[]] works",
     ignore_attr = TRUE
   )
 
@@ -51,7 +51,7 @@ test_that("class methods", {
   expect_equal(
     prior("cauchy", 0.0, 1.0, c(-Inf, Inf))$family, # nolint
     "cauchy",
-    label = "accesing with $ works",
+    label = "accessing with $ works",
     ignore_attr = TRUE
   )
 })
