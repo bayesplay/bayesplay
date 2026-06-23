@@ -7,7 +7,8 @@ strip_bf <- function(x) {
 bayes_factor <- function(likelihood_obj, alt_prior, null_prior, quiet = FALSE) {
   if (quiet) {
     return(suppressWarnings(
-      integral(likelihood_obj * alt_prior) / integral(likelihood_obj * null_prior)
+      integral(likelihood_obj * alt_prior) /
+        integral(likelihood_obj * null_prior)
     ))
   }
 

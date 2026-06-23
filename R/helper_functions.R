@@ -215,7 +215,7 @@ integer_breaks <- function(n = 5L, ...) {
     names(breaks) <- attr(breaks, "labels")
     breaks
   }
-  return(fxn)
+  fxn
 }
 
 

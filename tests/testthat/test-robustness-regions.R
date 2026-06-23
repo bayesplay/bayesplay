@@ -4,9 +4,9 @@ test_that("makes_values_list creates a parameter grid", {
   values_df <- makes_values_list(parameters, steps = 4L)
 
   expect_named(values_df, c("mean", "sd"))
-  expect_equal(nrow(values_df), 16L)
+  expect_identical(nrow(values_df), 16L)
   expect_true(all(values_df[["sd"]] > 0L))
-  expect_equal(sort(unique(values_df[["mean"]])), c(-2L, -1L, 0L, 1L))
+  expect_identical(sort(unique(values_df[["mean"]])), c(-2L, -1L, 0L, 1L))
   expect_equal(sort(unique(values_df[["sd"]])), c(0.5, 1.0, 1.5, 2.0))
 })
 

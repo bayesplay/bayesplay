@@ -27,10 +27,11 @@ plot.prior <- function(x, ...) {
 #' @rdname plot
 #' @exportS3Method plot posterior
 plot.posterior <- function(x, add_prior = FALSE, ...) {
-  if (!add_prior) {
-    return(plot_posterior(x, n = 101L))
+  if (add_prior) {
+    plot_pp(x, n = 101L)
+  } else {
+    plot_posterior(x, n = 101L)
   }
-  return(plot_pp(x, n = 101L))
 }
 
 
@@ -64,7 +65,7 @@ plot.product <- function(x, ...) {
 #' @rdname plot
 #' @exportS3Method plot prediction
 plot.prediction <- function(x, model_name = "model", ...) {
-  return(plot_prediction(x, model_name, ...))
+  plot_prediction(x, model_name, ...)
 }
 
 plot_prediction <- function(x, model_name = "model", ...) {
@@ -73,10 +74,10 @@ plot_prediction <- function(x, model_name = "model", ...) {
 
   # now call the functions for different families
   if (likelihood_family == "binomial") {
-    return(handle_binomial_marginal(x, model_name, ...))
+    handle_binomial_marginal(x, model_name, ...)
+  } else {
+    handle_other_marginal(x, model_name, ...)
   }
-
-  return(handle_other_marginal(x, model_name, ...))
 }
 
 
@@ -474,7 +475,7 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
         ))
     }
     if (model1@likelihood_obj@data[["family"]] != "binomial") {
-      return(ggplot() +
+      ggplot() +
         geom_function(fun = ratio_function, n = 101L) +
         xlim(c(
           min(
@@ -491,7 +492,7 @@ visual_compare <- function(model1, model2, ratio = FALSE) {
         labs(
           x = "Outcome",
           y = paste0("Log 10 BF ", model_name1, " / ", model_name2)
-        ))
+        )
     }
   }
 }

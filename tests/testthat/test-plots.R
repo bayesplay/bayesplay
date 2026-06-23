@@ -42,7 +42,10 @@ test_that("Prior plots", {
 
 
   comparison_plot1a <- visual_compare(m0, m1, ratio = TRUE)
-  vdiffr::expect_doppelganger("discrete visual compare ratio", comparison_plot1a)
+  vdiffr::expect_doppelganger(
+    "discrete visual compare ratio",
+    comparison_plot1a
+  )
 
 
 
