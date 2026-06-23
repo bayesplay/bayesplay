@@ -48,7 +48,7 @@ plot(norm_mod)
 ```
 
 As shown above, default axis labels are applied to the x and y axis. The x-axis
-limits are also automatically set to so that the full shape of the likelihood
+limits are also automatically set so that the full shape of the likelihood
 is visible.
 
 An identical approach can also be used for plotting *t* likelihoods. First we
@@ -108,13 +108,13 @@ plot(half_normal_prior)
 The plots produced by the `plot()` function are standard `ggplot2` objects and,
 therefore, they can be styled using the standard `ggplot2` syntax. 
 
-First, we load the `ggplot2` package to gain access to it's styling functions.
+First, we load the `ggplot2` package to gain access to its styling functions.
 
 ```{r}
 library(ggplot2)
 ```
 
-The functions than then we used to modify the output for the `plot()` function.
+The functions can then be used to modify the output from the `plot()` function.
 For example, axis labels can be changed with `ggplot2::labs()`
 
 ```{r}
@@ -123,7 +123,7 @@ plot(t_mod) + labs(x = "data", y = "likelihood", title = "t likelihood")
 
 or axis limits can be changed using, for example, `ggplot2::xlim()`. Note that
 because scales have already been set by the `plot()` function, a warning
-message will be produced. This however, this message can be suppressed using
+message will be produced. However, this message can be suppressed using
 standard `R` methods.
 
 ```{r}
@@ -174,7 +174,7 @@ plot(extract_posterior(data_model * prior("cauchy", 0, .707)), add_prior = TRUE)
   )
 ```
 
-It is also possible to change the linetype with `ggplo2::scale_linetype_manual()`,
+It is also possible to change the linetype with `ggplot2::scale_linetype_manual()`,
 
 
 ```{r}

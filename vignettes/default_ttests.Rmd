@@ -44,7 +44,7 @@ library(bayesplay)
 
 In this vignette we'll cover how to replicate the results of the *default*
 *t*-tests developed @rouderbf. We'll cover both one-sample/paired *t*-tests and
-independent samples *t*-tests, and we'll cover how specify the models both in
+independent samples *t*-tests, and we'll cover how to specify the models both in
 terms of the *t* statistic and in terms of Cohen's *d*.
 
 
@@ -56,7 +56,7 @@ example presented here is simply a repeat of that example. However, we'll change
 the order of presentation around a bit so that the relationship between the
 one-sample and independent samples models are a little clearer. 
 
-We'll start with an example from @rouderbf, in which they analyse the results if
+We'll start with an example from @rouderbf, in which they analyse the results of
 a one sample *t*-test. @rouderbf report a *t* statistic of 2.03, from a sample
 size of 80. The sampling distribution of the *t* statistic, when the null
 hypothesis is false is the [noncentral
@@ -74,8 +74,8 @@ plot(data_model)
 ```
 
 From plotting our *likelihood* function we can see that values of *t* at our
-observation (*t* = 2.03) and most consistent without our observation while more
-extreme values of *t* (e.g., *t* = -2, or *t* = 6) are less consistent without
+observation (*t* = 2.03) are most consistent with our observation, while more
+extreme values of *t* (e.g., *t* = -2, or *t* = 6) are less consistent with
 our observed data. This is of course, as we would expect.
 
 Now that we've defined our likelihood, the next thing to think about is the
@@ -89,9 +89,9 @@ of a *standard Cauchy* distribution below.
 plot(prior("cauchy", location = 0, scale = 1))
 ```
 
-The *Cauchy* distribution can be *scaled* so that it is wider or narrow. You
+The *Cauchy* distribution can be *scaled* so that it is wider or narrower. You
 might want to choose a `scale` parameter based on the range of *t* values that
-your theory prediction. For example, here is a slightly *narrower* *Cauchy*
+your theory predicts. For example, here is a slightly *narrower* *Cauchy*
 distribution.
 
 ```{r}
@@ -131,15 +131,15 @@ summary(bf_onesample_1)
 
 In the preceding example, we've taken account of the fact that the *same
 underlying effect size* will produce different values of *t* depending on the
-sample, and we've scaled our *prior* accordingly. However, we could also apply
+sample size, and we've scaled our *prior* accordingly. However, we could also apply
 the scaling at the other end by re-scaling our *likelihood*. The `bayesplay`
 package contains two additional noncentral *t* likelihoods that have been
 rescaled. The first of the these is the `noncentral_d` likelihood. This is a
 likelihood based on the sample distribution of the *one-sample/paired samples
 Cohen's d*. This is calculated simply as $d =
 \frac{\mu_{\mathrm{diff}}}{\sigma_{\mathrm{diff}}}$. Alternatively, we can
-conver the observed *t* value by dividing it by $\sqrt{n}$. The `noncentral_d`
-likelihood just takes this effect size and the sample size are parameters. 
+convert the observed *t* value by dividing it by $\sqrt{n}$. The `noncentral_d`
+likelihood just takes this effect size and the sample size as parameters. 
 
 ```{r}
 d <- t / sqrt(n)
@@ -287,7 +287,7 @@ syntax.
 effsize::cohen.d(group1, group2, paired = FALSE, hedged.correction = FALSE)
 ```
 
-With the *d* value in hand, we can how specify a new likelihood.
+With the *d* value in hand, we can now specify a new likelihood.
 
 ```{r}
 data_model4 <- likelihood("noncentral_d2", d = d, n1 = n1, n2 = n2)

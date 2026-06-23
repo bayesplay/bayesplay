@@ -52,7 +52,7 @@ omitted and Bayes theorem is given as follows:
 $$P(\theta|X) \propto P(X|\theta)\cdot{}P(\theta).$$
 
 One reason for this may be that the concept of the marginal likelihood is a
-tricky concept to grasp. However, the *law of total probability* give the
+tricky concept to grasp. However, the *law of total probability* gives the
 marginal likelihood as follows:
 
 $$P(X)= \int{}P(X|\theta)\cdot{}P(\theta)d\theta,$$
@@ -92,7 +92,7 @@ prod <- l * p
 prod
 ```
 
-Let  us draw a few plots of the objects that we've just created.
+Let us draw a few plots of the objects that we've just created.
 
 ```{r}
 plot(l) + labs(title = "binomial likelihood", subtitle = "2 successes out of 10 trials")
@@ -104,7 +104,7 @@ plot(p) + labs(title = "beta prior", subtitle = "alpha = 2.5, beta = 3.5")
 
 Finally, we can plot the product of these two plots. That is, the we simply
 multiply together the two $y$ values (from the plots above) for each value of
-$x$. This give the following:
+$x$. This gives the following:
 
 ```{r}
 plot(prod) + labs(title = "product of the likelihood and prior", subtitle = "for a binomial likelihood and beta prior")
@@ -279,7 +279,7 @@ plot(hypothesis1)
 plot(hypothesis2)
 ```
 
-We, however, what to know the *observations* that each model predictions. To
+We, however, want to know the *observations* that each model predicts. To
 work this out, we first multiply our data model (that is, our likelihood were
 the observation has been left out) by each of the priors. 
 
@@ -311,11 +311,11 @@ of *observations* for each model.
 ## Visually comparing models
 
 Although looking at each set of model predictions can be useful to see what sort
-of observations we should expect viewing each model on it's on is of limited
-value. Instead, what we can do is compare the two model are see how the
-predicted observations for each model differs. 
+of observations we should expect, viewing each model on its own is of limited
+value. Instead, we can compare the two models and see how the predicted
+observations for each model differ. 
 
-To this, we can use the `visual_compare()` function.
+To do this, we can use the `visual_compare()` function.
 
 ```{r}
 visual_compare(model1, model2)
@@ -338,9 +338,9 @@ visual_compare(model1, model2, ratio = TRUE)
 
 We're not restricted to examining *binomial* likelihoods. We can examine any of
 the likelihoods and priors available in the `bayesplay` package. For example, we
-can examine the predictions for a *noncentral 'd'* likelihood and *cauchy* and
-*point* priors. To do this, we set the value of our observation, `d` to an
-arbitrary value—for example, 0, and set `n` to the planned sample size our our
+can examine the predictions for a *noncentral 'd'* likelihood and *Cauchy* and
+*point* priors. To do this, we set the value of our observation, `d`, to an
+arbitrary value—for example, 0, and set `n` to the planned sample size for our
 experiment.
 
 ```{r}

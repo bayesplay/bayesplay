@@ -29,9 +29,8 @@ prior(family = "normal", mean = 0, sd = 15)
 ```
 
 In specifying a prior in this way, the analyst chooses a set value for the two
-parameters (mean and standard deviation). It might be of interest to
-
-
+parameters (mean and standard deviation). It might then be useful to ask whether
+the Bayes factor conclusion depends on those exact choices.
 
 The `bayesplay` package includes functionality for systematically varying
 parameters of the alternative prior for computing *robustness regions* and for
@@ -58,14 +57,15 @@ and to compute and visualize the resulting Bayes factor for values within this
 range.
 
 In the example below, the standard deviation is varied across the range from 1
-to 20 (in steps of 1).
+to 50.
 
 ```{r}
 rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(sd = c(1, 50)) # vary sd from 1 to 20
+  parameters = list(sd = c(1, 50)), # vary sd from 1 to 50
+  multicore = FALSE
 )
 ```
 
@@ -91,7 +91,8 @@ rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(scale = c(0.1, 2))
+  parameters = list(scale = c(0.1, 2)),
+  multicore = FALSE
 )
 rr
 ```
@@ -107,8 +108,9 @@ rr <- bfrr(
   likelihood = data_model, # reuse the definition above
   alternative_prior = alternative_prior, # reuse the definition above
   null_prior = null_prior, # reuse the definition above
-  parameters = list(scale = c(0, 2), location = c(-1, 1)),
-  steps = 32
+  parameters = list(scale = c(0.1, 2), location = c(-1, 1)),
+  steps = 32,
+  multicore = FALSE
 )
 rr
 ```

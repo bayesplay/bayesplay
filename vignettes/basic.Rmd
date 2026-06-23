@@ -189,7 +189,7 @@ Following this, we specify a prior that describes the null hypothesis. Here,
 h0_mod <- prior(family = "point", point = 0)
 ```
 
-This only thing left is to calculate the Bayes factor.
+The only thing left is to calculate the Bayes factor.
 
 ```{r}
 bf <- integral(data_mod * h1_mod) / integral(data_mod * h0_mod)
@@ -207,7 +207,7 @@ value of 2.03, with *n* of 80. To compute the Bayes factor, we first convert
 this *t* value to a standardized effect size *d*. This *t* value equates to a
 *d* of `r round(2.03 / sqrt(80),5)`. To model the data we use the
 `noncentral_d` likelihood function, which is a rescaled noncentral *t*
-distribution, with is parametrised in terms of *d* and *n*. We specify a null
+distribution parametrised in terms of *d* and *n*. We specify a null
 model using a point prior at 0, and we specify the alternative model using a
 Cauchy distribution centred at 0 (location parameter) with a scale parameter of
 1. 
@@ -222,7 +222,7 @@ bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
 ```
 
-Performing the calculation as a above yields Bayes factor of ~`r round(bf,2)`,
+Performing the calculation as above yields a Bayes factor of ~`r round(bf,2)`,
 the same value reported by @rouderbf.
 
 To demonstrate the sensitivity of Bayes factor to prior specification,
@@ -239,11 +239,11 @@ bf <- integral(data_model * h0_mod) / integral(data_model * h1_mod)
 bf
 ```
 
-Similarly recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the
-same value reported @rouderbf.
+Similarly, recomputing our Bayes factor yields a value of ~`r round(bf,2)`, the
+same value reported by @rouderbf.
 
 Although the Bayes factor outlined above is parametrised in terms of the effect
-size *d*, it's also possible to performed the calculation directly on the *t*
+size *d*, it's also possible to perform the calculation directly on the *t*
 statistic. To do this, however, we can't use the same Cauchy prior as above.
 Instead, the Cauchy prior needs to be rescaled according to the same size. This
 is because *t* values scale with sample size in a way that *d* values do not.
@@ -262,6 +262,6 @@ bf
 ```
 
 Recomputing our Bayes factor now yields a value of ~`r round(bf,2)`, the same
-value reported @rouderbf, and the same value reported above. 
+value reported by @rouderbf, and the same value reported above. 
 
 ## References

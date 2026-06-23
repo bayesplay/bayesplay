@@ -1,0 +1,158 @@
+---
+title: "Specifying models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Specifying models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(bayesplay)
+```
+
+The core `bayesplay` workflow is:
+
+1. Specify a likelihood for the observed data.
+2. Specify a prior for each model.
+3. Multiply each prior by the likelihood.
+4. Integrate each product to obtain a marginal likelihood.
+5. Divide the marginal likelihoods to obtain a Bayes factor.
+
+This vignette is a compact reference for specifying those likelihoods and
+priors.
+
+## Likelihood families
+
+The `likelihood()` function takes a `family` argument plus the parameters needed
+for that family.
+
+```{r, echo = FALSE}
+knitr::kable(data.frame(
+  Family = c(
+    "normal",
+    "student_t",
+    "binomial",
+    "noncentral_t",
+    "noncentral_d",
+    "noncentral_d2"
+  ),
+  Use = c(
+    "A normally distributed estimate, such as a mean difference and standard error.",
+    "A scaled and shifted t likelihood.",
+    "A count of successes from a fixed number of trials.",
+    "A t statistic and degrees of freedom.",
+    "A one-sample or paired-samples Cohen's d and sample size.",
+    "An independent-samples Cohen's d and two group sample sizes."
+  ),
+  Required_parameters = c(
+    "mean, sd",
+    "mean, sd, df",
+    "successes, trials",
+    "t, df",
+    "d, n",
+    "d, n1, n2"
+  ),
+  check.names = FALSE
+))
+```
+
+For example, a normal likelihood can represent an observed mean difference and
+its standard error:
+
+```{r}
+normal_likelihood <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
+normal_likelihood
+```
+
+A binomial likelihood can represent a number of successes out of a fixed number
+of trials:
+
+```{r}
+binomial_likelihood <- likelihood(family = "binomial", successes = 7, trials = 10)
+binomial_likelihood
+```
+
+## Prior families
+
+The `prior()` function uses the same `family` pattern.
+
+```{r, echo = FALSE}
+knitr::kable(data.frame(
+  Family = c("point", "normal", "student_t", "cauchy", "uniform", "beta"),
+  Use = c(
+    "A model that places all prior mass on one parameter value.",
+    "A normal prior, optionally truncated with range.",
+    "A scaled and shifted t prior, optionally truncated with range.",
+    "A Cauchy prior, optionally truncated with range.",
+    "A flat prior between lower and upper bounds.",
+    "A prior over probabilities from 0 to 1."
+  ),
+  Required_parameters = c(
+    "point",
+    "mean, sd",
+    "mean, sd, df",
+    "location, scale",
+    "min, max",
+    "alpha, beta"
+  ),
+  check.names = FALSE
+))
+```
+
+A point prior is commonly used for a null model:
+
+```{r}
+null_prior <- prior(family = "point", point = 0)
+null_prior
+```
+
+Continuous priors can be truncated with `range`. For example, this half-normal
+prior assigns density only to positive parameter values:
+
+```{r}
+positive_prior <- prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
+positive_prior
+```
+
+For binomial likelihoods, a beta prior is often convenient because it is defined
+on the same 0 to 1 parameter space:
+
+```{r}
+beta_prior <- prior(family = "beta", alpha = 2.5, beta = 3.5)
+beta_prior
+```
+
+## Calculating a Bayes factor
+
+The order of the division determines the interpretation. In the example below,
+`bf_10` is the Bayes factor for the alternative model over the null model. A
+value larger than 1 favours the alternative model, and a value smaller than 1
+favours the null model.
+
+```{r}
+data_model <- likelihood(family = "normal", mean = 5.5, sd = 32.35)
+alternative_prior <- prior(family = "normal", mean = 0, sd = 13.3, range = c(0, Inf))
+null_prior <- prior(family = "point", point = 0)
+
+m1 <- integral(data_model * alternative_prior)
+m0 <- integral(data_model * null_prior)
+
+bf_10 <- m1 / m0
+summary(bf_10)
+```
+
+Reversing the division gives the reciprocal Bayes factor:
+
+```{r}
+bf_01 <- m0 / m1
+summary(bf_01)
+```
+
