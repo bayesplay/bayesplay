@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-![R-CMD-check](https://github.com/bayesplay/bayesplay/workflows/R-CMD-check/badge.svg)
+![CI](https://github.com/bayesplay/bayesplay/actions/workflows/ci.yaml/badge.svg)
 ![CRAN](https://www.r-pkg.org/badges/version-ago/bayesplay)
 ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/bayesplay)
 [![codecov](https://codecov.io/gh/bayesplay/bayesplay/branch/main/graph/badge.svg)](https://app.codecov.io/gh/bayesplay/bayesplay)
