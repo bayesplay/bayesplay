@@ -30,6 +30,7 @@ jobs:
         with:
           extra-packages: |
             any::lintr
+            any::cyclocomp
             local::.
           needs: lint
 
